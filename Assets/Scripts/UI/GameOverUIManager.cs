@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class GameOverUIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private GameManager gameManager;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    private TMP_Text killCountText;
+
+    [SerializeField]
+    private TMP_Text timeText;
+
+    // [SerializeField]
+    // private TMP_Text streakText;
+
+    [SerializeField]
+    private ClockUI clockUI;
+
+    public void OnGameOver()
     {
-        
+        killCountText.text = "Kill Count: " + gameManager.killCount;
+        timeText.text = "Alive: " + clockUI.hoursString + ":" + clockUI.minutesString;
     }
 }

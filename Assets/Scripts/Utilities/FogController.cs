@@ -1,16 +1,17 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class FogController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private VisualEffect vfxRenderer;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Control collision with fog layer (foreground)
+        if (vfxRenderer != null)
+        {
+            vfxRenderer.SetVector3("ColliderPosition", transform.position);
+        }
     }
 }
