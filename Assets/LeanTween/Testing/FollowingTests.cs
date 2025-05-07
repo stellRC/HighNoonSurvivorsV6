@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowingTests : MonoBehaviour {
-
+public class FollowingTests : MonoBehaviour
+{
     public Transform followTrans;
 
     public Transform cube1;
@@ -26,14 +26,16 @@ public class FollowingTests : MonoBehaviour {
 
     public Transform fly1;
 
-    private void Start(){
+    private void Start()
+    {
         followTrans.gameObject.LeanDelayedCall(3f, moveFollow).setOnStart(moveFollow).setRepeat(-1);
 
         LeanTween.followDamp(cube6, followTrans, LeanProp.position, 0.6f);
     }
 
-    private void moveFollow(){
-        followTrans.LeanMove( new Vector3(Random.Range(-50f, 50f), Random.Range(-10f, 10f), 0f), 0f);
+    private void moveFollow()
+    {
+        followTrans.LeanMove(new Vector3(Random.Range(-50f, 50f), Random.Range(-10f, 10f), 0f), 0f);
     }
 
     void Update()
@@ -43,11 +45,21 @@ public class FollowingTests : MonoBehaviour {
         cube1.position = pos;
 
         pos = cube2.position;
-        pos.x = LeanSmooth.spring(cube2.position.x, followTrans.position.x, ref cube2VelocityX, 1.1f);
+        pos.x = LeanSmooth.spring(
+            cube2.position.x,
+            followTrans.position.x,
+            ref cube2VelocityX,
+            1.1f
+        );
         cube2.position = pos;
 
         pos = cube3.position;
-        pos.x = LeanSmooth.bounceOut(cube3.position.x, followTrans.position.x, ref cube3VelocityX, 1.1f);
+        pos.x = LeanSmooth.bounceOut(
+            cube3.position.x,
+            followTrans.position.x,
+            ref cube3VelocityX,
+            1.1f
+        );
         cube3.position = pos;
 
         //pos = cube4.position;
@@ -58,12 +70,11 @@ public class FollowingTests : MonoBehaviour {
         pos.x = LeanSmooth.linear(cube5.position.x, followTrans.position.x, 10f);
         cube5.position = pos;
 
-
         // cube6.position = LeanTween.smoothGravity(cube6.position, followTrans.position, ref cube6Velocity, 1.1f);
 
-        if(LeanTween.isTweening(0)){
+        if (LeanTween.isTweening(0))
+        {
             Debug.Log("Tweening");
         }
     }
-
 }

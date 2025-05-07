@@ -72,10 +72,12 @@
     "Cooldown",
     "Dont",
     "Earthshatter",
+    "Hashtable",
     "Hotspot",
     "Lerp",
     "Mathf",
     "Rigidbody",
-    "Scriptable"
+    "Scriptable",
+    "tweens"
   ]
 }
