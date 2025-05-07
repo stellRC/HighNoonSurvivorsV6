@@ -1,16 +1,18 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CreditsManager : MonoBehaviour
+public class AboutManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private Button gitBtn;
+
+    void Awake()
     {
-        
+        gitBtn.onClick.AddListener(OpenLink);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenLink()
     {
-        
+        Application.OpenURL("https://github.com/stellRC/HighNoonSurvivors");
     }
 }

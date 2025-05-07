@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private MainNavigation mainNavigation;
 
     [SerializeField]
-    private GameOverManager gameOverManager;
+    private GameOverUIManager gameOverManager;
 
     [SerializeField]
     private PlayerController playerController;
@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private SkillTreeManager skillTreeManager;
 
     [SerializeField]
-    private ObjectiveManager objectiveManager;
+    private ObjectivesManager objectiveManager;
 
     public float timeCount;
     public int killCount;

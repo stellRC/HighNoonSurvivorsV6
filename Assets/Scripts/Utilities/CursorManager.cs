@@ -1,16 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    private Texture2D cursorTexture;
+
+    private Vector2 cursorHotspot;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+        Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
     }
 }

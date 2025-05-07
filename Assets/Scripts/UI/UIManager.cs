@@ -1,16 +1,20 @@
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private TMP_Text KillCountText;
+
+    private GameManager gameManager;
+
+    void Awake()
     {
-        
+        gameManager = gameObject.GetComponentInParent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        KillCountText.text = gameManager.killCount.ToString();
     }
 }

@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     private ParticleSystem deathParticleSystem;
 
-    // private GunAnimation enemyAnimation;
     private MasterAnimator enemyAnimation;
 
     public float currentHealth;
@@ -27,7 +26,7 @@ public class Enemy : MonoBehaviour, IDoDamage
     {
         gameManager = FindAnyObjectByType<GameManager>();
         deathParticleSystem = GetComponent<ParticleSystem>();
-        // enemyAnimation = GetComponent<GunAnimation>();
+
         enemyAnimation = GetComponent<MasterAnimator>();
         enemyManager = FindAnyObjectByType<EnemyManager>();
     }
@@ -123,7 +122,7 @@ public class Enemy : MonoBehaviour, IDoDamage
     {
         if (deathParticleSystem.isStopped)
         {
-            ObjectPoolManager.ReturnObjectToPool(gameObject);
+            ObjectPooling.ReturnObjectToPool(gameObject);
         }
     }
 }

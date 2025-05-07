@@ -10,7 +10,6 @@ public class EnemyMovement : MonoBehaviour
 
     private Transform playerTransform;
 
-    // private GunAnimation enemyAnimation;
     private MasterAnimator enemyAnimation;
     public bool IsFacingRight { get; set; }
 
@@ -18,18 +17,14 @@ public class EnemyMovement : MonoBehaviour
     bool isDead;
     private bool isMovingForward;
 
-    // private float retreatTime;
-
     private string projectileName;
 
     private void Awake()
     {
-        // enemyAnimation = GetComponent<GunAnimation>();
         enemyAnimation = GetComponent<MasterAnimator>();
         isDead = GetComponent<Enemy>().isDead;
-        playerTransform = FindObjectOfType<PlayerMovement>().transform;
+        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
         projectileName = "projectile";
-        // retreatTime = 3f;
     }
 
     private void OnEnable()
