@@ -12,6 +12,8 @@ public class PlayerCombat : MonoBehaviour
 
     private SkillTreeManager skillTreeManager;
 
+    private CooldownBar cooldownBar;
+
     private MasterAnimator playerAnimator;
 
     private int specialAnimation;
@@ -19,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
 
     private float specialAttackTime;
 
-    private bool canUseSpecial;
+    public bool canUseSpecial;
 
     // private bool isAttacking;
 
@@ -35,6 +37,7 @@ public class PlayerCombat : MonoBehaviour
         canUseSpecial = false;
         // isAttacking = false;
         specialAnimation = skillTreeManager.chosenSpecialMove;
+        cooldownBar = FindFirstObjectByType<CooldownBar>();
     }
 
     private void Update()
@@ -42,16 +45,13 @@ public class PlayerCombat : MonoBehaviour
         // Limits rate of attack, prevent spamming attack
 
 
+
+
         if (!canUseSpecial)
         {
-            StartCoroutine(SpecialCooldown(specialAttackTime));
+            Debug.Log("can use special: " + canUseSpecial);
+            cooldownBar.DrainCooldown();
         }
-    }
-
-    IEnumerator SpecialCooldown(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        canUseSpecial = true;
     }
 
     public void NormalAttack(InputAction.CallbackContext context)
@@ -66,11 +66,13 @@ public class PlayerCombat : MonoBehaviour
     public void SpecialAttack(InputAction.CallbackContext context)
     {
         // mouse up
+        // if (canUseSpecial && context.started)
         if (canUseSpecial && context.canceled)
         {
-            canUseSpecial = false;
-            // isAttacking = true;
+            Debug.Log("special: " + specialAnimation);
             playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[specialAnimation]);
+            Attack();
+            canUseSpecial = false;
         }
     }
 
@@ -92,12 +94,4 @@ public class PlayerCombat : MonoBehaviour
             }
         }
     }
-
-    // void OnDrawGizmosSelected()
-    // {
-    //     if (attackPoint == null)
-    //         return;
-
-    //     Gizmos.DrawWireSphere(attackPoint.position, playerData.attackRange);
-    // }
 }

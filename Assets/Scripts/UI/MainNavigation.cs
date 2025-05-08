@@ -24,6 +24,9 @@ public class MainNavigation : MonoBehaviour
     [SerializeField]
     private GameObject worldGameCanvas;
 
+    [SerializeField]
+    private GameObject cooldownCanvas;
+
     [Header("UI Elements")]
     [SerializeField]
     private GameObject startMenu;
@@ -93,6 +96,7 @@ public class MainNavigation : MonoBehaviour
         settingsMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        cooldownCanvas.SetActive(false);
 
         // Prevent pause menu from opening while in main menu
         isPaused = true;
@@ -174,6 +178,7 @@ public class MainNavigation : MonoBehaviour
         worldGameCanvas.SetActive(true);
 
         loadingCanvas.SetActive(false);
+        cooldownCanvas.SetActive(true);
 
         isPaused = false;
         gameScene = true;

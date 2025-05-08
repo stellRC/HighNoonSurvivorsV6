@@ -364,6 +364,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
+  canUseSpecial: 0
 --- !u!114 &1489672146631032777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +400,7 @@ MonoBehaviour:
   moveProjectileAnimation: []
   animationFinished: 0
   IsRunning: 0
+  IsAttacking: 0
 --- !u!1 &6977349764042486677
 GameObject:
   m_ObjectHideFlags: 0
