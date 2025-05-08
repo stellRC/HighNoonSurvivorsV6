@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,10 @@ public class MainNavigation : MonoBehaviour
 
     [Header("Canvas Groups")]
     [SerializeField]
-    private GameObject PersistentCanvas;
+    private GameObject mainMenuCanvas;
+
+    [SerializeField]
+    private GameObject gameMenuCanvas;
 
     [SerializeField]
     private GameObject gameUICanvas;
@@ -18,7 +22,7 @@ public class MainNavigation : MonoBehaviour
     private GameObject loadingCanvas;
 
     [SerializeField]
-    private GameObject NonPersistentCanvas;
+    private GameObject worldGameCanvas;
 
     [Header("UI Elements")]
     [SerializeField]
@@ -31,7 +35,7 @@ public class MainNavigation : MonoBehaviour
     private GameObject objectivesMenu;
 
     [SerializeField]
-    private GameObject optionsMenu;
+    private GameObject settingsMenu;
 
     [SerializeField]
     private GameObject pauseMenu;
@@ -39,6 +43,7 @@ public class MainNavigation : MonoBehaviour
     [SerializeField]
     private GameObject gameOverMenu;
 
+    [Header("Non-Menu Objects")]
     [SerializeField]
     private Slider loadingSlider;
 
@@ -76,8 +81,8 @@ public class MainNavigation : MonoBehaviour
 
     private void InitializeObjStates()
     {
-        NonPersistentCanvas.SetActive(true);
-        PersistentCanvas.SetActive(false);
+        mainMenuCanvas.SetActive(true);
+        gameMenuCanvas.SetActive(false);
 
         startMenu.SetActive(true);
         aboutMenu.SetActive(false);
@@ -85,7 +90,7 @@ public class MainNavigation : MonoBehaviour
 
         loadingCanvas.SetActive(false);
         gameUICanvas.SetActive(false);
-        optionsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(false);
 
@@ -99,7 +104,7 @@ public class MainNavigation : MonoBehaviour
     public void LoadGame()
     {
         // hide menus
-        NonPersistentCanvas.SetActive(false);
+        mainMenuCanvas.SetActive(false);
 
         loadingCanvas.SetActive(true);
         fade.FadeOut();
@@ -166,6 +171,7 @@ public class MainNavigation : MonoBehaviour
         gameUICanvas.SetActive(true);
         settingsButton.SetActive(true);
         killCount.SetActive(true);
+        worldGameCanvas.SetActive(true);
 
         loadingCanvas.SetActive(false);
 
@@ -191,11 +197,11 @@ public class MainNavigation : MonoBehaviour
             isPaused = true;
 
             // clock.SetActive(false);
-            PersistentCanvas.SetActive(true);
+            gameMenuCanvas.SetActive(true);
             pauseMenu.SetActive(true);
 
             gameUICanvas.SetActive(false);
-            optionsMenu.SetActive(false);
+            settingsMenu.SetActive(false);
         }
         else if (isPaused)
         {
@@ -204,7 +210,7 @@ public class MainNavigation : MonoBehaviour
             isPaused = false;
 
             // clock.SetActive(true);
-            PersistentCanvas.SetActive(false);
+            gameMenuCanvas.SetActive(false);
             gameUICanvas.SetActive(true);
         }
     }
@@ -224,12 +230,12 @@ public class MainNavigation : MonoBehaviour
         }
         else
         {
-            PersistentCanvas.SetActive(!state);
-            NonPersistentCanvas.SetActive(state);
+            gameMenuCanvas.SetActive(!state);
+            mainMenuCanvas.SetActive(state);
             startMenu.SetActive(state);
         }
 
-        optionsMenu.SetActive(!state);
+        settingsMenu.SetActive(!state);
 
         state = !state;
     }

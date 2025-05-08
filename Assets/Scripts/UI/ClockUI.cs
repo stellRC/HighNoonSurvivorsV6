@@ -11,7 +11,10 @@ public class ClockUI : MonoBehaviour
 
     private GameManager gameManager;
 
+    [SerializeField]
     private Transform clockHourHandTransform;
+
+    [SerializeField]
     private Transform clockMinuteHandTransform;
 
     private float day;
@@ -22,10 +25,8 @@ public class ClockUI : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
+        gameManager = GetComponentInParent<GameManager>();
 
-        clockHourHandTransform = transform.Find("HourHand");
-        clockMinuteHandTransform = transform.Find("MinuteHand");
         day = startingTime / hoursPerDay;
     }
 

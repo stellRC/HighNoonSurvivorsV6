@@ -10,17 +10,19 @@ public class CameraFollowObject : MonoBehaviour
 
     private void Awake()
     {
-        playerMovement = FindAnyObjectByType<PlayerMovement>();
-        playerTransform = playerMovement.transform;
-        isFacingRight = playerMovement.IsFacingRight;
-
         flipYRotationTime = 0.5f;
+    }
+
+    void Start()
+    {
+        playerMovement = FindAnyObjectByType<PlayerMovement>();
+        isFacingRight = playerMovement.IsFacingRight;
     }
 
     private void FixedUpdate()
     {
         // cameraFollowObject follows player's position
-        transform.position = playerTransform.position;
+        transform.position = playerMovement.transform.position;
     }
 
     public void CallTurn()

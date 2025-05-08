@@ -3,24 +3,28 @@ using UnityEngine;
 
 public class GameOverUIManager : MonoBehaviour
 {
-    [SerializeField]
     private GameManager gameManager;
 
     [SerializeField]
-    private TMP_Text killCountText;
+    private TMP_Text enemyCountText;
+
+    [SerializeField]
+    private TMP_Text bonusCountText;
 
     [SerializeField]
     private TMP_Text timeText;
 
-    // [SerializeField]
-    // private TMP_Text streakText;
-
-    [SerializeField]
     private ClockUI clockUI;
+
+    void Awake()
+    {
+        gameManager = GetComponentInParent<GameManager>();
+        clockUI = GetComponent<ClockUI>();
+    }
 
     public void OnGameOver()
     {
-        killCountText.text = "Kill Count: " + gameManager.killCount;
+        enemyCountText.text = "Kill Count: " + gameManager.killCount;
         timeText.text = "Alive: " + clockUI.hoursString + ":" + clockUI.minutesString;
     }
 }

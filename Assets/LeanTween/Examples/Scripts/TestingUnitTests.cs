@@ -36,6 +36,7 @@ namespace DentedPixel.LTExamples
             Destroy(boxNoCollider.GetComponent(typeof(BoxCollider)) as Component);
         }
 
+        [System.Obsolete]
         void Start()
         {
             //          Time.timeScale = 0.25f;
@@ -222,7 +223,7 @@ namespace DentedPixel.LTExamples
                         .delayedCall(0.0f, () => { })
                         .setOnStart(() =>
                         {
-                            float diffAmt = 1f; // This variable is dependent on a good frame-rate because it evalutes at the next Update
+                            float diffAmt = 1f; // This variable is dependent on a good frame-rate because it evaluates at the next Update
                             beforeX += Time.deltaTime * 100f * 2f;
                             LeanTest.expect(
                                 Mathf.Abs(jumpCube.transform.position.x - beforeX) < diffAmt,
@@ -248,7 +249,7 @@ namespace DentedPixel.LTExamples
                 {
                     LeanTest.expect(
                         zeroCube.transform.position.x == 10f,
-                        "ZERO TIME FINSHES CORRECTLY",
+                        "ZERO TIME FINISHES CORRECTLY",
                         "final x:" + zeroCube.transform.position.x
                     );
                 });

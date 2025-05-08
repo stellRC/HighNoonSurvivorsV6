@@ -61,7 +61,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        if (canAttack && context.canceled)
+        // if (canAttack && context.canceled)
+        if (context.canceled)
         {
             // canAttack = false;
             //Play attack animation
@@ -102,11 +103,11 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
+    // void OnDrawGizmosSelected()
+    // {
+    //     if (attackPoint == null)
+    //         return;
 
-        Gizmos.DrawWireSphere(attackPoint.position, playerData.attackRange);
-    }
+    //     Gizmos.DrawWireSphere(attackPoint.position, playerData.attackRange);
+    // }
 }

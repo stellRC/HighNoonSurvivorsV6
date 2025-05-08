@@ -104,7 +104,8 @@ public class Projectile : MonoBehaviour
 
         if (collision.gameObject.name == "PlayerCharacter")
         {
-            projectileFX.SetTrigger("hasCollided");
+            Debug.Log("player hit by bullet");
+            projectileFX.SetTrigger("BulletImpact");
 
             iDoDamage?.DoDamage(damage);
 

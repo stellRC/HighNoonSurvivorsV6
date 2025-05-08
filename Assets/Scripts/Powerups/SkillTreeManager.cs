@@ -28,13 +28,13 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField]
     private Color lockedColor;
 
-    [SerializeField]
     private ObjectivesManager objectiveManager;
 
     public int chosenSpecialMove;
 
     private void Awake()
     {
+        objectiveManager = GetComponent<ObjectivesManager>();
         earthBtn.onClick.AddListener(UnlockSkillEarth);
         electroBtn.onClick.AddListener(UnlockSkillElectro);
         speedBtn.onClick.AddListener(UnlockSkillSpeed);

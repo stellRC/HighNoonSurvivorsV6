@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AboutManager : MonoBehaviour
+public class CreditsManager : MonoBehaviour
 {
     [SerializeField]
     private Button gitBtn;

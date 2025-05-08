@@ -55,7 +55,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             // Walk towards player
-            if (!isDead && enemyAnimation.animationFinished)
+            if (!isDead && enemyAnimation.animationFinished && !enemyAnimation.IsAttacking)
             {
                 EnemyMovementPatterns(
                     enemyData.movementPatternID,

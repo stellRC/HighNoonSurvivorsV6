@@ -70,14 +70,26 @@
   "cSpell.words": [
     "Behaviour",
     "Cooldown",
+    "descrs",
     "Dont",
     "Earthshatter",
+    "GAMEOBJECT",
     "Hashtable",
     "Hotspot",
+    "ISTWEENING",
+    "Knockback",
+    "LEANTWEEN",
     "Lerp",
+    "LTDESCR",
     "Mathf",
+    "Retr",
     "Rigidbody",
     "Scriptable",
+    "SETONSTART",
+    "spawnable",
+    "TWEEENING",
+    "TWEENED",
+    "Tweening",
     "tweens"
   ]
 }

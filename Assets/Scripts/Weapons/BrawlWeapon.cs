@@ -30,7 +30,7 @@ public class BrawlWeapon : WeaponBase
         )
         {
             // Check if can shoot
-            if (Time.time > nextShotTime)
+            if (Time.time > nextShotTime && enemyAnimation.animationFinished)
             {
                 var attack = Random.Range(0, 4);
                 // Shoot animation

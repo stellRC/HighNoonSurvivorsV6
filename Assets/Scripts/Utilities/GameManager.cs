@@ -4,19 +4,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField]
     private MainNavigation mainNavigation;
 
-    [SerializeField]
     private GameOverUIManager gameOverManager;
 
-    [SerializeField]
     private PlayerController playerController;
 
-    [SerializeField]
     private SkillTreeManager skillTreeManager;
 
-    [SerializeField]
     private ObjectivesManager objectiveManager;
 
     public float timeCount;
@@ -36,6 +31,12 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        mainNavigation = GetComponentInChildren<MainNavigation>();
+        skillTreeManager = GetComponentInChildren<SkillTreeManager>();
+        objectiveManager = GetComponentInChildren<ObjectivesManager>();
+        gameOverManager = GetComponentInChildren<GameOverUIManager>();
+        playerController = FindFirstObjectByType<PlayerController>();
     }
 
     private void Start()

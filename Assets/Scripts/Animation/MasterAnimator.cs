@@ -26,8 +26,7 @@ public class MasterAnimator : MonoBehaviour
     private float NTime;
 
     public bool IsRunning;
-
-    void Awake() { }
+    public bool IsAttacking;
 
     void OnEnable()
     {
@@ -122,6 +121,15 @@ public class MasterAnimator : MonoBehaviour
         else
         {
             masterAnimator.SetBool("IsRunning", false);
+        }
+
+        if (IsAttacking)
+        {
+            masterAnimator.SetBool("IsAttacking", true);
+        }
+        else
+        {
+            masterAnimator.SetBool("IsAttacking", false);
         }
     }
 
