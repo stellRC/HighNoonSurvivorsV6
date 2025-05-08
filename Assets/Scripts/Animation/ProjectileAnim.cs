@@ -9,6 +9,8 @@ public class ProjectileAnim : StateMachineBehaviour
         // animator
         //     .gameObject.GetComponentInParent<ProjectileWeapon>()
         //     .InstantiateProjectile(animator.rootPosition);
-        animator.gameObject.GetComponentInParent<ProjectileWeapon>().InstantiateProjectile();
+        animator
+            .gameObject.GetComponentInParent<ProjectileWeapon>()
+            .InstantiateProjectile(animator.rootPosition);
     }
 }
