@@ -16,9 +16,9 @@ public class PlayerCombat : MonoBehaviour
 
     private int specialAnimation;
     public LayerMask enemyLayers;
-    private float nextAttackTime;
+
     private float specialAttackTime;
-    private bool canAttack;
+
     private bool canUseSpecial;
 
     // private bool isAttacking;
@@ -31,7 +31,6 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
-        nextAttackTime = 0f;
         specialAttackTime = playerData.specialAttackTime;
         canUseSpecial = false;
         // isAttacking = false;
@@ -57,11 +56,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        if (context.canceled)
+        if (context.started)
         {
             var animationID = Random.Range(6, 10);
-            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[animationID]);
-            Attack();
+            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
         }
     }
 
@@ -73,11 +71,10 @@ public class PlayerCombat : MonoBehaviour
             canUseSpecial = false;
             // isAttacking = true;
             playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[specialAnimation]);
-            Attack();
         }
     }
 
-    private void Attack()
+    public void Attack()
     {
         //Detect enemies in range of attack
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
