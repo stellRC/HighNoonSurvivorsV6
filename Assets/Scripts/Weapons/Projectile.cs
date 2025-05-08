@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Projectile : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class Projectile : MonoBehaviour
 
     private int damage;
     private Vector2 projectileTarget;
-    private Transform spawnPosition;
 
     private float angle;
 
@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour
         returned = false;
         destroyTime = 7.0f;
         damage = 1;
-        spawnPosition = this.gameObject.transform;
+
         projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
         FlipSprite();
         // StartCoroutine(ReturnToPoolAfterTime());
@@ -99,7 +99,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Damage Enemy
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
         if (collision.gameObject.name == "PlayerCharacter")
@@ -137,16 +136,4 @@ public class Projectile : MonoBehaviour
         ObjectPooling.ReturnObjectToPool(gameObject);
         returned = true;
     }
-
-    // Destroy object if object has moved out beyond game boundaries
-    // private void OnBecameInvisible()
-    // {
-    //     if (returned)
-    //     {
-    //         return;
-    //     }
-    //     Debug.Log("invisible returned");
-    //     ObjectPoolManager.ReturnObjectToPool(gameObject);
-    //     returned = true;
-    // }
 }

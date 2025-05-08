@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.ChangeAnimation(playerAnimator.moveSwordAnimation[0]);
             activeMoveSpeed = moveSpeed;
             playerAnimator.IsRunning = false;
+            fxAnimator.gameObject.SetActive(false);
         }
 
         // Running
@@ -78,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
             isMoving = true;
 
             playerAnimator.IsRunning = true;
+            fxAnimator.gameObject.SetActive(true);
         }
 
         if (moveInput.x > 0 || moveInput.x < 0)

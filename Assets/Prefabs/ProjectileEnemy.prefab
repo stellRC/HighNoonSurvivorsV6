@@ -156,9 +156,8 @@ GameObject:
   - component: {fileID: 3279996571489915172}
   - component: {fileID: 8887913718672254241}
   - component: {fileID: 5860736974300233925}
-  - component: {fileID: 4177200262834970994}
   - component: {fileID: 2374333392084893840}
-  - component: {fileID: 6097443189527277688}
+  - component: {fileID: 7976053446739934655}
   m_Layer: 7
   m_Name: ProjectileEnemy
   m_TagString: Untagged
@@ -5144,21 +5143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
   enemySprite: {fileID: 7845081743927986840}
---- !u!114 &4177200262834970994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199026032389405178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd6a2fdd12663949908a9467addc054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  enemyData: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
-  attackPoint: {fileID: 4782151304754477884}
 --- !u!114 &2374333392084893840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5182,7 +5166,8 @@ MonoBehaviour:
   moveProjectileAnimation: []
   animationFinished: 0
   IsRunning: 0
---- !u!114 &6097443189527277688
+  IsAttacking: 0
+--- !u!114 &7976053446739934655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5191,7 +5176,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9199026032389405178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12cfd070513b9964b82bdd93a348e2ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cd6a2fdd12663949908a9467addc054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1

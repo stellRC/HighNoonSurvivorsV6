@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour, IDoDamage
 {
     private MasterAnimator playerAnimator;
 
     private PlayerSkills playerSkills;
+    private PlayerInput playerInput;
 
     private void Awake()
     {
@@ -13,6 +15,8 @@ public class PlayerController : MonoBehaviour, IDoDamage
         playerSkills = new PlayerSkills();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         playerAnimator = GetComponent<MasterAnimator>();
+        playerInput = GetComponent<PlayerInput>();
+        playerInput.enabled = true;
     }
 
     private void PlayerSkills_OnSkillUnlocked(
@@ -70,8 +74,10 @@ public class PlayerController : MonoBehaviour, IDoDamage
     // Prevent further player animation and enemy death
     private void DisablePlayer()
     {
+        playerInput.enabled = false;
         GetComponent<PlayerMovement>().enabled = false;
         GetComponent<PlayerCombat>().enabled = false;
+        this.enabled = false;
     }
 
     // Death animation (not looped)

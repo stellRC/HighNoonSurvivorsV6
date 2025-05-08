@@ -14,7 +14,6 @@ public class BrawlWeapon : WeaponBase
 
     private float timeBetweenShots = 0;
     private float nextShotTime;
-    private bool isTriggered;
 
     void Awake()
     {

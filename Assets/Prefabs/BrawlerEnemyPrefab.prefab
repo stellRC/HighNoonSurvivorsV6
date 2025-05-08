@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 8887913718672254241}
   - component: {fileID: 5860736974300233925}
   - component: {fileID: 2374333392084893840}
-  - component: {fileID: 1894673993896126203}
+  - component: {fileID: 5215717190719706196}
   m_Layer: 7
   m_Name: BrawlerEnemyPrefab
   m_TagString: Untagged
@@ -5166,7 +5166,8 @@ MonoBehaviour:
   moveProjectileAnimation: []
   animationFinished: 0
   IsRunning: 0
---- !u!114 &1894673993896126203
+  IsAttacking: 0
+--- !u!114 &5215717190719706196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5175,7 +5176,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9199026032389405178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12cfd070513b9964b82bdd93a348e2ba, type: 3}
+  m_Script: {fileID: 11500000, guid: d5826a5e4f436f948997f4a363950d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1

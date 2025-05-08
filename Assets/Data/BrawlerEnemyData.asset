@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BrawlerEnemyData
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 9199026032389405178, guid: 58c846469913426418716a9e1467e5c6, type: 3}
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 4439493502084162821, guid: ffeb1c5b1fafee14aa7edd41f1c41d58, type: 3}
   EnemyName: brawl
   maxHealth: 1
   moveSpeed: 2

@@ -41,11 +41,7 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         // Limits rate of attack, prevent spamming attack
-        if (Time.time >= nextAttackTime)
-        {
-            canAttack = true;
-            nextAttackTime = Time.time + 1.0f / playerData.attackRate;
-        }
+
 
         if (!canUseSpecial)
         {
@@ -61,13 +57,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        // if (canAttack && context.canceled)
         if (context.canceled)
         {
-            // canAttack = false;
-            //Play attack animation
-            // isAttacking = true;
-            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[4]);
+            var animationID = Random.Range(6, 10);
+            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[animationID]);
             Attack();
         }
     }

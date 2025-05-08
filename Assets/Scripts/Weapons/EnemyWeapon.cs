@@ -13,8 +13,6 @@ public class EnemyWeapon : WeaponBase
 
     private Transform playerTransform;
 
-    private float distance;
-
     private float waitTime;
 
     void Awake()
@@ -55,12 +53,12 @@ public class EnemyWeapon : WeaponBase
             enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
         }
 
-        while (!enemyAnimation.animationFinished)
-        {
-            enemyAnimation.IsAttacking = true;
-        }
+        // while (!enemyAnimation.animationFinished)
+        // {
+        //     enemyAnimation.IsAttacking = true;
+        // }
 
-        enemyAnimation.IsAttacking = false;
+        // enemyAnimation.IsAttacking = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,6 +73,19 @@ public class EnemyWeapon : WeaponBase
             Debug.Log("player hit");
             iDoDamage?.DoDamage(damage);
             // isTriggered = true;
+        }
+    }
+
+    public void InstantiateProjectile(Vector2 position)
+    {
+        if (enemyData.name != "brawl")
+        {
+            ObjectPooling.SpawnObject(
+                enemyData.projectilePrefab,
+                position,
+                Quaternion.identity,
+                ObjectPooling.PoolType.Projectiles
+            );
         }
     }
 }

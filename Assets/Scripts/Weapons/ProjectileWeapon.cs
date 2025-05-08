@@ -1,15 +1,86 @@
+using System.Collections;
 using UnityEngine;
 
-public class ProjectileWeapon : MonoBehaviour
+public class ProjectileWeapon : WeaponBase
 {
     [SerializeField]
     private EnemyData enemyData;
 
-    public void InstantiateProjectile(Vector2 spawnPosition)
+    [SerializeField]
+    private Transform attackPoint;
+
+    private MasterAnimator enemyAnimation;
+
+    private Transform playerTransform;
+
+    private float waitTime;
+
+    void Awake()
+    {
+        enemyAnimation = GetComponent<MasterAnimator>();
+        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
+    }
+
+    private void Update()
+    {
+        if (
+            Vector2.Distance(transform.position, playerTransform.position)
+            <= enemyData.minimumDistance
+        )
+        {
+            EnemyAttack();
+            waitTime = Random.Range(1.5f, 4);
+            StartCoroutine(EnemyAttackRate(waitTime));
+        }
+    }
+
+    IEnumerator EnemyAttackRate(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        EnemyAttack();
+    }
+
+    private void EnemyAttack()
+    {
+        var attack = Random.Range(0, 4);
+        // Shoot animation
+        if (enemyData.name == "brawl")
+        {
+            enemyAnimation.ChangeAnimation(enemyAnimation.brawlAnimation[attack]);
+        }
+        else
+        {
+            enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
+        }
+
+        // while (!enemyAnimation.animationFinished)
+        // {
+        //     enemyAnimation.IsAttacking = true;
+        // }
+
+        // enemyAnimation.IsAttacking = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // if (isTriggered)
+        //     return;
+        // Damage Enemy
+        IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
+
+        if (collision.gameObject.name == "PlayerCharacter")
+        {
+            Debug.Log("player hit");
+            iDoDamage?.DoDamage(damage);
+            // isTriggered = true;
+        }
+    }
+
+    public void InstantiateProjectile(Vector2 position)
     {
         ObjectPooling.SpawnObject(
             enemyData.projectilePrefab,
-            spawnPosition,
+            position,
             Quaternion.identity,
             ObjectPooling.PoolType.Projectiles
         );
