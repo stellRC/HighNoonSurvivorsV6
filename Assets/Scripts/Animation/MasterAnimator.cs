@@ -135,7 +135,11 @@ public class MasterAnimator : MonoBehaviour
 
     public void ChangeAnimation(string animation, float crossFade = 0.2f)
     {
-        if (currentAnimation != animation && animationFinished)
+        if (animation == "Die")
+        {
+            masterAnimator.SetTrigger("IsDead");
+        }
+        else if (currentAnimation != animation && animationFinished)
         {
             currentAnimation = animation;
             masterAnimator.CrossFade(animation, crossFade);

@@ -1,4 +1,5 @@
 using System.Collections;
+using DigitalRuby.LightningBolt;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,9 +20,11 @@ public class PlayerCombat : MonoBehaviour
     private int specialAnimation;
     public LayerMask enemyLayers;
 
-    private float specialAttackTime;
-
     public bool canUseSpecial;
+
+    private int currentAttackCount;
+
+    private float attackRange;
 
     // private bool isAttacking;
 
@@ -33,24 +36,26 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
-        specialAttackTime = playerData.specialAttackTime;
+        attackRange = playerData.attackRange;
         canUseSpecial = false;
         // isAttacking = false;
         specialAnimation = skillTreeManager.chosenSpecialMove;
         cooldownBar = FindFirstObjectByType<CooldownBar>();
+        currentAttackCount = 0;
     }
 
-    private void Update()
+    void Update()
     {
-        // Limits rate of attack, prevent spamming attack
-
-
-
-
-        if (!canUseSpecial)
+        // If number of killed enemies is == 10, special attack is true
+        // Each enemy kill fills the bar
+        // If special attack is used, drain bar and reset attack number needed
+        if (currentAttackCount >= playerData.specialAttackCount)
         {
-            Debug.Log("can use special: " + canUseSpecial);
-            cooldownBar.DrainCooldown();
+            canUseSpecial = true;
+        }
+        else
+        {
+            canUseSpecial = false;
         }
     }
 
@@ -66,14 +71,28 @@ public class PlayerCombat : MonoBehaviour
     public void SpecialAttack(InputAction.CallbackContext context)
     {
         // mouse up
-        // if (canUseSpecial && context.started)
-        if (canUseSpecial && context.canceled)
+
+        if (canUseSpecial && context.started)
         {
-            Debug.Log("special: " + specialAnimation);
             playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[specialAnimation]);
+            TriggerLightning();
             Attack();
-            canUseSpecial = false;
+            cooldownBar.startDrain = true;
+            currentAttackCount = 0;
         }
+    }
+
+    private void TriggerLightning()
+    {
+        LightningBoltScript lightningBoltScript = FindFirstObjectByType<LightningBoltScript>();
+        lightningBoltScript.ManualMode = false;
+        StartCoroutine(ToggleLightning(playerData.specialAttackCount, lightningBoltScript));
+    }
+
+    IEnumerator ToggleLightning(int count, LightningBoltScript lightningBoltScript)
+    {
+        yield return new WaitForSeconds(count);
+        lightningBoltScript.ManualMode = true;
     }
 
     public void Attack()
@@ -91,6 +110,8 @@ public class PlayerCombat : MonoBehaviour
             if (enemy != null)
             {
                 enemy.GetComponent<Enemy>().DoDamage(playerData.attackDamage);
+                currentAttackCount++;
+                cooldownBar.RefillCooldown();
             }
         }
     }

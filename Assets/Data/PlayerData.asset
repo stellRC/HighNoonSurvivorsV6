@@ -19,6 +19,6 @@ MonoBehaviour:
   movementPatternID: 0
   movementSpeedID: 0
   attackRate: 3
-  specialAttackTime: 100
+  specialAttackCount: 2
   attackRange: 1
   attackDamage: 1

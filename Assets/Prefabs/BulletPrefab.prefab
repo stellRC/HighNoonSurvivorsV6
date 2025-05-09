@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9082124655985748744}
   - component: {fileID: 8370641960432580254}
   - component: {fileID: 6825074210802874528}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: BulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 5272345584893350749}
   - component: {fileID: 2559017829267408972}
   - component: {fileID: 6901797088866470781}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: BulletSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 915014831
+  m_SortingLayerID: -1117813303
   m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 71be0878a03860c49aad49ae940ad2b7, type: 3}

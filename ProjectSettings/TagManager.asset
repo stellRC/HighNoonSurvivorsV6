@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Foreground
   - Enemies
-  - 
+  - Projectile
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Collision
     uniqueID: 2302956597
+    locked: 0
+  - name: Projectile
+    uniqueID: 3177153993
     locked: 0
   - name: Enemies
     uniqueID: 915014831

@@ -11,7 +11,8 @@ public class CooldownBar : MonoBehaviour
     [SerializeField]
     private PlayerData playerData;
 
-    public Image cooldownBarFillImage;
+    [SerializeField]
+    private Image cooldownBarFillImage;
 
     [SerializeField]
     private Image cooldownBarTrailingFillImage;
@@ -23,56 +24,56 @@ public class CooldownBar : MonoBehaviour
 
     private GameObject playerCharacter;
 
-    private PlayerCombat playerCombat;
+    public bool startRefill;
 
-    private bool startRefill;
+    public bool startDrain;
 
     private void Awake()
     {
-        currentCool = playerData.specialAttackTime;
-
         cooldownBarFillImage.fillAmount = 0f;
         cooldownBarTrailingFillImage.fillAmount = 0f;
     }
 
     private void Start()
     {
+        currentCool = 0;
         playerCharacter = GameObject.Find("PlayerCharacter");
-        playerCombat = playerCharacter.GetComponent<PlayerCombat>();
-        RefillCooldown();
     }
 
     private void Update()
     {
+        // Assign transform when player is destroyed when loading scene
         if (playerCharacter == null)
         {
             playerCharacter = GameObject.Find("PlayerCharacter");
         }
 
-        barTransform.position = playerCharacter.transform.position;
+        barTransform.position = new Vector2(
+            playerCharacter.transform.position.x,
+            playerCharacter.transform.position.y - .5f
+        );
 
-        if (currentCool == 0)
+        if (cooldownBarFillImage.fillAmount <= 0.09)
         {
-            startRefill = true;
+            startDrain = false;
         }
 
-        if (startRefill)
+        if (startDrain)
         {
-            RefillCooldown();
-        }
-
-        if (currentCool >= playerData.specialAttackTime)
-        {
-            playerCombat.canUseSpecial = true;
-            startRefill = false;
+            DrainCooldown();
         }
     }
 
-    private void RefillCooldown()
+    public void RefillCooldown()
     {
-        currentCool += 10f;
+        if (currentCool < 0)
+        {
+            currentCool = 0;
+        }
 
-        float ratio = currentCool / playerData.specialAttackTime;
+        currentCool += 1f;
+
+        float ratio = currentCool / playerData.specialAttackCount;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
@@ -84,8 +85,13 @@ public class CooldownBar : MonoBehaviour
 
     public void DrainCooldown()
     {
-        currentCool -= 10f;
-        float ratio = currentCool / playerData.specialAttackTime;
+        if (currentCool < 0)
+        {
+            currentCool = 0;
+        }
+
+        currentCool -= 1f;
+        float ratio = currentCool / playerData.specialAttackCount;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
