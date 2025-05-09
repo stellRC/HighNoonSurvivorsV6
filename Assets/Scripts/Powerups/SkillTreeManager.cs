@@ -39,7 +39,7 @@ public class SkillTreeManager : MonoBehaviour
         earthBtn.onClick.AddListener(UnlockSkillEarth);
         electroBtn.onClick.AddListener(UnlockSkillElectro);
         spinBtn.onClick.AddListener(UnlockSkillSpin);
-        gunBtn.onClick.AddListener(UnlockSkillGun);
+        gunBtn.onClick.AddListener(UnlockSwordCombo);
 
         unlockedColor = Color.white;
         chosenSpecialMove = -1;
@@ -47,14 +47,14 @@ public class SkillTreeManager : MonoBehaviour
 
     private void UnlockSkillSpin()
     {
-        if (objectiveManager.skillObjectives["Stay alive past noon"])
+        if (objectiveManager.skillObjectives["Survive noon"])
         {
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
             chosenSpecialMove = 0;
         }
     }
 
-    private void UnlockSkillElectro()
+    private void UnlockSwordCombo()
     {
         if (objectiveManager.skillObjectives["Slay 5 brawlers"])
         {
@@ -63,7 +63,7 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    private void UnlockSkillEarth()
+    private void UnlockSkillElectro()
     {
         if (objectiveManager.skillObjectives["Slay 10 gunmen"])
         {
@@ -73,7 +73,7 @@ public class SkillTreeManager : MonoBehaviour
     }
 
     // Can only destroy projectiles with either fog or lightning skills
-    private void UnlockSkillGun()
+    private void UnlockSkillEarth()
     {
         if (objectiveManager.skillObjectives["Destroy 15 projectiles"])
         {

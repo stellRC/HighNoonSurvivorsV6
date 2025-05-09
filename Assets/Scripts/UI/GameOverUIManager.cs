@@ -28,9 +28,9 @@ public class GameOverUIManager : MonoBehaviour
     public void OnGameOver()
     {
         totalCountText.text = "Total Enemies: " + gameManager.totalCount;
-        brawlerCountText.text = "Total Enemies: " + gameManager.brawlerCount;
-        projectileCountText.text = "Total Enemies: " + gameManager.projectileCount;
-        gunmanCountText.text = "Total Enemies: " + gameManager.gunmanCount;
+        brawlerCountText.text = "Total Brawlers: " + gameManager.brawlerCount;
+        projectileCountText.text = "Total Projectiles: " + gameManager.projectileCount;
+        gunmanCountText.text = "Total Shooters: " + gameManager.gunmanCount;
         timeText.text = "Time Survived: " + gameManager.timeCount;
     }
 }

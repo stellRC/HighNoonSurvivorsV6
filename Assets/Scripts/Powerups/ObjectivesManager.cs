@@ -16,10 +16,10 @@ public class ObjectivesManager : MonoBehaviour
     {
         skillObjectives = new()
         {
-            { "Stay alive past noon", false },
             { "Slay 5 brawlers", false },
             { "Slay 10 gunmen", false },
-            { "Destroy 15 projectiles", false }
+            { "Destroy 15 projectiles", false },
+            { "Survive noon", false }
         };
     }
 
@@ -45,12 +45,16 @@ public class ObjectivesManager : MonoBehaviour
 
     public void UpdateObjectiveValue(string objectiveString)
     {
-        foreach (var (key, value) in skillObjectives)
+        if (
+            skillObjectives.ContainsKey(objectiveString)
+            && skillObjectives[objectiveString] == false
+        )
         {
-            if (key == objectiveString && value == false)
-            {
-                skillObjectives[objectiveString] = true;
-            }
+            skillObjectives[objectiveString] = true;
+        }
+        else
+        {
+            Debug.Log("dictionary: " + objectiveString + ", " + skillObjectives[objectiveString]);
         }
     }
 

@@ -19,6 +19,8 @@ public class EnemyMovement : MonoBehaviour
 
     private string projectileName;
 
+    private float enemySpeed;
+
     private void Awake()
     {
         enemyAnimation = GetComponent<MasterAnimator>();
@@ -32,6 +34,7 @@ public class EnemyMovement : MonoBehaviour
         InitialTurnCheck();
         enemyAnimation.ChangeAnimation("Walk");
         isMovingForward = true;
+        enemySpeed = Random.Range(enemyData.moveSpeed, enemyData.moveSpeed + 1.5f);
     }
 
     private void FixedUpdate()
@@ -57,12 +60,7 @@ public class EnemyMovement : MonoBehaviour
             // Walk towards player
             if (!isDead && enemyAnimation.animationFinished)
             {
-                EnemyMovementPatterns(
-                    enemyData.movementPatternID,
-                    angle,
-                    enemyData.moveSpeed,
-                    distance
-                );
+                EnemyMovementPatterns(enemyData.movementPatternID, angle, enemySpeed, distance);
             }
         }
     }
@@ -117,6 +115,7 @@ public class EnemyMovement : MonoBehaviour
     private void RotateTowardsPlayer(float angle)
     {
         RunAnimation();
+
         // Create a smooth updating turn rotation
         transform.SetPositionAndRotation(
             Vector2.MoveTowards(

@@ -91,21 +91,21 @@ public class GameManager : MonoBehaviour
     // Update skills to unlock prior to next round
     private void UpdateObjectives()
     {
-        if (brawlerCount >= 5)
+        if (brawlerCount >= 1)
         {
             objectiveManager.UpdateObjectiveValue("Slay 5 brawlers");
         }
-        if (gunmanCount >= 10)
+        if (gunmanCount >= 1)
         {
             objectiveManager.UpdateObjectiveValue("Slay 10 gunmen");
         }
-        if (projectileCount >= 15)
+        if (projectileCount >= 1)
         {
-            objectiveManager.UpdateObjectiveValue("Kill 15 projectiles");
+            objectiveManager.UpdateObjectiveValue("Destroy 15 projectiles");
         }
         if (hoursFloat >= 12)
         {
-            objectiveManager.UpdateObjectiveValue("Stay alive past noon");
+            objectiveManager.UpdateObjectiveValue("Survive noon");
         }
     }
 }

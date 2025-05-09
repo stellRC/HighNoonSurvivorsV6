@@ -22,7 +22,7 @@ public class EnemyManager : MonoBehaviour
     {
         SpawnMoreEnemies();
         lastSpawnPosition = new Vector2(2, 2);
-        spawnInterval = 500f;
+        spawnInterval = 20f;
     }
 
     void Update()
@@ -33,7 +33,7 @@ public class EnemyManager : MonoBehaviour
         {
             PlaceEnemy(projectileEnemy);
             currentSpawnTime = 0;
-            spawnInterval = Random.Range(300f, 600f);
+            spawnInterval = Random.Range(15f, 25f);
         }
     }
 

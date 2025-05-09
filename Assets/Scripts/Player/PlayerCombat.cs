@@ -3,6 +3,7 @@ using System.Collections;
 using DigitalRuby.LightningBolt;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -65,11 +66,11 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            // var animationID = Random.Range(6, 10);
-            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
-        }
+        // if (context.started)
+        // {
+        // var animationID = Random.Range(6, 10);
+        playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
+        // }
     }
 
     public void SpecialAttack(InputAction.CallbackContext context)
@@ -113,8 +114,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void TriggerFog()
     {
-        GameObject collisionFog = GameObject.Find("CollisionFog");
-        collisionFog.SetActive(true);
+        FogController collisionFog = FindAnyObjectByType<FogController>();
+        collisionFog.isPlaying = true;
         StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
     }
 
@@ -150,10 +151,10 @@ public class PlayerCombat : MonoBehaviour
         attackRange = playerData.attackRange;
     }
 
-    IEnumerator ToggleFog(int count, GameObject collisionFog)
+    IEnumerator ToggleFog(int count, FogController collisionFog)
     {
         yield return new WaitForSeconds(count);
-        collisionFog.SetActive(false);
+        collisionFog.isPlaying = false;
     }
 
     public void Attack()

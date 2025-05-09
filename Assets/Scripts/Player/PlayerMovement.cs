@@ -90,7 +90,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        var currentInput = context.ReadValue<Vector2>();
+        if (currentInput != moveInput)
+        {
+            moveInput = currentInput;
+        }
     }
 
     public void TurnCheck(Vector2 moveInput)

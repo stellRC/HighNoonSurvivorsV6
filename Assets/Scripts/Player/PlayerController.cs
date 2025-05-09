@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour, IDoDamage
         throw new NotImplementedException();
     }
 
-    // Check if EarthShatter skill is unlocked
     public bool CanUseEarthshatter()
     {
         return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.GroundSlam);
@@ -49,12 +48,12 @@ public class PlayerController : MonoBehaviour, IDoDamage
         return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.ShockHeavy);
     }
 
-    public bool CanUseSpeedBoost()
+    public bool CanUseSpin()
     {
         return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Spin);
     }
 
-    public bool CanUseThrowOverarm()
+    public bool CanUseSwordCombo()
     {
         return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.SwordCombo);
     }

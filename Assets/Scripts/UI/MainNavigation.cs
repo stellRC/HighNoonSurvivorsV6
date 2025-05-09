@@ -97,6 +97,7 @@ public class MainNavigation : MonoBehaviour
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(false);
         cooldownCanvas.SetActive(false);
+        worldGameCanvas.SetActive(false);
 
         // Prevent pause menu from opening while in main menu
         isPaused = true;

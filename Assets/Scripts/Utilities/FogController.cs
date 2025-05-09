@@ -3,21 +3,43 @@ using UnityEngine.VFX;
 
 public class FogController : MonoBehaviour
 {
-    [SerializeField]
     private VisualEffect vfxRenderer;
+
     private PlayerMovement playerPosition;
+
+    public bool isPlaying;
 
     void Awake()
     {
-        playerPosition = FindAnyObjectByType<PlayerMovement>();
+        playerPosition = FindFirstObjectByType<PlayerMovement>();
+        vfxRenderer = FindFirstObjectByType<VisualEffect>();
+        vfxRenderer.Stop();
+        isPlaying = false;
     }
 
     void Update()
     {
         // Control collision with fog layer (foreground)
+        if (playerPosition == null)
+        {
+            playerPosition = FindFirstObjectByType<PlayerMovement>();
+            vfxRenderer = FindFirstObjectByType<VisualEffect>();
+            vfxRenderer.Stop();
+            isPlaying = false;
+        }
+
         if (vfxRenderer != null)
         {
             vfxRenderer.SetVector3("ColliderPosition", playerPosition.transform.position);
+
+            if (isPlaying)
+            {
+                vfxRenderer.Play();
+            }
+            else
+            {
+                vfxRenderer.Stop();
+            }
         }
     }
 
