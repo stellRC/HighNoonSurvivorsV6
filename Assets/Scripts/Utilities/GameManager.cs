@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     private ObjectivesManager objectiveManager;
 
+    private PlayerCombat playerCombat;
+
     private ClockUI clockUI;
 
     private bool gameOverPanel;
@@ -32,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver;
 
+    public bool noDamage;
+
     private void Awake()
     {
         if (Instance != null)
@@ -48,7 +52,9 @@ public class GameManager : MonoBehaviour
         objectiveManager = GetComponentInChildren<ObjectivesManager>();
         gameOverManager = GetComponentInChildren<GameOverUIManager>();
         playerController = FindFirstObjectByType<PlayerController>();
-        clockUI = GetComponentInParent<ClockUI>();
+        playerCombat = FindFirstObjectByType<PlayerCombat>();
+        clockUI = GetComponentInChildren<ClockUI>();
+        noDamage = false;
     }
 
     private void Start()

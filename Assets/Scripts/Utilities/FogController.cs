@@ -20,4 +20,19 @@ public class FogController : MonoBehaviour
             vfxRenderer.SetVector3("ColliderPosition", playerPosition.transform.position);
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        // If a missile hits this object
+        if (collision.transform.CompareTag("brawler") || collision.transform.CompareTag("gunman"))
+        {
+            Debug.Log("fog: " + collision);
+            collision.GetComponent<Enemy>().DoDamage(1);
+        }
+        else if (collision.transform.CompareTag("projectile"))
+        {
+            Debug.Log("fog: " + collision);
+            collision.GetComponent<Projectile>().NonPlayerCollision();
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class PlayerSkills
         GroundSlam,
         ShockHeavy,
         Spin,
-        GunRunFire
+        SwordCombo
     }
 
     private List<SkillType> unlockedSkillTypeList;

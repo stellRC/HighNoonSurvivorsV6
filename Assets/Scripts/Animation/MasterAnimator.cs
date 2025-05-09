@@ -85,11 +85,16 @@ public class MasterAnimator : MonoBehaviour
             "SwordRunSlash",
             "ComboAttackA",
             "ComboAttackB",
-            "ComboAttackC",
             "ComboAttackD"
         };
 
-        specialAnimation = new List<string>() { "Spin", "GunRunFire", "ShockHeavy", "GroundSlam" };
+        specialAnimation = new List<string>()
+        {
+            "Spin",
+            "ComboAttackA",
+            "ShockHeavy",
+            "GroundSlam"
+        };
     }
 
     void Update()

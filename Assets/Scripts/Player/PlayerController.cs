@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour, IDoDamage
 
     public bool CanUseThrowOverarm()
     {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.GunRunFire);
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.SwordCombo);
     }
 
     public PlayerSkills GetPlayerSkills()

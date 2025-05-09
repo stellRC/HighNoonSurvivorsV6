@@ -18,9 +18,6 @@ public class GameOverUIManager : MonoBehaviour
     private TMP_Text gunmanCountText;
 
     [SerializeField]
-    private TMP_Text bonusCountText;
-
-    [SerializeField]
     private TMP_Text timeText;
 
     void Awake()

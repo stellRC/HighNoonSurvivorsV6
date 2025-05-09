@@ -42,6 +42,7 @@ public class SkillTreeManager : MonoBehaviour
         gunBtn.onClick.AddListener(UnlockSkillGun);
 
         unlockedColor = Color.white;
+        chosenSpecialMove = -1;
     }
 
     private void UnlockSkillSpin()
@@ -57,7 +58,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (objectiveManager.skillObjectives["Slay 5 brawlers"])
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GunRunFire);
+            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
             chosenSpecialMove = 1;
         }
     }
@@ -107,7 +108,7 @@ public class SkillTreeManager : MonoBehaviour
                 case PlayerSkills.SkillType.GroundSlam:
                     earthBtn.GetComponent<Image>().color = unlockedColor;
                     break;
-                case PlayerSkills.SkillType.GunRunFire:
+                case PlayerSkills.SkillType.SwordCombo:
                     gunBtn.GetComponent<Image>().color = unlockedColor;
                     break;
                 case PlayerSkills.SkillType.Spin:

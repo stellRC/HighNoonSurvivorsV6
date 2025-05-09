@@ -14,16 +14,32 @@ public class EnemyManager : MonoBehaviour
 
     private Vector2 lastSpawnPosition;
 
+    private float currentSpawnTime;
+
+    private float spawnInterval;
+
     void Start()
     {
         SpawnMoreEnemies();
         lastSpawnPosition = new Vector2(2, 2);
+        spawnInterval = 500f;
+    }
+
+    void Update()
+    {
+        currentSpawnTime += Time.deltaTime;
+
+        if (currentSpawnTime >= spawnInterval)
+        {
+            PlaceEnemy(projectileEnemy);
+            currentSpawnTime = 0;
+            spawnInterval = Random.Range(300f, 600f);
+        }
     }
 
     public void SpawnMoreEnemies()
     {
         PlaceEnemy(brawlEnemy);
-        PlaceEnemy(projectileEnemy);
     }
 
     private void PlaceEnemy(EnemyData enemyData)
@@ -47,7 +63,7 @@ public class EnemyManager : MonoBehaviour
     private Vector2 RandomScreenCornerPosition()
     {
         randomPositionOnScreen = Camera.main.ViewportToWorldPoint(
-            new Vector2(Random.Range(0f, 2f), Random.Range(0f, 2f))
+            new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))
         );
         if (lastSpawnPosition == randomPositionOnScreen)
         {

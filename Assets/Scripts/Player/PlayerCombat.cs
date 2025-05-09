@@ -27,12 +27,15 @@ public class PlayerCombat : MonoBehaviour
 
     private float attackRange;
 
+    public bool triggerSpin;
+
     // private bool isAttacking;
 
     private void Awake()
     {
         playerAnimator = GetComponent<MasterAnimator>();
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        triggerSpin = false;
     }
 
     private void Start()
@@ -73,7 +76,7 @@ public class PlayerCombat : MonoBehaviour
     {
         // mouse up
 
-        if (canUseSpecial && context.started)
+        if (canUseSpecial && context.started && chosenSpecialMove >= 0)
         {
             playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
             CheckSpecialMove(chosenSpecialMove);
@@ -90,31 +93,36 @@ public class PlayerCombat : MonoBehaviour
             case 0:
                 TriggerSpin();
                 break;
-            case 1:
+            case 2:
                 TriggerLightning();
                 break;
-            case 2:
+            case 3:
                 TriggerFog();
                 break;
-            case 3:
-                TriggerProjectile();
+            case 1:
+                TriggerSwordCombo();
                 break;
         }
     }
 
-    private void TriggerProjectile()
+    private void TriggerSwordCombo()
     {
-        throw new NotImplementedException();
+        attackRange = playerData.attackRange + 5;
+        StartCoroutine(ToggleSwordCombo(playerData.specialAttackCount));
     }
 
     private void TriggerFog()
     {
-        throw new NotImplementedException();
+        GameObject collisionFog = GameObject.Find("CollisionFog");
+        collisionFog.SetActive(true);
+        StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
     }
 
     private void TriggerSpin()
     {
-        throw new NotImplementedException();
+        GameManager gameManager = FindAnyObjectByType<GameManager>();
+        gameManager.noDamage = true;
+        StartCoroutine(ToggleSpin(playerData.specialAttackCount, gameManager));
     }
 
     private void TriggerLightning()
@@ -130,12 +138,30 @@ public class PlayerCombat : MonoBehaviour
         lightningBoltScript.ManualMode = true;
     }
 
+    IEnumerator ToggleSpin(int count, GameManager gameManager)
+    {
+        yield return new WaitForSeconds(count);
+        gameManager.noDamage = true;
+    }
+
+    IEnumerator ToggleSwordCombo(int count)
+    {
+        yield return new WaitForSeconds(count);
+        attackRange = playerData.attackRange;
+    }
+
+    IEnumerator ToggleFog(int count, GameObject collisionFog)
+    {
+        yield return new WaitForSeconds(count);
+        collisionFog.SetActive(false);
+    }
+
     public void Attack()
     {
         //Detect enemies in range of attack
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
             attackPoint.position,
-            playerData.attackRange,
+            attackRange,
             enemyLayers
         );
 

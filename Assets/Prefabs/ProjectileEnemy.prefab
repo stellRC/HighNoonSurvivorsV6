@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 7976053446739934655}
   m_Layer: 7
   m_Name: ProjectileEnemy
-  m_TagString: enemy
+  m_TagString: gunman
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

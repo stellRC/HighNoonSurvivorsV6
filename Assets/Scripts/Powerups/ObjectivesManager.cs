@@ -10,14 +10,10 @@ public class ObjectivesManager : MonoBehaviour
     [SerializeField]
     private Transform objectivePanel;
 
-    private GameManager gameManager;
-
     public Dictionary<string, bool> skillObjectives;
 
     private void Awake()
     {
-        gameManager = GetComponentInParent<GameManager>();
-
         skillObjectives = new()
         {
             { "Stay alive past noon", false },

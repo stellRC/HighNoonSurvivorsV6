@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 5215717190719706196}
   m_Layer: 7
   m_Name: BrawlerEnemyPrefab
-  m_TagString: enemy
+  m_TagString: brawler
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
