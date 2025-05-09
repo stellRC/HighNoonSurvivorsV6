@@ -13,6 +13,8 @@ public class Projectile : MonoBehaviour
 
     private Animator projectileFX;
 
+    private GameManager gameManager;
+
     // private Coroutine returnToPoolCoroutine;
     private float destroyTime;
 
@@ -33,13 +35,14 @@ public class Projectile : MonoBehaviour
 
     private void OnEnable()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
+
         returned = false;
         destroyTime = 7.0f;
         damage = 1;
 
         projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
         FlipSprite();
-        // StartCoroutine(ReturnToPoolAfterTime());
     }
 
     private void Update()
@@ -115,6 +118,14 @@ public class Projectile : MonoBehaviour
         {
             return;
         }
+    }
+
+    public void NonPlayerCollision()
+    {
+        projectileFX.SetTrigger("BulletImpact");
+        ObjectPooling.ReturnObjectToPool(gameObject);
+        gameManager.projectileCount += 1;
+        returned = true;
     }
 
     // Coroutine with designated wait time before destroying object

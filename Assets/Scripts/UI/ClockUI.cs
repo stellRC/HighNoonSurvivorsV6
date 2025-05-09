@@ -20,6 +20,8 @@ public class ClockUI : MonoBehaviour
     private float day;
     private float dayNormalized;
 
+    public float hoursFloat;
+
     public string hoursString;
     public string minutesString;
 
@@ -40,8 +42,8 @@ public class ClockUI : MonoBehaviour
         dayNormalized = day % 1f;
 
         UpdateClock();
-
-        hoursString = Mathf.Floor(dayNormalized * hoursPerDay).ToString("00");
+        hoursFloat = Mathf.Floor(dayNormalized * hoursPerDay);
+        hoursString = hoursFloat.ToString("00");
         minutesString = Mathf
             .Floor(dayNormalized * hoursPerDay % 1f * minutesPerHour)
             .ToString("00");

@@ -52,13 +52,6 @@ public class ProjectileWeapon : WeaponBase
         {
             enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
         }
-
-        // while (!enemyAnimation.animationFinished)
-        // {
-        //     enemyAnimation.IsAttacking = true;
-        // }
-
-        // enemyAnimation.IsAttacking = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

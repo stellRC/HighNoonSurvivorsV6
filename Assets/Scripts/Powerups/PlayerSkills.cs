@@ -16,10 +16,10 @@ public class PlayerSkills
     public enum SkillType
     {
         None,
-        Earthshatter,
-        Electrocute,
-        SpeedBoost,
-        ThrowOverarm
+        GroundSlam,
+        ShockHeavy,
+        Spin,
+        GunRunFire
     }
 
     private List<SkillType> unlockedSkillTypeList;

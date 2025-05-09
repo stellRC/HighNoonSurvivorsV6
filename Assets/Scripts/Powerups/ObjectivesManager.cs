@@ -10,16 +10,20 @@ public class ObjectivesManager : MonoBehaviour
     [SerializeField]
     private Transform objectivePanel;
 
+    private GameManager gameManager;
+
     public Dictionary<string, bool> skillObjectives;
 
     private void Awake()
     {
+        gameManager = GetComponentInParent<GameManager>();
+
         skillObjectives = new()
         {
-            { "Kill 10 Zombies", false },
-            { "Kill 20 Zombies", false },
-            { "Kill 30 Zombies", true },
-            { "Kill 40 Zombies", false }
+            { "Stay alive past noon", false },
+            { "Slay 5 brawlers", false },
+            { "Slay 10 gunmen", false },
+            { "Destroy 15 projectiles", false }
         };
     }
 
@@ -39,6 +43,17 @@ public class ObjectivesManager : MonoBehaviour
             else
             {
                 InstantiateCompletedObjective(key);
+            }
+        }
+    }
+
+    public void UpdateObjectiveValue(string objectiveString)
+    {
+        foreach (var (key, value) in skillObjectives)
+        {
+            if (key == objectiveString && value == false)
+            {
+                skillObjectives[objectiveString] = true;
             }
         }
     }

@@ -18,10 +18,10 @@ public class SkillTreeManager : MonoBehaviour
     private Button electroBtn;
 
     [SerializeField]
-    private Button speedBtn;
+    private Button spinBtn;
 
     [SerializeField]
-    private Button throwBtn;
+    private Button gunBtn;
 
     private Color unlockedColor;
 
@@ -35,48 +35,49 @@ public class SkillTreeManager : MonoBehaviour
     private void Awake()
     {
         objectiveManager = GetComponent<ObjectivesManager>();
+
         earthBtn.onClick.AddListener(UnlockSkillEarth);
         electroBtn.onClick.AddListener(UnlockSkillElectro);
-        speedBtn.onClick.AddListener(UnlockSkillSpeed);
-        throwBtn.onClick.AddListener(UnlockSkillThrow);
+        spinBtn.onClick.AddListener(UnlockSkillSpin);
+        gunBtn.onClick.AddListener(UnlockSkillGun);
 
         unlockedColor = Color.white;
-        chosenSpecialMove = 0;
     }
 
-    private void UnlockSkillSpeed()
+    private void UnlockSkillSpin()
     {
-        if (objectiveManager.skillObjectives["Kill 10 Zombies"])
+        if (objectiveManager.skillObjectives["Stay alive past noon"])
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SpeedBoost);
-            chosenSpecialMove = 1;
+            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
+            chosenSpecialMove = 0;
         }
     }
 
     private void UnlockSkillElectro()
     {
-        if (objectiveManager.skillObjectives["Kill 20 Zombies"])
+        if (objectiveManager.skillObjectives["Slay 5 brawlers"])
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Electrocute);
-            chosenSpecialMove = 2;
+            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GunRunFire);
+            chosenSpecialMove = 1;
         }
     }
 
     private void UnlockSkillEarth()
     {
-        if (objectiveManager.skillObjectives["Kill 30 Zombies"])
+        if (objectiveManager.skillObjectives["Slay 10 gunmen"])
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Earthshatter);
-            chosenSpecialMove = 3;
+            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
+            chosenSpecialMove = 2;
         }
     }
 
-    private void UnlockSkillThrow()
+    // Can only destroy projectiles with either fog or lightning skills
+    private void UnlockSkillGun()
     {
-        if (objectiveManager.skillObjectives["Kill 40 Zombies"])
+        if (objectiveManager.skillObjectives["Destroy 15 projectiles"])
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ThrowOverarm);
-            chosenSpecialMove = 4;
+            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
+            chosenSpecialMove = 3;
         }
     }
 
@@ -100,17 +101,17 @@ public class SkillTreeManager : MonoBehaviour
         {
             switch (skillType)
             {
-                case PlayerSkills.SkillType.Electrocute:
+                case PlayerSkills.SkillType.ShockHeavy:
                     electroBtn.GetComponent<Image>().color = unlockedColor;
                     break;
-                case PlayerSkills.SkillType.Earthshatter:
+                case PlayerSkills.SkillType.GroundSlam:
                     earthBtn.GetComponent<Image>().color = unlockedColor;
                     break;
-                case PlayerSkills.SkillType.ThrowOverarm:
-                    throwBtn.GetComponent<Image>().color = unlockedColor;
+                case PlayerSkills.SkillType.GunRunFire:
+                    gunBtn.GetComponent<Image>().color = unlockedColor;
                     break;
-                case PlayerSkills.SkillType.SpeedBoost:
-                    speedBtn.GetComponent<Image>().color = unlockedColor;
+                case PlayerSkills.SkillType.Spin:
+                    spinBtn.GetComponent<Image>().color = unlockedColor;
                     break;
                 case PlayerSkills.SkillType.None:
                     break;

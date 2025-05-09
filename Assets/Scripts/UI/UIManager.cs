@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text KillCountText;
+    private TMP_Text killCountText;
 
     private GameManager gameManager;
 
@@ -15,6 +15,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        KillCountText.text = gameManager.killCount.ToString();
+        killCountText.text = gameManager.totalCount.ToString();
     }
 }

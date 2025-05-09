@@ -14,12 +14,23 @@ public class GameManager : MonoBehaviour
 
     private ObjectivesManager objectiveManager;
 
-    public float timeCount;
-    public int killCount;
-
-    public bool isGameOver;
+    private ClockUI clockUI;
 
     private bool gameOverPanel;
+
+    [Header("Game Stats")]
+    public string timeCount;
+    public int totalCount;
+
+    public int brawlerCount;
+
+    public int gunmanCount;
+
+    public int projectileCount;
+
+    public float hoursFloat;
+
+    public bool isGameOver;
 
     private void Awake()
     {
@@ -37,11 +48,20 @@ public class GameManager : MonoBehaviour
         objectiveManager = GetComponentInChildren<ObjectivesManager>();
         gameOverManager = GetComponentInChildren<GameOverUIManager>();
         playerController = FindFirstObjectByType<PlayerController>();
+        clockUI = GetComponentInParent<ClockUI>();
     }
 
     private void Start()
     {
         skillTreeManager.SetPlayerSkills(playerController.GetPlayerSkills());
+
+        totalCount = 0;
+        brawlerCount = 0;
+        gunmanCount = 0;
+        projectileCount = 0;
+        hoursFloat = clockUI.hoursFloat;
+
+        timeCount = clockUI.hoursString + ":" + clockUI.minutesString;
     }
 
     void Update()
@@ -53,10 +73,33 @@ public class GameManager : MonoBehaviour
 
             gameOverPanel = true;
             isGameOver = false;
+
+            UpdateObjectives();
         }
         else
         {
             gameOverPanel = false;
+        }
+    }
+
+    // Update skills to unlock prior to next round
+    private void UpdateObjectives()
+    {
+        if (brawlerCount >= 5)
+        {
+            objectiveManager.UpdateObjectiveValue("Slay 5 brawlers");
+        }
+        if (gunmanCount >= 10)
+        {
+            objectiveManager.UpdateObjectiveValue("Slay 10 gunmen");
+        }
+        if (projectileCount >= 15)
+        {
+            objectiveManager.UpdateObjectiveValue("Kill 15 projectiles");
+        }
+        if (hoursFloat >= 12)
+        {
+            objectiveManager.UpdateObjectiveValue("Stay alive past noon");
         }
     }
 }

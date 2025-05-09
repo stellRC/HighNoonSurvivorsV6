@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DigitalRuby.LightningBolt;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class PlayerCombat : MonoBehaviour
 
     private MasterAnimator playerAnimator;
 
-    private int specialAnimation;
+    private int chosenSpecialMove;
     public LayerMask enemyLayers;
 
     public bool canUseSpecial;
@@ -39,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
         attackRange = playerData.attackRange;
         canUseSpecial = false;
         // isAttacking = false;
-        specialAnimation = skillTreeManager.chosenSpecialMove;
+        chosenSpecialMove = skillTreeManager.chosenSpecialMove;
         cooldownBar = FindFirstObjectByType<CooldownBar>();
         currentAttackCount = 0;
     }
@@ -63,7 +64,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (context.started)
         {
-            var animationID = Random.Range(6, 10);
+            // var animationID = Random.Range(6, 10);
             playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
         }
     }
@@ -74,12 +75,46 @@ public class PlayerCombat : MonoBehaviour
 
         if (canUseSpecial && context.started)
         {
-            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[specialAnimation]);
-            TriggerLightning();
+            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
+            CheckSpecialMove(chosenSpecialMove);
             Attack();
             cooldownBar.startDrain = true;
             currentAttackCount = 0;
         }
+    }
+
+    private void CheckSpecialMove(int chosenSpecialMove)
+    {
+        switch (chosenSpecialMove)
+        {
+            case 0:
+                TriggerSpin();
+                break;
+            case 1:
+                TriggerLightning();
+                break;
+            case 2:
+                TriggerFog();
+                break;
+            case 3:
+                TriggerProjectile();
+                break;
+        }
+    }
+
+    private void TriggerProjectile()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void TriggerFog()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void TriggerSpin()
+    {
+        throw new NotImplementedException();
     }
 
     private void TriggerLightning()

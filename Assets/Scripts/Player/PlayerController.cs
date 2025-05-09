@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour, IDoDamage
     {
         switch (e.skillType)
         {
-            case PlayerSkills.SkillType.SpeedBoost:
+            case PlayerSkills.SkillType.Spin:
                 SetMovementSpeed(5f);
                 break;
         }
@@ -41,22 +41,22 @@ public class PlayerController : MonoBehaviour, IDoDamage
     // Check if EarthShatter skill is unlocked
     public bool CanUseEarthshatter()
     {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Earthshatter);
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.GroundSlam);
     }
 
     public bool CanUseElectrocute()
     {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Electrocute);
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.ShockHeavy);
     }
 
     public bool CanUseSpeedBoost()
     {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.SpeedBoost);
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Spin);
     }
 
     public bool CanUseThrowOverarm()
     {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.ThrowOverarm);
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.GunRunFire);
     }
 
     public PlayerSkills GetPlayerSkills()

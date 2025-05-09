@@ -79,8 +79,21 @@ public class Enemy : MonoBehaviour, IDoDamage
     private void Die()
     {
         DeathAnimation();
+        UpdateStats();
         DisableComponents();
-        gameManager.killCount += 1;
+    }
+
+    private void UpdateStats()
+    {
+        gameManager.totalCount += 1;
+        if (transform.CompareTag("brawler"))
+        {
+            gameManager.brawlerCount += 1;
+        }
+        else if (transform.CompareTag("gunman"))
+        {
+            gameManager.gunmanCount += 1;
+        }
     }
 
     private void DeathAnimation()
