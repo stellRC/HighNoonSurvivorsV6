@@ -58,7 +58,15 @@ public class MasterAnimator : MonoBehaviour
         };
 
         brawlAnimation = new List<string>() { "PunchA", "PunchB", "PunchC", "KickA", "KickB" };
-        moveAnimation = new List<string>() { "Idle", "Walk", "Run", "Sprint", "DashLoop" };
+        moveAnimation = new List<string>()
+        {
+            "Idle",
+            "Walk",
+            "Run",
+            "Sprint",
+            "DashLoop",
+            "RollLoop"
+        };
         projectileAnimation = new List<string>()
         {
             "GunFire",

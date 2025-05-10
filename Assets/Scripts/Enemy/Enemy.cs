@@ -20,19 +20,25 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     private bool IsPlayingParticles;
 
+    // private float currentAliveTime;
+
+    // private float despawnTime;
+
     void Awake()
     {
         deathParticleSystem = GetComponent<ParticleSystem>();
 
         enemyAnimation = GetComponent<MasterAnimator>();
         enemyManager = FindAnyObjectByType<EnemyManager>();
+        // despawnTime = 15f;
     }
 
     void OnEnable()
     {
+        // currentAliveTime = 0;
         isDead = false;
         currentHealth = enemyData.maxHealth;
-        enemySprite.enabled = true;
+        EnableComponents();
         Physics2D.IgnoreCollision(
             GetComponent<BoxCollider2D>(),
             GetComponentInChildren<BoxCollider2D>()
@@ -41,13 +47,25 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     public void Update()
     {
+        // currentAliveTime += Time.deltaTime;
         if (IsPlayingParticles && deathParticleSystem.isStopped)
         {
-            enemyManager.SpawnMoreEnemies();
-            deathParticleSystem.Stop();
-            IsPlayingParticles = false;
+            DespawnSet();
             ReturnToPool();
         }
+
+        // if (currentAliveTime >= despawnTime && this != null)
+        // {
+        //     Debug.Log("returned to pool");
+        //     ReturnToPool();
+        // }
+    }
+
+    private void DespawnSet()
+    {
+        enemyManager.SpawnMoreEnemies();
+        deathParticleSystem.Stop();
+        IsPlayingParticles = false;
     }
 
     public void DoDamage(int damage)
@@ -115,7 +133,16 @@ public class Enemy : MonoBehaviour, IDoDamage
         {
             GetComponent<ProjectileWeapon>().enabled = false;
         }
-        GetComponent<Collider2D>().enabled = false;
+    }
+
+    private void EnableComponents()
+    {
+        GetComponent<Collider2D>().enabled = true;
+        if (GetComponent<ProjectileWeapon>() != null)
+        {
+            GetComponent<ProjectileWeapon>().enabled = true;
+        }
+        enemySprite.enabled = true;
     }
 
     // Enabled when Death animation finishes via Particle Death Animation script

@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -21,6 +23,11 @@ public class EnemyMovement : MonoBehaviour
 
     private float enemySpeed;
 
+    private Vector2 randomPosition;
+    private Vector2 currentPosition;
+
+    private Vector2 targetPosition;
+
     private void Awake()
     {
         enemyAnimation = GetComponent<MasterAnimator>();
@@ -35,6 +42,7 @@ public class EnemyMovement : MonoBehaviour
         enemyAnimation.ChangeAnimation("Walk");
         isMovingForward = true;
         enemySpeed = Random.Range(enemyData.moveSpeed, enemyData.moveSpeed + 1.5f);
+        randomPosition = RandomScreenPosition();
     }
 
     private void FixedUpdate()
@@ -82,6 +90,9 @@ public class EnemyMovement : MonoBehaviour
                 break;
             case 2:
                 ForwardAndRetreat(speed, distance);
+                break;
+            case 3:
+                MoveToRandomPosition(speed);
                 break;
         }
     }
@@ -157,6 +168,50 @@ public class EnemyMovement : MonoBehaviour
         //     isMovingForward = true;
         // }
         // }
+    }
+
+    // Check if reached target position, continue if haven't and change target if have;
+    private void MoveToRandomPosition(float speed)
+    {
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            randomPosition,
+            Time.deltaTime * speed
+        );
+
+        RollAnimation();
+
+        // Return roller enemy to pool after reached target position, stats not updated
+        currentPosition = transform.position;
+        if (currentPosition == randomPosition)
+        {
+            StartCoroutine(NewRollPosition(Random.Range(3f, 10f)));
+        }
+    }
+
+    IEnumerator NewRollPosition(float count)
+    {
+        yield return new WaitForSeconds(count);
+        DeathAnimation();
+    }
+
+    private void DeathAnimation()
+    {
+        // state animation 4 = knockback
+        enemyAnimation.ChangeAnimation(enemyAnimation.stateAnimation[4]);
+    }
+
+    private void RollAnimation()
+    {
+        enemyAnimation.ChangeAnimation(enemyAnimation.moveAnimation[5]);
+    }
+
+    // random position ANYWHERE on screen
+    private Vector2 RandomScreenPosition()
+    {
+        return Camera.main.ViewportToWorldPoint(
+            new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))
+        );
     }
 
     // Without rotation

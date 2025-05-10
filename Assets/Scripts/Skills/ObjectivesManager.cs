@@ -16,13 +16,13 @@ public class ObjectivesManager : MonoBehaviour
     {
         skillObjectives = new()
         {
-            { "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers", true },
-            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", true },
+            { "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers", false },
+            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", false },
             {
                 "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
-                true
+                false
             },
-            { "Survive noon", true }
+            { "Survive noon", false }
         };
     }
 

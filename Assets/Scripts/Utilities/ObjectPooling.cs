@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,18 +10,29 @@ public class ObjectPooling : MonoBehaviour
     private static GameObject particleSystemEmpty;
     private static GameObject projectilesEmpty;
     private static GameObject enemiesEmpty;
+    private static GameObject brawlersEmpty;
+    private static GameObject shootersEmpty;
+    private static GameObject rollersEmpty;
+
+    private int maxPoolCount;
 
     public enum PoolType
     {
         ParticleSystem,
         Projectiles,
-        Enemies,
+
+        // Enemies,
+        Brawlers,
+        Shooters,
+        Rollers,
         None
     }
 
     private void Awake()
     {
         SetupEmpty();
+
+        maxPoolCount = 15;
     }
 
     private void SetupEmpty()
@@ -35,11 +47,41 @@ public class ObjectPooling : MonoBehaviour
 
         enemiesEmpty = new GameObject("Enemy Objects");
         enemiesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        brawlersEmpty = new GameObject("Brawler Objects");
+        brawlersEmpty.transform.SetParent(enemiesEmpty.transform);
+
+        shootersEmpty = new GameObject("Shooter Objects");
+        shootersEmpty.transform.SetParent(enemiesEmpty.transform);
+
+        rollersEmpty = new GameObject("Roller Objects");
+        rollersEmpty.transform.SetParent(enemiesEmpty.transform);
     }
 
     public static PoolType PoolingType;
 
     public static List<PooledObjectInfo> ObjectPools = new();
+
+    private void Update()
+    {
+        // CullPool(projectilesEmpty);
+        // CullPool(particleSystemEmpty);
+        // CullPool(brawlersEmpty);
+        // CullPool(shootersEmpty);
+        // CullPool(rollersEmpty);
+    }
+
+    private void CullPool(GameObject pool)
+    {
+        if (
+            pool != null
+            && pool.transform.childCount > 0
+            && pool.transform.childCount > maxPoolCount
+        )
+        {
+            ReturnObjectToPool(pool.transform.GetChild(0).gameObject);
+        }
+    }
 
     public static GameObject SpawnObject(
         GameObject objectToSpawn,
@@ -105,7 +147,9 @@ public class ObjectPooling : MonoBehaviour
         {
             PoolType.ParticleSystem => particleSystemEmpty,
             PoolType.Projectiles => projectilesEmpty,
-            PoolType.Enemies => enemiesEmpty,
+            PoolType.Brawlers => brawlersEmpty,
+            PoolType.Shooters => shootersEmpty,
+            PoolType.Rollers => rollersEmpty,
             PoolType.None => null,
             _ => null,
         };

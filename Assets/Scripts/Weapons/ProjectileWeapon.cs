@@ -71,6 +71,9 @@ public class ProjectileWeapon : WeaponBase
 
     public void InstantiateProjectile(Vector2 position)
     {
+        // adjust offset
+        position = new Vector2(position.x + -.5f, position.y - .5f);
+
         ObjectPooling.SpawnObject(
             enemyData.projectilePrefab,
             position,

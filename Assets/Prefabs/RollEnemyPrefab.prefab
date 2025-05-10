@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 4445066377277658690}
   - component: {fileID: 6989411929803712618}
   - component: {fileID: 1944261365959821988}
+  - component: {fileID: 7317164290373356968}
   m_Layer: 7
   m_Name: RollEnemyPrefab
   m_TagString: brawler
@@ -448,34 +449,34 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.735849, g: 0.03818085, b: 0.5675815, a: 0.49019608}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
-        key3: {r: 0, g: 0, b: 0, a: 0}
-        key4: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 0.0014684978, g: 0, b: 0.38431373, a: 1}
+        key1: {r: 1, g: 0.5900149, b: 0.04705882, a: 1}
+        key2: {r: 0.73333335, g: 0.23966567, b: 0.1764706, a: 1}
+        key3: {r: 0.12237452, g: 0.13829915, b: 0.4716981, a: 1}
+        key4: {r: 0, g: 0, b: 0, a: 1}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 0
-        ctime1: 65535
-        ctime2: 0
-        ctime3: 0
+        ctime0: 9830
+        ctime1: 22166
+        ctime2: 35273
+        ctime3: 57440
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 44525
-        atime2: 65535
-        atime3: 0
-        atime4: 0
+        atime1: 17926
+        atime2: 27949
+        atime3: 44525
+        atime4: 65535
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_ColorSpace: -1
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumColorKeys: 4
+        m_NumAlphaKeys: 5
       minGradient:
         serializedVersion: 2
         key0: {r: 0.46226418, g: 0.29436633, b: 0.29436633, a: 1}
@@ -3907,7 +3908,8 @@ ParticleSystem:
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    m_Planes: []
+    m_Planes:
+    - {fileID: 2983557089602036116, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -4076,7 +4078,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4088,7 +4090,8 @@ ParticleSystem:
     exit: 0
     colliderQueryMode: 0
     radiusScale: 1
-    primitives: []
+    primitives:
+    - {fileID: 2983557089602036116, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -5184,3 +5187,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
+--- !u!114 &7317164290373356968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918488918944700169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8b55c86b4adef40bf22cc664456f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

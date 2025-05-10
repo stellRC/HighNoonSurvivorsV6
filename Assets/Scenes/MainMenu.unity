@@ -3897,6 +3897,7 @@ MonoBehaviour:
   clockUI: {fileID: 0}
   totalCount: 0
   brawlerCount: 0
+  rollerCount: 0
   gunmanCount: 0
   projectileCount: 0
   isGameOver: 0
@@ -7774,66 +7775,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
---- !u!1 &1190562716
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1190562719}
-  - component: {fileID: 1190562718}
-  - component: {fileID: 1190562717}
-  m_Layer: 0
-  m_Name: LevelManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1190562717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190562716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226a65960c520ac40a6a584ea0600fde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1190562718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190562716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26d3ade1ceff98148932116ecefeec55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brawlEnemy: {fileID: 11400000, guid: 2fd91468b0d03b74d80836dd72382cb5, type: 2}
-  projectileEnemy: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
-  rollingEnemy: {fileID: 0}
---- !u!4 &1190562719
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190562716}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1196379392
 GameObject:
   m_ObjectHideFlags: 0
@@ -7908,6 +7849,66 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1201413015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201413018}
+  - component: {fileID: 1201413017}
+  - component: {fileID: 1201413016}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1201413016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201413015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d3ade1ceff98148932116ecefeec55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brawlEnemy: {fileID: 11400000, guid: 2fd91468b0d03b74d80836dd72382cb5, type: 2}
+  projectileEnemy: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
+  rollingEnemy: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
+--- !u!114 &1201413017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201413015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 226a65960c520ac40a6a584ea0600fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1201413018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201413015}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.200213, y: 1.2369281, z: -0.24851921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14748,7 +14749,7 @@ SceneRoots:
   - {fileID: 38221032}
   - {fileID: 76812522}
   - {fileID: 1599325692}
-  - {fileID: 1190562719}
+  - {fileID: 1201413018}
   - {fileID: 396823603501597865}
   - {fileID: 856802434}
   - {fileID: 1349558832}

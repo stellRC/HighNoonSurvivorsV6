@@ -54,6 +54,14 @@ public class SkillTreeManager : MonoBehaviour
         isSpecialAnim = false;
     }
 
+    private void Update()
+    {
+        if (playerAnimator == null)
+        {
+            playerAnimator = FindAnyObjectByType<PlayerMovement>().playerAnimator;
+        }
+    }
+
     private void UnlockSkillSpin()
     {
         if (objectiveManager.skillObjectives["Survive noon"])

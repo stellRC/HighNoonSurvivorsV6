@@ -228,6 +228,7 @@ public class MainNavigation : MonoBehaviour
         settingsButton.SetActive(false);
         killCount.SetActive(false);
         gameOverMenu.SetActive(true);
+        worldGameCanvas.SetActive(false);
     }
 
     public void ToggleOptionsMenu()

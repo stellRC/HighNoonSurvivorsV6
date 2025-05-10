@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6918488918944700169, guid: e691aee1a150f52408f14dde05f5e92e, type: 3}
   projectilePrefab: {fileID: 4439493502084162821, guid: ffeb1c5b1fafee14aa7edd41f1c41d58, type: 3}
-  EnemyName: Roller
+  EnemyName: roller
   maxHealth: 1
   moveSpeed: 5
   distanceBetween: 10

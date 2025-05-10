@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator fxAnimator;
 
-    private MasterAnimator playerAnimator;
+    public MasterAnimator playerAnimator;
     private Rigidbody2D playerRigidBody;
 
     public bool IsFacingRight { get; set; }
