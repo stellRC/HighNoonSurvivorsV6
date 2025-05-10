@@ -8,7 +8,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Player Data")]
     public string playerName;
-    public float maxHealth;
+    public float maxHealth = 1;
 
     [Header("Enemy Movement")]
     public float moveSpeed;

@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Diagnostics;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,8 +24,9 @@ public class SkillTreeManager : MonoBehaviour
     private Button spinBtn;
 
     [SerializeField]
-    private Button gunBtn;
+    private Button swordBtn;
 
+    [SerializeField]
     private Color unlockedColor;
 
     [SerializeField]
@@ -39,9 +43,8 @@ public class SkillTreeManager : MonoBehaviour
         earthBtn.onClick.AddListener(UnlockSkillEarth);
         electroBtn.onClick.AddListener(UnlockSkillElectro);
         spinBtn.onClick.AddListener(UnlockSkillSpin);
-        gunBtn.onClick.AddListener(UnlockSwordCombo);
+        swordBtn.onClick.AddListener(UnlockSwordCombo);
 
-        unlockedColor = Color.white;
         chosenSpecialMove = -1;
     }
 
@@ -49,10 +52,14 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (objectiveManager.skillObjectives["Survive noon"])
         {
+            TransformReset();
+            TransformScale(spinBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
             chosenSpecialMove = 0;
+            RebindAnimator(spinBtn);
             GameManager.Instance.canUseSpecial = true;
         }
+        else { }
     }
 
     private void UnlockSwordCombo()
@@ -63,8 +70,11 @@ public class SkillTreeManager : MonoBehaviour
             ]
         )
         {
+            TransformReset();
+            TransformScale(swordBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
             chosenSpecialMove = 1;
+            RebindAnimator(swordBtn);
             GameManager.Instance.canUseSpecial = true;
         }
     }
@@ -77,8 +87,11 @@ public class SkillTreeManager : MonoBehaviour
             ]
         )
         {
+            TransformReset();
+            TransformScale(electroBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
             chosenSpecialMove = 2;
+            RebindAnimator(electroBtn);
             GameManager.Instance.canUseSpecial = true;
         }
     }
@@ -92,8 +105,11 @@ public class SkillTreeManager : MonoBehaviour
             ]
         )
         {
+            TransformReset();
+            TransformScale(earthBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
             chosenSpecialMove = 3;
+            RebindAnimator(earthBtn);
             GameManager.Instance.canUseSpecial = true;
         }
     }
@@ -125,7 +141,7 @@ public class SkillTreeManager : MonoBehaviour
                     earthBtn.GetComponent<Image>().color = unlockedColor;
                     break;
                 case PlayerSkills.SkillType.SwordCombo:
-                    gunBtn.GetComponent<Image>().color = unlockedColor;
+                    swordBtn.GetComponent<Image>().color = unlockedColor;
                     break;
                 case PlayerSkills.SkillType.Spin:
                     spinBtn.GetComponent<Image>().color = unlockedColor;
@@ -134,5 +150,26 @@ public class SkillTreeManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    // Rebind animations to fix animations not playing on enable
+    private void RebindAnimator(Button button)
+    {
+        Animator animator = button.gameObject.GetComponentInChildren<Animator>();
+        animator.Rebind();
+        animator.Update(0f);
+    }
+
+    private void TransformScale(Button button)
+    {
+        button.transform.DOScale(1.1f, 0.25f).SetUpdate(true);
+    }
+
+    private void TransformReset()
+    {
+        spinBtn.transform.DOScale(1f, 0.15f).SetUpdate(true);
+        electroBtn.transform.DOScale(1f, 0.15f).SetUpdate(true);
+        spinBtn.transform.DOScale(1f, 0.15f).SetUpdate(true);
+        swordBtn.transform.DOScale(1f, 0.15f).SetUpdate(true);
     }
 }

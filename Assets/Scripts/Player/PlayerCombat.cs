@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using DigitalRuby.LightningBolt;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -12,6 +13,8 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField]
     private Transform attackPoint;
+
+    private CinemachineImpulseSource impulseSource;
 
     private SkillTreeManager skillTreeManager;
 
@@ -37,6 +40,7 @@ public class PlayerCombat : MonoBehaviour
     {
         playerAnimator = GetComponent<MasterAnimator>();
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
         triggerSpin = false;
     }
 
@@ -123,6 +127,7 @@ public class PlayerCombat : MonoBehaviour
     private void TriggerSwordCombo()
     {
         attackRange = playerData.attackRange + 5;
+        CameraShake.instance.ScreenShakeFromProfile(3, impulseSource);
         StartCoroutine(ToggleSwordCombo(playerData.specialAttackCount));
     }
 
@@ -131,6 +136,7 @@ public class PlayerCombat : MonoBehaviour
     {
         GameManager.Instance.noDamage = true;
         playerAnimator.noDamage = true;
+        CameraShake.instance.ScreenShakeFromProfile(1, impulseSource);
         StartCoroutine(ToggleSpin(playerData.specialAttackCount));
     }
 
@@ -140,6 +146,7 @@ public class PlayerCombat : MonoBehaviour
         LightningBoltScript lightningBoltScript = FindFirstObjectByType<LightningBoltScript>();
         lightningBoltScript.ManualMode = false;
         playerAnimator.isShocking = true;
+        CameraShake.instance.ScreenShakeFromProfile(0, impulseSource);
         StartCoroutine(ToggleLightning(playerData.specialAttackCount, lightningBoltScript));
     }
 
@@ -149,7 +156,7 @@ public class PlayerCombat : MonoBehaviour
         FogController collisionFog = FindAnyObjectByType<FogController>();
         collisionFog.isPlaying = true;
         isPopping = true;
-
+        CameraShake.instance.ScreenShakeFromProfile(2, impulseSource);
         StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
     }
 

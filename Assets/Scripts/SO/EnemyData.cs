@@ -9,7 +9,7 @@ public class EnemyData : ScriptableObject
 
     [Header("Enemy Data")]
     public string EnemyName;
-    public float maxHealth;
+    public float maxHealth = 1;
 
     [Header("Enemy Movement")]
     public float moveSpeed;
