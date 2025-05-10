@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     private CooldownBar cooldownBar;
 
-    private ClockUI clockUI;
+    public ClockUI clockUI;
 
     private bool gameOverPanel;
 
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public int totalCount;
 
     public int brawlerCount;
+    public int rollerCount;
 
     public int gunmanCount;
 
@@ -104,6 +105,7 @@ public class GameManager : MonoBehaviour
     {
         playerController = FindAnyObjectByType<PlayerController>();
         noDamage = false;
+        skillTreeManager.isSpecialAnim = false;
     }
 
     // Reset values when main menu is loaded during or after game via return to main menu button

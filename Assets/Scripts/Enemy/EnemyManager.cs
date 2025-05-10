@@ -8,6 +8,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private EnemyData projectileEnemy;
 
+    [SerializeField]
+    private EnemyData rollingEnemy;
+
     private Vector2 randomPositionOnScreen;
 
     private int enemySpawnRate;
@@ -20,17 +23,26 @@ public class EnemyManager : MonoBehaviour
 
     private float brawlerSpawnInterval;
 
+    private float rollerSpawnInterval;
+
+    private float currentWaveTime;
+    private float finalWaveTime;
+
     void Start()
     {
         SpawnMoreEnemies();
         lastSpawnPosition = new Vector2(2, 2);
         projectileSpawnInterval = 20f;
         brawlerSpawnInterval = 10f;
+        rollerSpawnInterval = 15f;
+
+        finalWaveTime = 2f;
     }
 
     void Update()
     {
         currentSpawnTime += Time.deltaTime;
+        currentWaveTime += Time.deltaTime;
 
         if (currentSpawnTime >= projectileSpawnInterval)
         {
@@ -41,13 +53,30 @@ public class EnemyManager : MonoBehaviour
         {
             TimedSpawn(brawlEnemy, brawlerSpawnInterval);
         }
+
+        if (currentSpawnTime >= rollerSpawnInterval)
+        {
+            TimedSpawn(rollingEnemy, rollerSpawnInterval);
+        }
+
+        if (GameManager.Instance.clockUI.hoursFloat > 12 && currentWaveTime >= finalWaveTime)
+        {
+            SpawnFinalWave();
+        }
+    }
+
+    private void SpawnFinalWave()
+    {
+        PlaceEnemy(projectileEnemy);
+        PlaceEnemy(brawlEnemy);
+        currentWaveTime = 0;
     }
 
     private void TimedSpawn(EnemyData enemyData, float spawnInterval)
     {
         PlaceEnemy(enemyData);
         currentSpawnTime = 0;
-        spawnInterval = Random.Range(15f, 25f);
+        spawnInterval = Random.Range(10f, 25f);
     }
 
     public void SpawnMoreEnemies()

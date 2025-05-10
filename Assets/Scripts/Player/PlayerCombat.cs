@@ -81,7 +81,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !skillTreeManager.isSpecialAnim)
         {
             // var animationID = Random.Range(6, 10);
             // playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);

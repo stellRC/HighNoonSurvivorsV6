@@ -45,7 +45,11 @@ public class LightningCollision : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         // If a missile hits this object
-        if (collision.transform.CompareTag("brawler") || collision.transform.CompareTag("gunman"))
+        if (
+            collision.transform.CompareTag("brawler")
+            || collision.transform.CompareTag("gunman")
+            || collision.transform.CompareTag("roller")
+        )
         {
             collision.GetComponent<Enemy>().DoDamage(1);
         }

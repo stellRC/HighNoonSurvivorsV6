@@ -13,6 +13,9 @@ public class SkillTreeManager : MonoBehaviour
 
     private PlayerSkills playerSkills;
 
+    [SerializeField]
+    private MasterAnimator playerAnimator;
+
     [Header("Skill Buttons")]
     [SerializeField]
     private Button earthBtn;
@@ -36,6 +39,8 @@ public class SkillTreeManager : MonoBehaviour
 
     public int chosenSpecialMove;
 
+    public bool isSpecialAnim;
+
     private void Awake()
     {
         objectiveManager = GetComponent<ObjectivesManager>();
@@ -46,6 +51,7 @@ public class SkillTreeManager : MonoBehaviour
         swordBtn.onClick.AddListener(UnlockSwordCombo);
 
         chosenSpecialMove = -1;
+        isSpecialAnim = false;
     }
 
     private void UnlockSkillSpin()
@@ -56,7 +62,7 @@ public class SkillTreeManager : MonoBehaviour
             TransformScale(spinBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
             chosenSpecialMove = 0;
-            RebindAnimator(spinBtn);
+            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
             GameManager.Instance.canUseSpecial = true;
         }
         else { }
@@ -74,8 +80,9 @@ public class SkillTreeManager : MonoBehaviour
             TransformScale(swordBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
             chosenSpecialMove = 1;
-            RebindAnimator(swordBtn);
+            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
             GameManager.Instance.canUseSpecial = true;
+            isSpecialAnim = true;
         }
     }
 
@@ -91,8 +98,9 @@ public class SkillTreeManager : MonoBehaviour
             TransformScale(electroBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
             chosenSpecialMove = 2;
-            RebindAnimator(electroBtn);
+            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
             GameManager.Instance.canUseSpecial = true;
+            isSpecialAnim = true;
         }
     }
 
@@ -109,8 +117,9 @@ public class SkillTreeManager : MonoBehaviour
             TransformScale(earthBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
             chosenSpecialMove = 3;
-            RebindAnimator(earthBtn);
+            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
             GameManager.Instance.canUseSpecial = true;
+            isSpecialAnim = true;
         }
     }
 
@@ -153,12 +162,7 @@ public class SkillTreeManager : MonoBehaviour
     }
 
     // Rebind animations to fix animations not playing on enable
-    private void RebindAnimator(Button button)
-    {
-        Animator animator = button.gameObject.GetComponentInChildren<Animator>();
-        animator.Rebind();
-        animator.Update(0f);
-    }
+
 
     private void TransformScale(Button button)
     {

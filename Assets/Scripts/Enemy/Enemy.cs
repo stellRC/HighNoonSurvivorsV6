@@ -85,15 +85,19 @@ public class Enemy : MonoBehaviour, IDoDamage
         GameManager.Instance.totalCount += 1;
         if (transform.CompareTag("brawler"))
         {
-            GameManager.Instance.brawlerCount += 1;
+            GameManager.Instance.brawlerCount++;
         }
         else if (transform.CompareTag("gunman"))
         {
-            GameManager.Instance.gunmanCount += 1;
+            GameManager.Instance.gunmanCount++;
+        }
+        else if (transform.CompareTag("roller"))
+        {
+            GameManager.Instance.rollerCount++;
         }
     }
 
-    private void DeathAnimation()
+    public void DeathAnimation()
     {
         enemyAnimation.ChangeAnimation(enemyAnimation.stateAnimation[4]);
         EnableParticles();

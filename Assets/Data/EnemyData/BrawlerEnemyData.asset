@@ -18,7 +18,7 @@ MonoBehaviour:
   maxHealth: 1
   moveSpeed: 2
   distanceBetween: 3
-  attackDistance: 1
+  attackDistance: 2
   minimumDistance: 2
   movementPatternID: 1
   movementSpeedID: 2

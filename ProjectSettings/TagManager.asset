@@ -8,6 +8,7 @@ TagManager:
   - enemy
   - gunman
   - brawler
+  - roller
   layers:
   - Default
   - TransparentFX
