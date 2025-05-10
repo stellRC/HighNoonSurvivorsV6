@@ -16,6 +16,9 @@ public class GameOverUIManager : MonoBehaviour
     private TMP_Text gunmanCountText;
 
     [SerializeField]
+    private TMP_Text rollerCountText;
+
+    [SerializeField]
     private TMP_Text timeText;
 
     private ClockUI clockUI;
@@ -28,9 +31,10 @@ public class GameOverUIManager : MonoBehaviour
     public void OnGameOver()
     {
         totalCountText.text = "Total Enemies: " + GameManager.Instance.totalCount;
-        brawlerCountText.text = "Total Brawlers: " + GameManager.Instance.brawlerCount;
-        projectileCountText.text = "Total Projectiles: " + GameManager.Instance.projectileCount;
-        gunmanCountText.text = "Total Shooters: " + GameManager.Instance.gunmanCount;
+        brawlerCountText.text = "Brawlers: " + GameManager.Instance.brawlerCount;
+        rollerCountText.text = "Rollers" + GameManager.Instance.rollerCount;
+        projectileCountText.text = "Projectiles: " + GameManager.Instance.projectileCount;
+        gunmanCountText.text = "Shooters: " + GameManager.Instance.gunmanCount;
         timeText.text = "Time Survived: " + clockUI.hoursString + ":" + clockUI.minutesString;
     }
 }
