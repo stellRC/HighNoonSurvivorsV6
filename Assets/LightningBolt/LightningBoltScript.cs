@@ -357,11 +357,15 @@ namespace DigitalRuby.LightningBolt
             }
             if (EndObject == null)
             {
-                end = EndPosition;
+                var playerPosition = FindAnyObjectByType<PlayerMovement>();
+                end = playerPosition.transform.position + EndPosition;
+                // end = EndPosition;
             }
             else
             {
-                end = EndObject.transform.position + EndPosition;
+                var playerPosition = FindAnyObjectByType<PlayerMovement>();
+                end = playerPosition.transform.position + EndPosition;
+                // end = EndObject.transform.position + EndPosition;
             }
             startIndex = 0;
             GenerateLightningBolt(start, end, Generations, Generations, 0.0f);

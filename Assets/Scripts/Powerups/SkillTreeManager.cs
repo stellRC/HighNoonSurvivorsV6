@@ -51,34 +51,50 @@ public class SkillTreeManager : MonoBehaviour
         {
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
             chosenSpecialMove = 0;
+            GameManager.Instance.canUseSpecial = true;
         }
     }
 
     private void UnlockSwordCombo()
     {
-        if (objectiveManager.skillObjectives["Slay 5 brawlers"])
+        if (
+            objectiveManager.skillObjectives[
+                "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers"
+            ]
+        )
         {
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
             chosenSpecialMove = 1;
+            GameManager.Instance.canUseSpecial = true;
         }
     }
 
     private void UnlockSkillElectro()
     {
-        if (objectiveManager.skillObjectives["Slay 10 gunmen"])
+        if (
+            objectiveManager.skillObjectives[
+                "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen"
+            ]
+        )
         {
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
             chosenSpecialMove = 2;
+            GameManager.Instance.canUseSpecial = true;
         }
     }
 
     // Can only destroy projectiles with either fog or lightning skills
     private void UnlockSkillEarth()
     {
-        if (objectiveManager.skillObjectives["Destroy 15 projectiles"])
+        if (
+            objectiveManager.skillObjectives[
+                "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles"
+            ]
+        )
         {
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
             chosenSpecialMove = 3;
+            GameManager.Instance.canUseSpecial = true;
         }
     }
 

@@ -22,7 +22,7 @@ public class CooldownBar : MonoBehaviour
 
     public float currentCool;
 
-    private GameObject playerCharacter;
+    private PlayerMovement playerCharacter;
 
     public bool startRefill;
 
@@ -30,14 +30,15 @@ public class CooldownBar : MonoBehaviour
 
     private void Awake()
     {
-        cooldownBarFillImage.fillAmount = 0f;
-        cooldownBarTrailingFillImage.fillAmount = 0f;
+        playerCharacter = FindAnyObjectByType<PlayerMovement>();
+        ResetValues();
     }
 
-    private void Start()
+    public void ResetValues()
     {
         currentCool = 0;
-        playerCharacter = GameObject.Find("PlayerCharacter");
+        cooldownBarFillImage.fillAmount = 0f;
+        cooldownBarTrailingFillImage.fillAmount = 0f;
     }
 
     private void Update()
@@ -45,7 +46,7 @@ public class CooldownBar : MonoBehaviour
         // Assign transform when player is destroyed when loading scene
         if (playerCharacter == null)
         {
-            playerCharacter = GameObject.Find("PlayerCharacter");
+            playerCharacter = FindAnyObjectByType<PlayerMovement>();
         }
 
         barTransform.position = new Vector2(

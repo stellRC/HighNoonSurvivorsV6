@@ -13,30 +13,30 @@ public class PlayerController : MonoBehaviour, IDoDamage
     {
         // instance of player skills
         playerSkills = new PlayerSkills();
-        playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
+        // playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         playerAnimator = GetComponent<MasterAnimator>();
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
     }
 
-    private void PlayerSkills_OnSkillUnlocked(
-        object sender,
-        PlayerSkills.OnSkillUnlockedEventArgs e
-    )
-    {
-        switch (e.skillType)
-        {
-            case PlayerSkills.SkillType.Spin:
-                SetMovementSpeed(5f);
-                break;
-        }
-    }
+    // private void PlayerSkills_OnSkillUnlocked(
+    //     object sender,
+    //     PlayerSkills.OnSkillUnlockedEventArgs e
+    // )
+    // {
+    //     switch (e.skillType)
+    //     {
+    //         case PlayerSkills.SkillType.Spin:
+    //             SetMovementSpeed(5f);
+    //             break;
+    //     }
+    // }
 
-    // Increase movement speed with upgrade
-    private void SetMovementSpeed(float speed)
-    {
-        throw new NotImplementedException();
-    }
+    // // Increase movement speed with upgrade
+    // private void SetMovementSpeed(float speed)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
     public bool CanUseEarthshatter()
     {

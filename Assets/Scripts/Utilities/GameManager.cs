@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,20 +9,18 @@ public class GameManager : MonoBehaviour
 
     private GameOverUIManager gameOverManager;
 
-    private PlayerController playerController;
+    public PlayerController playerController;
 
     private SkillTreeManager skillTreeManager;
 
     private ObjectivesManager objectiveManager;
-
-    private PlayerCombat playerCombat;
+    private CooldownBar cooldownBar;
 
     private ClockUI clockUI;
 
     private bool gameOverPanel;
 
     [Header("Game Stats")]
-    public string timeCount;
     public int totalCount;
 
     public int brawlerCount;
@@ -30,11 +29,18 @@ public class GameManager : MonoBehaviour
 
     public int projectileCount;
 
-    public float hoursFloat;
-
     public bool isGameOver;
 
     public bool noDamage;
+
+    public bool canUseSpecial;
+
+    [Header("Lvl Data")]
+    public List<LevelData> LevelDataList = new();
+
+    public int levelNumber;
+
+    public LevelData levelData;
 
     private void Awake()
     {
@@ -51,23 +57,21 @@ public class GameManager : MonoBehaviour
         skillTreeManager = GetComponentInChildren<SkillTreeManager>();
         objectiveManager = GetComponentInChildren<ObjectivesManager>();
         gameOverManager = GetComponentInChildren<GameOverUIManager>();
-        playerController = FindFirstObjectByType<PlayerController>();
-        playerCombat = FindFirstObjectByType<PlayerCombat>();
+        cooldownBar = GetComponent<CooldownBar>();
         clockUI = GetComponentInChildren<ClockUI>();
-        noDamage = false;
+        playerController = FindAnyObjectByType<PlayerController>();
+
+        ResetValuesOnLoad();
+        LevelCycle();
+
+        // Value is updated when skills are unlocked and remains true when level ends
+        canUseSpecial = false;
     }
 
     private void Start()
     {
+        ResetValues();
         skillTreeManager.SetPlayerSkills(playerController.GetPlayerSkills());
-
-        totalCount = 0;
-        brawlerCount = 0;
-        gunmanCount = 0;
-        projectileCount = 0;
-        hoursFloat = clockUI.hoursFloat;
-
-        timeCount = clockUI.hoursString + ":" + clockUI.minutesString;
     }
 
     void Update()
@@ -88,22 +92,52 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update skills to unlock prior to next round
+    private void LevelCycle()
+    {
+        levelData = LevelDataList[0];
+    }
+
+    // Reset reference values after new game scene loads
+    public void ResetValuesOnLoad()
+    {
+        playerController = FindAnyObjectByType<PlayerController>();
+    }
+
+    // Reset values when main menu is loaded during or after game via return to main menu button
+    public void ResetValues()
+    {
+        totalCount = 0;
+        brawlerCount = 0;
+        gunmanCount = 0;
+        projectileCount = 0;
+        noDamage = false;
+
+        cooldownBar.ResetValues();
+    }
+
+    // Check if skills are unlocked at end of level for use in next level
     private void UpdateObjectives()
     {
-        if (brawlerCount >= 1)
+        Debug.Log(clockUI.hoursFloat);
+        if (brawlerCount >= levelData.maxBrawlerCount)
         {
-            objectiveManager.UpdateObjectiveValue("Slay 5 brawlers");
+            objectiveManager.UpdateObjectiveValue(
+                "Slay " + levelData.maxBrawlerCount + " brawlers"
+            );
         }
-        if (gunmanCount >= 1)
+        if (gunmanCount >= levelData.maxGunmanCount)
         {
-            objectiveManager.UpdateObjectiveValue("Slay 10 gunmen");
+            objectiveManager.UpdateObjectiveValue("Slay " + levelData.maxGunmanCount + " gunmen");
         }
-        if (projectileCount >= 1)
+        if (projectileCount >= levelData.maxProjectileCount)
         {
-            objectiveManager.UpdateObjectiveValue("Destroy 15 projectiles");
+            objectiveManager.UpdateObjectiveValue(
+                "Destroy " + levelData.maxProjectileCount + " projectiles"
+            );
         }
-        if (hoursFloat >= 12)
+
+        // The value of "noon" changes depending on clock settings
+        if (clockUI.hoursFloat >= levelData.maxHourCount)
         {
             objectiveManager.UpdateObjectiveValue("Survive noon");
         }

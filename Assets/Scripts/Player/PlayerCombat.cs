@@ -29,6 +29,11 @@ public class PlayerCombat : MonoBehaviour
     private float attackRange;
 
     public bool triggerSpin;
+    private float popEnemyTime;
+
+    private bool canPopEnemy;
+
+    private int popEnemyCount;
 
     // private bool isAttacking;
 
@@ -47,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
         chosenSpecialMove = skillTreeManager.chosenSpecialMove;
         cooldownBar = FindFirstObjectByType<CooldownBar>();
         currentAttackCount = 0;
+        canPopEnemy = false;
     }
 
     void Update()
@@ -62,15 +68,31 @@ public class PlayerCombat : MonoBehaviour
         {
             canUseSpecial = false;
         }
+
+        if (canPopEnemy)
+        {
+            popEnemyTime += Time.deltaTime;
+            if (popEnemyTime >= 1)
+            {
+                PopEnemy();
+                popEnemyCount++;
+                popEnemyTime = 0;
+            }
+
+            if (popEnemyCount >= playerData.specialAttackCount)
+            {
+                canPopEnemy = false;
+            }
+        }
     }
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        // if (context.started)
-        // {
-        // var animationID = Random.Range(6, 10);
-        playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
-        // }
+        if (context.started)
+        {
+            // var animationID = Random.Range(6, 10);
+            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
+        }
     }
 
     public void SpecialAttack(InputAction.CallbackContext context)
@@ -106,31 +128,37 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    // Player's attack range increases
     private void TriggerSwordCombo()
     {
         attackRange = playerData.attackRange + 5;
         StartCoroutine(ToggleSwordCombo(playerData.specialAttackCount));
     }
 
-    private void TriggerFog()
-    {
-        FogController collisionFog = FindAnyObjectByType<FogController>();
-        collisionFog.isPlaying = true;
-        StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
-    }
-
+    // Player becomes impervious to damage
     private void TriggerSpin()
     {
-        GameManager gameManager = FindAnyObjectByType<GameManager>();
-        gameManager.noDamage = true;
-        StartCoroutine(ToggleSpin(playerData.specialAttackCount, gameManager));
+        GameManager.Instance.noDamage = true;
+        StartCoroutine(ToggleSpin(playerData.specialAttackCount));
     }
 
+    // Destroy enemies positioned between player and clock
     private void TriggerLightning()
     {
         LightningBoltScript lightningBoltScript = FindFirstObjectByType<LightningBoltScript>();
         lightningBoltScript.ManualMode = false;
         StartCoroutine(ToggleLightning(playerData.specialAttackCount, lightningBoltScript));
+    }
+
+    // Randomly destroy enemies every second for length of special attack
+    private void TriggerFog()
+    {
+        FogController collisionFog = FindAnyObjectByType<FogController>();
+        collisionFog.isPlaying = true;
+        canPopEnemy = true;
+        popEnemyCount = 0;
+
+        StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
     }
 
     IEnumerator ToggleLightning(int count, LightningBoltScript lightningBoltScript)
@@ -139,10 +167,10 @@ public class PlayerCombat : MonoBehaviour
         lightningBoltScript.ManualMode = true;
     }
 
-    IEnumerator ToggleSpin(int count, GameManager gameManager)
+    IEnumerator ToggleSpin(int count)
     {
         yield return new WaitForSeconds(count);
-        gameManager.noDamage = true;
+        GameManager.Instance.noDamage = false;
     }
 
     IEnumerator ToggleSwordCombo(int count)
@@ -155,6 +183,21 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(count);
         collisionFog.isPlaying = false;
+    }
+
+    private void PopEnemy()
+    {
+        // enemy pop time is one for every second in special attack count
+        var enemy = FindFirstObjectByType<Enemy>();
+        if (enemy != null)
+        {
+            enemy.GetComponent<Enemy>().DoDamage(playerData.attackDamage);
+            currentAttackCount++;
+        }
+        else
+        {
+            PopEnemy();
+        }
     }
 
     public void Attack()

@@ -16,25 +16,38 @@ public class EnemyManager : MonoBehaviour
 
     private float currentSpawnTime;
 
-    private float spawnInterval;
+    private float projectileSpawnInterval;
+
+    private float brawlerSpawnInterval;
 
     void Start()
     {
         SpawnMoreEnemies();
         lastSpawnPosition = new Vector2(2, 2);
-        spawnInterval = 20f;
+        projectileSpawnInterval = 20f;
+        brawlerSpawnInterval = 10f;
     }
 
     void Update()
     {
         currentSpawnTime += Time.deltaTime;
 
-        if (currentSpawnTime >= spawnInterval)
+        if (currentSpawnTime >= projectileSpawnInterval)
         {
-            PlaceEnemy(projectileEnemy);
-            currentSpawnTime = 0;
-            spawnInterval = Random.Range(15f, 25f);
+            TimedSpawn(projectileEnemy, projectileSpawnInterval);
         }
+
+        if (currentSpawnTime >= brawlerSpawnInterval)
+        {
+            TimedSpawn(brawlEnemy, brawlerSpawnInterval);
+        }
+    }
+
+    private void TimedSpawn(EnemyData enemyData, float spawnInterval)
+    {
+        PlaceEnemy(enemyData);
+        currentSpawnTime = 0;
+        spawnInterval = Random.Range(15f, 25f);
     }
 
     public void SpawnMoreEnemies()
@@ -65,7 +78,13 @@ public class EnemyManager : MonoBehaviour
         randomPositionOnScreen = Camera.main.ViewportToWorldPoint(
             new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))
         );
-        if (lastSpawnPosition == randomPositionOnScreen)
+        var playerPosition = FindAnyObjectByType<PlayerMovement>().transform.position;
+
+        // prevent spawning on top of player
+        if (
+            lastSpawnPosition == randomPositionOnScreen
+            || randomPositionOnScreen == (Vector2)playerPosition
+        )
         {
             RandomScreenCornerPosition();
         }

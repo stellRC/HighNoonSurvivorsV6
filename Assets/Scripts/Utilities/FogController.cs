@@ -9,8 +9,6 @@ public class FogController : MonoBehaviour
 
     public bool isPlaying;
 
-    private Vector2 colliderPosition;
-
     void Awake()
     {
         playerPosition = FindFirstObjectByType<PlayerMovement>();
@@ -32,11 +30,7 @@ public class FogController : MonoBehaviour
 
         if (vfxRenderer != null)
         {
-            if (colliderPosition == null)
-            {
-                colliderPosition = GameObject.FindGameObjectWithTag("brawler").transform.position;
-            }
-            vfxRenderer.SetVector3("ColliderPosition", colliderPosition);
+            vfxRenderer.SetVector3("ColliderPosition", playerPosition.transform.position);
 
             if (isPlaying)
             {

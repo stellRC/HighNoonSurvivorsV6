@@ -8,8 +8,6 @@ public class Enemy : MonoBehaviour, IDoDamage
     [SerializeField]
     private SpriteRenderer enemySprite;
 
-    private GameManager gameManager;
-
     private EnemyManager enemyManager;
 
     private ParticleSystem deathParticleSystem;
@@ -24,7 +22,6 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     void Awake()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
         deathParticleSystem = GetComponent<ParticleSystem>();
 
         enemyAnimation = GetComponent<MasterAnimator>();
@@ -35,7 +32,7 @@ public class Enemy : MonoBehaviour, IDoDamage
     {
         isDead = false;
         currentHealth = enemyData.maxHealth;
-
+        enemySprite.enabled = true;
         Physics2D.IgnoreCollision(
             GetComponent<BoxCollider2D>(),
             GetComponentInChildren<BoxCollider2D>()
@@ -85,14 +82,14 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     private void UpdateStats()
     {
-        gameManager.totalCount += 1;
+        GameManager.Instance.totalCount += 1;
         if (transform.CompareTag("brawler"))
         {
-            gameManager.brawlerCount += 1;
+            GameManager.Instance.brawlerCount += 1;
         }
         else if (transform.CompareTag("gunman"))
         {
-            gameManager.gunmanCount += 1;
+            GameManager.Instance.gunmanCount += 1;
         }
     }
 
@@ -126,7 +123,7 @@ public class Enemy : MonoBehaviour, IDoDamage
         if (!IsPlayingParticles)
         {
             deathParticleSystem.Play();
-            Destroy(enemySprite);
+            enemySprite.enabled = false;
             IsPlayingParticles = true;
         }
     }

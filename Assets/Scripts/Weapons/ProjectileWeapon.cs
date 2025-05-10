@@ -61,7 +61,7 @@ public class ProjectileWeapon : WeaponBase
         // Damage Enemy
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
-        if (collision.gameObject.name == "PlayerCharacter")
+        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
         {
             Debug.Log("player hit");
             iDoDamage?.DoDamage(damage);

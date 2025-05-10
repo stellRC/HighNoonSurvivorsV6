@@ -9,8 +9,6 @@ public class ClockUI : MonoBehaviour
 
     private const float startingTime = 6f; //6:00am
 
-    private GameManager gameManager;
-
     [SerializeField]
     private Transform clockHourHandTransform;
 
@@ -27,14 +25,12 @@ public class ClockUI : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = GetComponentInParent<GameManager>();
-
         day = startingTime / hoursPerDay;
     }
 
     private void Update()
     {
-        if (!MainNavigation.isPaused || !gameManager.isGameOver)
+        if (!MainNavigation.isPaused || !GameManager.Instance.isGameOver)
         {
             day += Time.deltaTime / secondsPerGameDay;
         }

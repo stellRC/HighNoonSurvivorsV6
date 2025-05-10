@@ -9,7 +9,7 @@ public class PlayerDeathAnim : StateMachineBehaviour
         int layerIndex
     )
     {
-        FindFirstObjectByType<GameManager>().isGameOver = true;
+        GameManager.Instance.isGameOver = true;
         // animator.enabled = false;
     }
 }

@@ -13,8 +13,6 @@ public class Projectile : MonoBehaviour
 
     private Animator projectileFX;
 
-    private GameManager gameManager;
-
     // private Coroutine returnToPoolCoroutine;
     private float destroyTime;
 
@@ -35,8 +33,6 @@ public class Projectile : MonoBehaviour
 
     private void OnEnable()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
-
         returned = false;
         destroyTime = 7.0f;
         damage = 1;
@@ -104,7 +100,7 @@ public class Projectile : MonoBehaviour
     {
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
-        if (collision.gameObject.name == "PlayerCharacter")
+        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
         {
             projectileFX.SetTrigger("BulletImpact");
 
@@ -124,7 +120,7 @@ public class Projectile : MonoBehaviour
     {
         projectileFX.SetTrigger("BulletImpact");
         ObjectPooling.ReturnObjectToPool(gameObject);
-        gameManager.projectileCount += 1;
+        GameManager.Instance.projectileCount += 1;
         returned = true;
     }
 

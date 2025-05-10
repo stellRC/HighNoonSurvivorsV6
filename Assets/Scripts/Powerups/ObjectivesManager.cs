@@ -10,20 +10,28 @@ public class ObjectivesManager : MonoBehaviour
     [SerializeField]
     private Transform objectivePanel;
 
-    public Dictionary<string, bool> skillObjectives;
+    public Dictionary<string, bool> skillObjectives = new();
 
     private void Awake()
     {
-        skillObjectives = new()
-        {
-            { "Slay 5 brawlers", false },
-            { "Slay 10 gunmen", false },
-            { "Destroy 15 projectiles", false },
-            { "Survive noon", false }
-        };
+        skillObjectives.Add(
+            "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers",
+            false
+        );
+        skillObjectives.Add(
+            "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen",
+            false
+        );
+        skillObjectives.Add(
+            "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
+            true
+        );
+        skillObjectives.Add("Survive noon", false);
     }
 
-    private void Start()
+    private void Start() { }
+
+    private void OnEnable()
     {
         CheckObjectiveValue();
     }
@@ -72,6 +80,7 @@ public class ObjectivesManager : MonoBehaviour
 
     private void InstantiateObjective(string objective)
     {
+        Debug.Log("objective: " + objective);
         objectivePrefab.GetComponent<TMP_Text>().text = objective;
         objectivePrefab.GetComponent<TMP_Text>().fontStyle = FontStyles.Normal;
         Instantiate(objectivePrefab, objectivePanel);

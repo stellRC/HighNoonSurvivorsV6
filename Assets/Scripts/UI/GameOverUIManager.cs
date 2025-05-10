@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameOverUIManager : MonoBehaviour
 {
-    private GameManager gameManager;
-
     [SerializeField]
     private TMP_Text totalCountText;
 
@@ -20,17 +18,19 @@ public class GameOverUIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text timeText;
 
+    private ClockUI clockUI;
+
     void Awake()
     {
-        gameManager = GetComponentInParent<GameManager>();
+        clockUI = FindAnyObjectByType<ClockUI>();
     }
 
     public void OnGameOver()
     {
-        totalCountText.text = "Total Enemies: " + gameManager.totalCount;
-        brawlerCountText.text = "Total Brawlers: " + gameManager.brawlerCount;
-        projectileCountText.text = "Total Projectiles: " + gameManager.projectileCount;
-        gunmanCountText.text = "Total Shooters: " + gameManager.gunmanCount;
-        timeText.text = "Time Survived: " + gameManager.timeCount;
+        totalCountText.text = "Total Enemies: " + GameManager.Instance.totalCount;
+        brawlerCountText.text = "Total Brawlers: " + GameManager.Instance.brawlerCount;
+        projectileCountText.text = "Total Projectiles: " + GameManager.Instance.projectileCount;
+        gunmanCountText.text = "Total Shooters: " + GameManager.Instance.gunmanCount;
+        timeText.text = "Time Survived: " + clockUI.hoursString + ":" + clockUI.minutesString;
     }
 }

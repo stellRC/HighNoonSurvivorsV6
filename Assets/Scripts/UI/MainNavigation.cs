@@ -172,6 +172,7 @@ public class MainNavigation : MonoBehaviour
     // Load game scene
     public void StartGame()
     {
+        GameManager.Instance.ResetValuesOnLoad();
         // Show kill count and settings button
         gameUICanvas.SetActive(true);
         settingsButton.SetActive(true);
@@ -188,6 +189,7 @@ public class MainNavigation : MonoBehaviour
     // Return to main menu from pause screen
     public void ReturnToMainMenu()
     {
+        GameManager.Instance.ResetValues();
         StartCoroutine(LoadLevelASync("MainMenu"));
     }
 
