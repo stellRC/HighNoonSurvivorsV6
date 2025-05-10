@@ -10,6 +10,9 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private SpriteRenderer enemySprite;
 
+    [SerializeField]
+    private AudioClip[] rollingSoundClips;
+
     private Transform playerTransform;
 
     private MasterAnimator enemyAnimation;
@@ -204,6 +207,7 @@ public class EnemyMovement : MonoBehaviour
     private void RollAnimation()
     {
         enemyAnimation.ChangeAnimation(enemyAnimation.moveAnimation[5]);
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(rollingSoundClips, transform, 1f);
     }
 
     // random position ANYWHERE on screen

@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour, IDoDamage
     [SerializeField]
     private SpriteRenderer enemySprite;
 
+    [SerializeField]
+    private AudioClip[] particleDeathSoundClips;
+
     private EnemyManager enemyManager;
 
     private ParticleSystem deathParticleSystem;
@@ -151,6 +154,7 @@ public class Enemy : MonoBehaviour, IDoDamage
         var emission = deathParticleSystem.emission;
 
         emission.enabled = true;
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(particleDeathSoundClips, transform, 1f);
         if (!IsPlayingParticles)
         {
             deathParticleSystem.Play();

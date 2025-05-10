@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour, IDoDamage
     private PlayerSkills playerSkills;
     private PlayerInput playerInput;
 
+    [SerializeField]
+    private AudioClip[] deathSoundClips;
+
     private void Awake()
     {
         // instance of player skills
@@ -18,25 +21,6 @@ public class PlayerController : MonoBehaviour, IDoDamage
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
     }
-
-    // private void PlayerSkills_OnSkillUnlocked(
-    //     object sender,
-    //     PlayerSkills.OnSkillUnlockedEventArgs e
-    // )
-    // {
-    //     switch (e.skillType)
-    //     {
-    //         case PlayerSkills.SkillType.Spin:
-    //             SetMovementSpeed(5f);
-    //             break;
-    //     }
-    // }
-
-    // // Increase movement speed with upgrade
-    // private void SetMovementSpeed(float speed)
-    // {
-    //     throw new NotImplementedException();
-    // }
 
     public bool CanUseEarthshatter()
     {
@@ -67,7 +51,13 @@ public class PlayerController : MonoBehaviour, IDoDamage
     public void DoDamage(int damage)
     {
         DeathAnimation();
+        DeathAudio();
         DisablePlayer();
+    }
+
+    private void DeathAudio()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(deathSoundClips, transform, 1f);
     }
 
     // Prevent further player animation and enemy death

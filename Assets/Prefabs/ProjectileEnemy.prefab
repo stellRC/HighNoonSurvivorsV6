@@ -5166,7 +5166,10 @@ MonoBehaviour:
   moveProjectileAnimation: []
   animationFinished: 0
   IsRunning: 0
-  IsAttacking: 0
+  isAttacking: 0
+  isShocking: 0
+  noDamage: 0
+  isGameScene: 0
 --- !u!114 &7976053446739934655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5182,3 +5185,8 @@ MonoBehaviour:
   damage: 1
   enemyData: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
   attackPoint: {fileID: 4782151304754477884}
+  shootingSoundClips:
+  - {fileID: 8300000, guid: d1afd3f4d23c24f418ffc315afb04965, type: 3}
+  - {fileID: 8300000, guid: 6910fbf3f49c644bda55cd1da8a1af03, type: 3}
+  - {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
+  - {fileID: 8300000, guid: b7f8695cf65a4f24eb37544298821146, type: 3}

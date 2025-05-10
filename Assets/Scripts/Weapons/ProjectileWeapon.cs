@@ -9,6 +9,9 @@ public class ProjectileWeapon : WeaponBase
     [SerializeField]
     private Transform attackPoint;
 
+    [SerializeField]
+    private AudioClip[] shootingSoundClips;
+
     private MasterAnimator enemyAnimation;
 
     private Transform playerTransform;
@@ -44,28 +47,19 @@ public class ProjectileWeapon : WeaponBase
     {
         var attack = Random.Range(0, 4);
         // Shoot animation
-        if (enemyData.name == "brawl")
-        {
-            enemyAnimation.ChangeAnimation(enemyAnimation.brawlAnimation[attack]);
-        }
-        else
-        {
-            enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
-        }
+
+        enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(shootingSoundClips, transform, 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // if (isTriggered)
-        //     return;
-        // Damage Enemy
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
         if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
         {
             Debug.Log("player hit");
             iDoDamage?.DoDamage(damage);
-            // isTriggered = true;
         }
     }
 
