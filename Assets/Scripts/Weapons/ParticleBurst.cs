@@ -12,11 +12,13 @@ public class ParticleBurst : WeaponBase
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
+        var sprite = this.gameObject.GetComponentInChildren<SpriteRenderer>();
 
         if (
             collision.gameObject.name == "PlayerCharacter"
             && !GameManager.Instance.noDamage
             && once
+            && sprite.enabled == false
         )
         {
             Debug.Log("player hit by particle");

@@ -81,9 +81,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnMoreEnemies()
     {
-        PlaceEnemy(projectileEnemy);
         PlaceEnemy(brawlEnemy);
-        PlaceEnemy(rollingEnemy);
     }
 
     private void PlaceEnemy(EnemyData enemyData)
