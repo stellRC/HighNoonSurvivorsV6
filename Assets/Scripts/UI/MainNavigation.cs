@@ -58,9 +58,9 @@ public class MainNavigation : MonoBehaviour
 
     public static bool isPaused;
 
-    private bool gameScene;
-
     private bool state;
+
+    private bool isGameScene;
 
     void Awake()
     {
@@ -76,7 +76,7 @@ public class MainNavigation : MonoBehaviour
     void Update()
     {
         // // // Handle keyboard input
-        if (Input.GetKeyDown(KeyCode.Escape) && gameScene && gameOverMenu.activeSelf == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && isGameScene && gameOverMenu.activeSelf == false)
         {
             TogglePauseMenu();
         }
@@ -101,7 +101,7 @@ public class MainNavigation : MonoBehaviour
 
         // Prevent pause menu from opening while in main menu
         isPaused = true;
-        gameScene = false;
+        isGameScene = false;
         // Start internal game clock (enable fog animations)
         Time.timeScale = 1f;
     }
@@ -132,7 +132,7 @@ public class MainNavigation : MonoBehaviour
         }
 
         // Load main menu
-        if (gameScene)
+        if (isGameScene)
         {
             fade.FadeIn();
             InitializeObjStates();
@@ -183,7 +183,7 @@ public class MainNavigation : MonoBehaviour
         cooldownCanvas.SetActive(true);
 
         isPaused = false;
-        gameScene = true;
+        isGameScene = true;
     }
 
     // Return to main menu from pause screen
@@ -195,7 +195,7 @@ public class MainNavigation : MonoBehaviour
 
     public void TogglePauseMenu()
     {
-        if (!gameScene)
+        if (!isGameScene)
             return;
 
         if (!isPaused)
@@ -232,7 +232,7 @@ public class MainNavigation : MonoBehaviour
 
     public void ToggleOptionsMenu()
     {
-        if (gameScene)
+        if (isGameScene)
         {
             pauseMenu.SetActive(state);
         }

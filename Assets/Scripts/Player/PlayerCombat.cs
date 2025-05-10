@@ -31,11 +31,7 @@ public class PlayerCombat : MonoBehaviour
     public bool triggerSpin;
     private float popEnemyTime;
 
-    private bool canPopEnemy;
-
-    private int popEnemyCount;
-
-    // private bool isAttacking;
+    private bool isPopping;
 
     private void Awake()
     {
@@ -48,11 +44,10 @@ public class PlayerCombat : MonoBehaviour
     {
         attackRange = playerData.attackRange;
         canUseSpecial = false;
-        // isAttacking = false;
+
         chosenSpecialMove = skillTreeManager.chosenSpecialMove;
         cooldownBar = FindFirstObjectByType<CooldownBar>();
         currentAttackCount = 0;
-        canPopEnemy = false;
     }
 
     void Update()
@@ -69,19 +64,13 @@ public class PlayerCombat : MonoBehaviour
             canUseSpecial = false;
         }
 
-        if (canPopEnemy)
+        if (isPopping)
         {
             popEnemyTime += Time.deltaTime;
             if (popEnemyTime >= 1)
             {
                 PopEnemy();
-                popEnemyCount++;
                 popEnemyTime = 0;
-            }
-
-            if (popEnemyCount >= playerData.specialAttackCount)
-            {
-                canPopEnemy = false;
             }
         }
     }
@@ -91,7 +80,9 @@ public class PlayerCombat : MonoBehaviour
         if (context.started)
         {
             // var animationID = Random.Range(6, 10);
-            playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
+            // playerAnimator.ChangeAnimation(playerAnimator.swordAnimation[6]);
+            playerAnimator.isAttacking = true;
+            Attack();
         }
     }
 
@@ -139,6 +130,7 @@ public class PlayerCombat : MonoBehaviour
     private void TriggerSpin()
     {
         GameManager.Instance.noDamage = true;
+        playerAnimator.noDamage = true;
         StartCoroutine(ToggleSpin(playerData.specialAttackCount));
     }
 
@@ -147,6 +139,7 @@ public class PlayerCombat : MonoBehaviour
     {
         LightningBoltScript lightningBoltScript = FindFirstObjectByType<LightningBoltScript>();
         lightningBoltScript.ManualMode = false;
+        playerAnimator.isShocking = true;
         StartCoroutine(ToggleLightning(playerData.specialAttackCount, lightningBoltScript));
     }
 
@@ -155,8 +148,7 @@ public class PlayerCombat : MonoBehaviour
     {
         FogController collisionFog = FindAnyObjectByType<FogController>();
         collisionFog.isPlaying = true;
-        canPopEnemy = true;
-        popEnemyCount = 0;
+        isPopping = true;
 
         StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
     }
@@ -164,13 +156,17 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator ToggleLightning(int count, LightningBoltScript lightningBoltScript)
     {
         yield return new WaitForSeconds(count);
+
         lightningBoltScript.ManualMode = true;
+        playerAnimator.isShocking = false;
     }
 
     IEnumerator ToggleSpin(int count)
     {
         yield return new WaitForSeconds(count);
+
         GameManager.Instance.noDamage = false;
+        playerAnimator.noDamage = false;
     }
 
     IEnumerator ToggleSwordCombo(int count)
@@ -183,6 +179,7 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(count);
         collisionFog.isPlaying = false;
+        isPopping = false;
     }
 
     private void PopEnemy()

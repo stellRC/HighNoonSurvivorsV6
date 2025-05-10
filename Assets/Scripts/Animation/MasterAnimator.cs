@@ -26,11 +26,23 @@ public class MasterAnimator : MonoBehaviour
     private float NTime;
 
     public bool IsRunning;
-    public bool IsAttacking;
+
+    public bool isAttacking;
+
+    public bool isShocking;
+    public bool noDamage;
+
+    public bool isGameScene;
+
+    void Awake()
+    {
+        IsRunning = false;
+        isAttacking = false;
+        isShocking = false;
+    }
 
     void OnEnable()
     {
-        IsRunning = false;
         InitAnimationLists();
     }
 
@@ -120,13 +132,29 @@ public class MasterAnimator : MonoBehaviour
             masterAnimator.SetBool("IsRunning", false);
         }
 
-        if (IsAttacking)
+        if (isAttacking)
         {
-            masterAnimator.SetBool("IsAttacking", true);
+            isAttacking = false;
+            masterAnimator.SetTrigger("IsAttacking");
+        }
+
+        if (noDamage)
+        {
+            Debug.Log("spin");
+            masterAnimator.SetBool("IsSpinning", true);
         }
         else
         {
-            masterAnimator.SetBool("IsAttacking", false);
+            masterAnimator.SetBool("IsSpinning", false);
+        }
+
+        if (isShocking)
+        {
+            masterAnimator.SetBool("IsShocking", true);
+        }
+        else
+        {
+            masterAnimator.SetBool("IsShocking", false);
         }
     }
 

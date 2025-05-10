@@ -10,32 +10,29 @@ public class ObjectivesManager : MonoBehaviour
     [SerializeField]
     private Transform objectivePanel;
 
-    public Dictionary<string, bool> skillObjectives = new();
+    public Dictionary<string, bool> skillObjectives;
 
     private void Awake()
     {
-        skillObjectives.Add(
-            "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers",
-            false
-        );
-        skillObjectives.Add(
-            "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen",
-            false
-        );
-        skillObjectives.Add(
-            "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
-            true
-        );
-        skillObjectives.Add("Survive noon", false);
+        skillObjectives = new()
+        {
+            { "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers", true },
+            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", true },
+            {
+                "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
+                true
+            },
+            { "Survive noon", true }
+        };
     }
 
-    private void Start() { }
-
-    private void OnEnable()
+    private void Start()
     {
+        DestroyObjectives();
         CheckObjectiveValue();
     }
 
+    // Instantiate objectives when main menu is loaded both before and after game is played
     public void CheckObjectiveValue()
     {
         foreach (var (key, value) in skillObjectives)
@@ -51,6 +48,16 @@ public class ObjectivesManager : MonoBehaviour
         }
     }
 
+    // Destroy previous objectives so player can see what objectives have yet to be accomplished
+    public void DestroyObjectives()
+    {
+        foreach (Transform child in objectivePanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    // Update objective values after game has ended
     public void UpdateObjectiveValue(string objectiveString)
     {
         if (
@@ -60,12 +67,9 @@ public class ObjectivesManager : MonoBehaviour
         {
             skillObjectives[objectiveString] = true;
         }
-        else
-        {
-            Debug.Log("dictionary: " + objectiveString + ", " + skillObjectives[objectiveString]);
-        }
     }
 
+    // Check if value is true or false
     public bool CheckValue(string key)
     {
         if (skillObjectives[key])
@@ -78,14 +82,15 @@ public class ObjectivesManager : MonoBehaviour
         }
     }
 
+    // Instantiate objective without strikethrough
     private void InstantiateObjective(string objective)
     {
-        Debug.Log("objective: " + objective);
         objectivePrefab.GetComponent<TMP_Text>().text = objective;
         objectivePrefab.GetComponent<TMP_Text>().fontStyle = FontStyles.Normal;
         Instantiate(objectivePrefab, objectivePanel);
     }
 
+    // Instantiate objective with strikethrough
     private void InstantiateCompletedObjective(string objective)
     {
         objectivePrefab.GetComponent<TMP_Text>().text = objective;

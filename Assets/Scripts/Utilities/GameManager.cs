@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private SkillTreeManager skillTreeManager;
 
     private ObjectivesManager objectiveManager;
+
     private CooldownBar cooldownBar;
 
     private ClockUI clockUI;
@@ -34,6 +35,8 @@ public class GameManager : MonoBehaviour
     public bool noDamage;
 
     public bool canUseSpecial;
+
+    public bool isPopping;
 
     [Header("Lvl Data")]
     public List<LevelData> LevelDataList = new();
@@ -61,7 +64,6 @@ public class GameManager : MonoBehaviour
         clockUI = GetComponentInChildren<ClockUI>();
         playerController = FindAnyObjectByType<PlayerController>();
 
-        ResetValuesOnLoad();
         LevelCycle();
 
         // Value is updated when skills are unlocked and remains true when level ends
@@ -101,6 +103,7 @@ public class GameManager : MonoBehaviour
     public void ResetValuesOnLoad()
     {
         playerController = FindAnyObjectByType<PlayerController>();
+        noDamage = false;
     }
 
     // Reset values when main menu is loaded during or after game via return to main menu button
@@ -110,9 +113,16 @@ public class GameManager : MonoBehaviour
         brawlerCount = 0;
         gunmanCount = 0;
         projectileCount = 0;
-        noDamage = false;
 
+        // Prevent player from dying before loading game if enemy collides with the player
+        noDamage = true;
+
+        // Reset cooldown bar to empty
         cooldownBar.ResetValues();
+        // Destroy previous objectives
+        objectiveManager.DestroyObjectives();
+        // Instantiate updated objectives
+        objectiveManager.CheckObjectiveValue();
     }
 
     // Check if skills are unlocked at end of level for use in next level
