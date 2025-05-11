@@ -8,7 +8,7 @@ The game loop is fairly straightforward. Ultimately, the player has to stay aliv
 | -------- | ------- |
 | Slay 5 brawlers | Increased attack range |
 | Slay 10 gunmen | Lightning bolt |
-| Destroy 15 rollers | Death fog |
+| Slay 15 rollers | Death fog |
 | Survive past noon | Invincibility |
 
 ## Time
@@ -24,7 +24,7 @@ The following values can be found in the levelData objects.
 || Easy Mode | Normal Mode |
 | --------| -------- | ------- |
 | Max Brawler Count | 2 | 5|
-| Max Gunman Count| 1| 10|
+| Max Gunman Count| 2| 10|
 | Max Roller Count|2| 15|
 | Max Hour Count|2| 15|
 

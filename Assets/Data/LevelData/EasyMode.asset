@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 1
   maxBrawlerCount: 2
-  maxGunmanCount: 1
+  maxGunmanCount: 2
   maxRollerCount: 2
   maxHourCount: 2
   specialAttackRate: 2
