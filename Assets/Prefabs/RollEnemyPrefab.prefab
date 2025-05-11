@@ -5131,10 +5131,9 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
   enemySprite: {fileID: 2002885026620486804}
   particleDeathSoundClips:
-  - {fileID: 8300000, guid: c619008f1efb180488a78e4a966a3e16, type: 3}
-  - {fileID: 8300000, guid: 3e45ad8c684094c01b255f97917aad47, type: 3}
-  - {fileID: 8300000, guid: 1e4b0796170cc43a7ba72c858ab4ca2d, type: 3}
-  - {fileID: 8300000, guid: 858d6621a88f04967bd9e9ff2f7c7f8b, type: 3}
+  - {fileID: 8300000, guid: 0a7a5b85dfddd49f5ba6750610dc5f8c, type: 3}
+  - {fileID: 8300000, guid: a7abf4a58f1af4fbc941365494ffe8d8, type: 3}
+  - {fileID: 8300000, guid: 455c8f13b43da462e85f60af32a95fb6, type: 3}
   currentHealth: 0
   isDead: 0
 --- !u!114 &4445066377277658690

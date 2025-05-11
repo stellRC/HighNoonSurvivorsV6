@@ -14,7 +14,11 @@ public class ObjectPooling : MonoBehaviour
     private static GameObject shootersEmpty;
     private static GameObject rollersEmpty;
 
-    private int maxPoolCount;
+    private static GameObject audioSourceEmpty;
+
+    private int projectileMaxCount;
+
+    private int enemyMaxCount;
 
     public enum PoolType
     {
@@ -25,6 +29,7 @@ public class ObjectPooling : MonoBehaviour
         Brawlers,
         Shooters,
         Rollers,
+        Audio,
         None
     }
 
@@ -32,7 +37,8 @@ public class ObjectPooling : MonoBehaviour
     {
         SetupEmpty();
 
-        maxPoolCount = 15;
+        enemyMaxCount = 15;
+        projectileMaxCount = 40;
     }
 
     private void SetupEmpty()
@@ -56,6 +62,9 @@ public class ObjectPooling : MonoBehaviour
 
         rollersEmpty = new GameObject("Roller Objects");
         rollersEmpty.transform.SetParent(enemiesEmpty.transform);
+
+        audioSourceEmpty = new GameObject("Audio Source Objects");
+        audioSourceEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
     }
 
     public static PoolType PoolingType;
@@ -64,14 +73,16 @@ public class ObjectPooling : MonoBehaviour
 
     private void Update()
     {
-        // CullPool(projectilesEmpty);
-        // CullPool(particleSystemEmpty);
-        // CullPool(brawlersEmpty);
-        // CullPool(shootersEmpty);
-        // CullPool(rollersEmpty);
+        CullPool(projectilesEmpty, projectileMaxCount);
+
+        CullPool(brawlersEmpty, enemyMaxCount);
+        CullPool(shootersEmpty, enemyMaxCount);
+        CullPool(rollersEmpty, enemyMaxCount);
+
+        CullAudioPool(audioSourceEmpty);
     }
 
-    private void CullPool(GameObject pool)
+    private void CullPool(GameObject pool, int maxPoolCount)
     {
         if (
             pool != null
@@ -80,6 +91,17 @@ public class ObjectPooling : MonoBehaviour
         )
         {
             ReturnObjectToPool(pool.transform.GetChild(0).gameObject);
+        }
+    }
+
+    private void CullAudioPool(GameObject pool)
+    {
+        foreach (Transform child in pool.transform)
+        {
+            if (!child.GetComponent<AudioSource>().isPlaying)
+            {
+                ReturnObjectToPool(child.gameObject);
+            }
         }
     }
 
@@ -150,6 +172,7 @@ public class ObjectPooling : MonoBehaviour
             PoolType.Brawlers => brawlersEmpty,
             PoolType.Shooters => shootersEmpty,
             PoolType.Rollers => rollersEmpty,
+            PoolType.Audio => audioSourceEmpty,
             PoolType.None => null,
             _ => null,
         };

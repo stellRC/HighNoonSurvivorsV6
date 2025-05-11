@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,11 +26,18 @@ public class PlayerMovement : MonoBehaviour
     private float activeMoveSpeed;
     private float dashSpeed;
 
+    private float breathingCount;
+
+    private float breathingWait;
+    private float runningWait;
+    private float runningCount;
+
     private void Awake()
     {
         playerAnimator = GetComponent<MasterAnimator>();
         playerRigidBody = GetComponent<Rigidbody2D>();
         cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
+        breathingWait = 100f;
     }
 
     void Start()
@@ -48,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        breathingCount += Time.deltaTime;
+        runningCount += Time.deltaTime;
         // Idle
         if (!isDashing & !isMoving)
         {
@@ -55,6 +65,13 @@ public class PlayerMovement : MonoBehaviour
             activeMoveSpeed = moveSpeed;
             playerAnimator.IsRunning = false;
             fxAnimator.gameObject.SetActive(false);
+
+            if (breathingCount >= breathingWait)
+            {
+                breathingCount = 0;
+                breathingWait = UnityEngine.Random.Range(100f, 500f);
+                IdleSFX();
+            }
         }
 
         // Running
@@ -62,7 +79,41 @@ public class PlayerMovement : MonoBehaviour
         {
             playerAnimator.ChangeAnimation(playerAnimator.moveSwordAnimation[2]);
             activeMoveSpeed = moveSpeed;
+
+            if (runningCount >= runningWait)
+            {
+                runningCount = 0;
+                runningWait = UnityEngine.Random.Range(50f, 200f);
+                RunningSFX();
+            }
         }
+    }
+
+    private void RunningSFX()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.playerRunningClips,
+            transform,
+            .3f
+        );
+    }
+
+    private void IdleSFX()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.playerIdleClips,
+            transform,
+            .1f
+        );
+    }
+
+    private void DashingSFX()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.playerDashingClips,
+            transform,
+            .5f
+        );
     }
 
     //good to use fixed update for rigid body objects
@@ -136,6 +187,7 @@ public class PlayerMovement : MonoBehaviour
         if (context.started)
         {
             isDashing = !isDashing;
+            DashingSFX();
             playerAnimator.ChangeAnimation(playerAnimator.moveAnimation[4]);
             fxAnimator.SetBool("IsDashing", true);
             activeMoveSpeed = dashSpeed;

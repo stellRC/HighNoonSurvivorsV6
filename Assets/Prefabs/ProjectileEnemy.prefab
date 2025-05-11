@@ -5127,6 +5127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
   enemySprite: {fileID: 7845081743927986840}
+  particleDeathSoundClips:
+  - {fileID: 8300000, guid: fe97ccb8409c84433b4d6ea632025c78, type: 3}
+  - {fileID: 8300000, guid: c3f2f8c17de3e402985ecc636ab6d42c, type: 3}
+  - {fileID: 8300000, guid: 7f71644d726e7438e9567888f2445b24, type: 3}
   currentHealth: 0
   isDead: 0
 --- !u!114 &5860736974300233925
@@ -5143,6 +5147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: cad1239abec4c93499829a26121903e5, type: 2}
   enemySprite: {fileID: 7845081743927986840}
+  rollingSoundClips: []
 --- !u!114 &2374333392084893840
 MonoBehaviour:
   m_ObjectHideFlags: 0

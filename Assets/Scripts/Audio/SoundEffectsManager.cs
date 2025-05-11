@@ -6,7 +6,24 @@ public class SoundEffectsManager : MonoBehaviour
     public static SoundEffectsManager instance;
 
     [SerializeField]
-    private AudioSource soundFXObject;
+    private GameObject soundFXObject;
+
+    [Header("Player Audio")]
+    public AudioClip[] normalPlayerAttackSingleSoundClips;
+
+    public AudioClip[] deathSoundClips;
+
+    public AudioClip[] playerRunningClips;
+
+    public AudioClip[] playerDashingClips;
+    public AudioClip[] playerIdleClips;
+
+    [Header("Enemy Audio")]
+    public AudioClip[] rollingSoundClips;
+
+    public AudioClip[] shootingSoundClips;
+
+    public AudioClip[] particleDeathSoundClips;
 
     private void Awake()
     {
@@ -18,49 +35,79 @@ public class SoundEffectsManager : MonoBehaviour
 
     public void PlaySoundFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
-        // Spawn audioSource
-        AudioSource audioSource = Instantiate(
+        //  Pool audioSource
+
+        GameObject audioSource = ObjectPooling.SpawnObject(
             soundFXObject,
             spawnTransform.position,
-            quaternion.identity
+            quaternion.identity,
+            ObjectPooling.PoolType.Audio
         );
-
+        AudioSource source = audioSource.GetComponent<AudioSource>();
         // assign the audioClip
-        audioSource.clip = audioClip;
+        source.clip = audioClip;
 
         // assign volume
-        audioSource.volume = volume;
+        source.volume = volume;
 
         // Play sound
-        audioSource.Play();
-
-        float clipLength = audioSource.clip.length;
-
-        Destroy(audioSource.gameObject, clipLength);
+        source.Play();
     }
 
     public void PlayRandomSoundFXClip(AudioClip[] audioClip, Transform spawnTransform, float volume)
     {
         // assign random index
         int randomClip = UnityEngine.Random.Range(0, audioClip.Length);
-        // Spawn audioSource
-        AudioSource audioSource = Instantiate(
-            soundFXObject,
-            spawnTransform.position,
-            quaternion.identity
-        );
 
-        // assign the audioClip
-        audioSource.clip = audioClip[randomClip];
+        if (audioClip[randomClip] != null)
+        {
+            // Spawn audioSource
 
-        // assign volume
-        audioSource.volume = volume;
+            GameObject audioSource = ObjectPooling.SpawnObject(
+                soundFXObject,
+                spawnTransform.position,
+                quaternion.identity,
+                ObjectPooling.PoolType.Audio
+            );
+            AudioSource source = audioSource.GetComponent<AudioSource>();
 
-        // Play sound
-        audioSource.Play();
+            // assign the audioClip
+            source.clip = audioClip[randomClip];
 
-        float clipLength = audioSource.clip.length;
+            // assign volume
+            source.volume = volume;
 
-        Destroy(audioSource.gameObject, clipLength);
+            // Play sound
+            source.Play();
+        }
     }
+
+    // public void PlayRandomSoundFXClip(AudioClip[] audioClip, Transform spawnTransform, float volume)
+    // {
+    //     // assign random index
+    //     int randomClip = UnityEngine.Random.Range(0, audioClip.Length);
+
+    //     if (audioClip[randomClip] != null)
+    //     {
+    //         // Spawn audioSource
+    //         AudioSource audioSource = Instantiate(
+    //             soundFXObject,
+    //             spawnTransform.position,
+    //             quaternion.identity
+    //         );
+
+    //         // assign the audioClip
+    //         audioSource.clip = audioClip[randomClip];
+
+    //         // assign volume
+    //         audioSource.volume = volume;
+
+    //         // Play sound
+    //         audioSource.Play();
+
+    //         float clipLength = audioSource.clip.length;
+
+    //         Destroy(audioSource.gameObject, clipLength);
+    //     }
+    // }
 }

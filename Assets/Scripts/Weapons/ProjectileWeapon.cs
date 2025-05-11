@@ -9,19 +9,23 @@ public class ProjectileWeapon : WeaponBase
     [SerializeField]
     private Transform attackPoint;
 
-    [SerializeField]
-    private AudioClip[] shootingSoundClips;
-
     private MasterAnimator enemyAnimation;
 
     private Transform playerTransform;
 
     private float waitTime;
 
+    private bool playOnce;
+
     void Awake()
     {
         enemyAnimation = GetComponent<MasterAnimator>();
         playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
+    }
+
+    private void OnEnable()
+    {
+        playOnce = false;
     }
 
     private void Update()
@@ -47,9 +51,21 @@ public class ProjectileWeapon : WeaponBase
     {
         var attack = Random.Range(0, 4);
         // Shoot animation
+        if (!playOnce)
+        {
+            ProjectileAudio();
+        }
 
         enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(shootingSoundClips, transform, 1f);
+    }
+
+    private void ProjectileAudio()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.shootingSoundClips,
+            transform,
+            1f
+        );
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -58,7 +74,8 @@ public class ProjectileWeapon : WeaponBase
 
         if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
         {
-            Debug.Log("player hit");
+            playOnce = true;
+
             iDoDamage?.DoDamage(damage);
         }
     }

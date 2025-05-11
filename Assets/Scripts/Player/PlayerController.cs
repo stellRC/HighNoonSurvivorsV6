@@ -9,9 +9,6 @@ public class PlayerController : MonoBehaviour, IDoDamage
     private PlayerSkills playerSkills;
     private PlayerInput playerInput;
 
-    [SerializeField]
-    private AudioClip[] deathSoundClips;
-
     private void Awake()
     {
         // instance of player skills
@@ -57,7 +54,11 @@ public class PlayerController : MonoBehaviour, IDoDamage
 
     private void DeathAudio()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(deathSoundClips, transform, 1f);
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.deathSoundClips,
+            transform,
+            .20f
+        );
     }
 
     // Prevent further player animation and enemy death

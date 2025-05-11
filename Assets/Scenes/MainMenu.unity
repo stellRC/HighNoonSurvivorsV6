@@ -7082,7 +7082,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3b3f8e4e563ff4eab89f5458a2f4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundFXObject: {fileID: 3185923352220173571, guid: 454f8850ebfe2044fb6aa78c33c03f92, type: 3}
+  soundFXObject: {fileID: 2024152554036957397, guid: 454f8850ebfe2044fb6aa78c33c03f92, type: 3}
+  normalPlayerAttackSingleSoundClips:
+  - {fileID: 8300000, guid: 2c41e0e4367ae4f3ba260779cf4d00e5, type: 3}
+  - {fileID: 8300000, guid: cb1a9edec8d3345dd8e530d490891cb8, type: 3}
+  deathSoundClips:
+  - {fileID: 8300000, guid: 81cd2fc8fb6e74db9b7cb9ffb245d385, type: 3}
+  - {fileID: 8300000, guid: 811f0963da3f44dbe92cb45594941685, type: 3}
+  playerRunningClips:
+  - {fileID: 8300000, guid: fc8da02e95435406f89db024451a0bb8, type: 3}
+  - {fileID: 8300000, guid: fd944e20ee6444efa87cef28957898aa, type: 3}
+  - {fileID: 8300000, guid: baf4414d6c8024046bb96cce835fbe26, type: 3}
+  - {fileID: 8300000, guid: 027dcff294339478d98ba358c0aeb528, type: 3}
+  playerDashingClips:
+  - {fileID: 8300000, guid: c619008f1efb180488a78e4a966a3e16, type: 3}
+  - {fileID: 8300000, guid: be9a069ff677d400d9d5e072b99fa6bc, type: 3}
+  playerIdleClips:
+  - {fileID: 8300000, guid: 42f6f9ac46b16bc4fad48f9c4a3c7b14, type: 3}
+  - {fileID: 8300000, guid: dfc5e998b9d24864c88c05254bebb8db, type: 3}
+  - {fileID: 8300000, guid: fa6030c2ec1cb8d449472c4ff0747a0d, type: 3}
+  rollingSoundClips:
+  - {fileID: 8300000, guid: 5b695bf26f8d54073a9e5f89b10d820f, type: 3}
+  - {fileID: 8300000, guid: 60f9efe3d97bc8f47bea1af7f7093d41, type: 3}
+  - {fileID: 8300000, guid: 023ea3ddeaa8dd146b7633a0800e5a0e, type: 3}
+  shootingSoundClips:
+  - {fileID: 8300000, guid: d1afd3f4d23c24f418ffc315afb04965, type: 3}
+  - {fileID: 8300000, guid: 6910fbf3f49c644bda55cd1da8a1af03, type: 3}
+  - {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
+  - {fileID: 8300000, guid: b7f8695cf65a4f24eb37544298821146, type: 3}
+  particleDeathSoundClips:
+  - {fileID: 8300000, guid: 0a7a5b85dfddd49f5ba6750610dc5f8c, type: 3}
+  - {fileID: 8300000, guid: c3f2f8c17de3e402985ecc636ab6d42c, type: 3}
+  - {fileID: 8300000, guid: a7abf4a58f1af4fbc941365494ffe8d8, type: 3}
+  - {fileID: 8300000, guid: fe97ccb8409c84433b4d6ea632025c78, type: 3}
+  - {fileID: 8300000, guid: fc730b291933343d1ab881587cb8b1a6, type: 3}
+  - {fileID: 8300000, guid: 7f71644d726e7438e9567888f2445b24, type: 3}
+  - {fileID: 8300000, guid: 164474b906c5c452bbf98c87e3c3efb8, type: 3}
+  - {fileID: 8300000, guid: 455c8f13b43da462e85f60af32a95fb6, type: 3}
+  - {fileID: 8300000, guid: 6ed6c3c93650347e291c17c8caa25890, type: 3}
 --- !u!114 &1069567207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14039,8 +14076,12 @@ PrefabInstance:
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 4563024423925147516, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
+      propertyPath: normalAttackSingleSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c41e0e4367ae4f3ba260779cf4d00e5, type: 3}
+    - target: {fileID: 4563024423925147516, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
       propertyPath: normalAttackSoundClips.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4563024423925147516, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
       propertyPath: 'normalAttackSoundClips.Array.data[0]'

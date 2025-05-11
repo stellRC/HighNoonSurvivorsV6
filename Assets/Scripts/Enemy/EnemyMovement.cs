@@ -10,9 +10,6 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private SpriteRenderer enemySprite;
 
-    [SerializeField]
-    private AudioClip[] rollingSoundClips;
-
     private Transform playerTransform;
 
     private MasterAnimator enemyAnimation;
@@ -144,8 +141,6 @@ public class EnemyMovement : MonoBehaviour
     // Move towards player and then retreat if player moves towards enemy
     private void ForwardAndRetreat(float speed, float distanceBetween)
     {
-        // if (enemyAnimation.animationFinished)
-        // {
         if (isMovingForward)
         {
             MoveTowardsPlayer(speed);
@@ -166,11 +161,6 @@ public class EnemyMovement : MonoBehaviour
                 IdleAnimation();
             }
         }
-        // if (distanceBetween > enemyData.attackDistance)
-        // {
-        //     isMovingForward = true;
-        // }
-        // }
     }
 
     // Check if reached target position, continue if haven't and change target if have;
@@ -181,8 +171,15 @@ public class EnemyMovement : MonoBehaviour
             randomPosition,
             Time.deltaTime * speed
         );
-
-        RollAnimation();
+        if (transform.CompareTag("roller"))
+        {
+            RollAnimation();
+            // RollingSound();
+        }
+        else
+        {
+            RunAnimation();
+        }
 
         // Return roller enemy to pool after reached target position, stats not updated
         currentPosition = transform.position;
@@ -207,7 +204,15 @@ public class EnemyMovement : MonoBehaviour
     private void RollAnimation()
     {
         enemyAnimation.ChangeAnimation(enemyAnimation.moveAnimation[5]);
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(rollingSoundClips, transform, 1f);
+    }
+
+    private void RollingSound()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.rollingSoundClips,
+            transform,
+            .5f
+        );
     }
 
     // random position ANYWHERE on screen

@@ -14,9 +14,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     private Transform attackPoint;
 
-    [SerializeField]
-    private AudioClip[] normalAttackSoundClips;
-
     private CinemachineImpulseSource impulseSource;
 
     private SkillTreeManager skillTreeManager;
@@ -82,17 +79,23 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private void PlayerAttackAudio()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.normalPlayerAttackSingleSoundClips,
+            transform,
+            1f
+        );
+    }
+
     public void NormalAttack(InputAction.CallbackContext context)
     {
         if (context.started && !skillTreeManager.isSpecialAnim)
         {
             playerAnimator.isAttacking = true;
-            SoundEffectsManager.instance.PlayRandomSoundFXClip(
-                normalAttackSoundClips,
-                transform,
-                1f
-            );
+
             Attack();
+            PlayerAttackAudio();
         }
     }
 

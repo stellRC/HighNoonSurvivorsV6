@@ -8,9 +8,6 @@ public class Enemy : MonoBehaviour, IDoDamage
     [SerializeField]
     private SpriteRenderer enemySprite;
 
-    [SerializeField]
-    private AudioClip[] particleDeathSoundClips;
-
     private EnemyManager enemyManager;
 
     private ParticleSystem deathParticleSystem;
@@ -56,12 +53,6 @@ public class Enemy : MonoBehaviour, IDoDamage
             DespawnSet();
             ReturnToPool();
         }
-
-        // if (currentAliveTime >= despawnTime && this != null)
-        // {
-        //     Debug.Log("returned to pool");
-        //     ReturnToPool();
-        // }
     }
 
     private void DespawnSet()
@@ -152,15 +143,24 @@ public class Enemy : MonoBehaviour, IDoDamage
     public void EnableParticles()
     {
         var emission = deathParticleSystem.emission;
-
+        EnemyDeathAudio();
         emission.enabled = true;
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(particleDeathSoundClips, transform, 1f);
+
         if (!IsPlayingParticles)
         {
             deathParticleSystem.Play();
             enemySprite.enabled = false;
             IsPlayingParticles = true;
         }
+    }
+
+    private void EnemyDeathAudio()
+    {
+        SoundEffectsManager.instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.instance.particleDeathSoundClips,
+            transform,
+            1f
+        );
     }
 
     public void ReturnToPool()
