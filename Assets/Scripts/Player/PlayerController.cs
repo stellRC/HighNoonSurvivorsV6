@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, IDoDamage
     {
         // instance of player skills
         playerSkills = new PlayerSkills();
-        // playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
+
         playerAnimator = GetComponent<MasterAnimator>();
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;

@@ -81,33 +81,4 @@ public class SoundEffectsManager : MonoBehaviour
             source.Play();
         }
     }
-
-    // public void PlayRandomSoundFXClip(AudioClip[] audioClip, Transform spawnTransform, float volume)
-    // {
-    //     // assign random index
-    //     int randomClip = UnityEngine.Random.Range(0, audioClip.Length);
-
-    //     if (audioClip[randomClip] != null)
-    //     {
-    //         // Spawn audioSource
-    //         AudioSource audioSource = Instantiate(
-    //             soundFXObject,
-    //             spawnTransform.position,
-    //             quaternion.identity
-    //         );
-
-    //         // assign the audioClip
-    //         audioSource.clip = audioClip[randomClip];
-
-    //         // assign volume
-    //         audioSource.volume = volume;
-
-    //         // Play sound
-    //         audioSource.Play();
-
-    //         float clipLength = audioSource.clip.length;
-
-    //         Destroy(audioSource.gameObject, clipLength);
-    //     }
-    // }
 }

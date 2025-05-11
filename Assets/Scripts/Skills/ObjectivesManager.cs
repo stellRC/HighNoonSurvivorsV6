@@ -30,6 +30,13 @@ public class ObjectivesManager : MonoBehaviour
         SaveValues();
     }
 
+    private void Start()
+    {
+        DestroyObjectives();
+        CheckObjectiveValue();
+    }
+
+    // Save values into variables so that they unlocks can persist when switching between normal and easy mode
     private void SaveValues()
     {
         brawlerValue = skillObjectives[
@@ -44,12 +51,7 @@ public class ObjectivesManager : MonoBehaviour
         noonValue = skillObjectives["survive past noon"];
     }
 
-    private void Start()
-    {
-        DestroyObjectives();
-        CheckObjectiveValue();
-    }
-
+    // Switch modes
     public void SwitchObjectives()
     {
         DestroyObjectives();
@@ -57,6 +59,7 @@ public class ObjectivesManager : MonoBehaviour
         CheckObjectiveValue();
     }
 
+    // Create new dictionary with updated values
     public void UpdateDictionary()
     {
         skillObjectives = new()

@@ -85,7 +85,6 @@ public class SkillTreeManager : MonoBehaviour
         if (objectiveManager.skillObjectives["survive past noon"])
         {
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
-            UnlockUI(spinBtn, 0);
 
             skillText.text = "Unlocked: Invincibility";
         }
@@ -168,12 +167,14 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
+    // Set player skills when unlocked
     public void SetPlayerSkills(PlayerSkills playerSkills)
     {
         this.playerSkills = playerSkills;
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
     }
 
+    // Update unlocked elements to reflect unlock
     private void PlayerSkills_OnSkillUnlocked(
         object sender,
         PlayerSkills.OnSkillUnlockedEventArgs e
@@ -199,6 +200,7 @@ public class SkillTreeManager : MonoBehaviour
                     break;
                 case PlayerSkills.SkillType.Spin:
                     spinBtn.GetComponent<Image>().color = unlockedColor;
+                    UnlockUI(spinBtn, 0);
                     break;
                 case PlayerSkills.SkillType.None:
                     break;

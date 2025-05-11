@@ -268,11 +268,11 @@ public class MainNavigation : MonoBehaviour
         }
     }
 
-    public void ToggleGameOverMenu()
+    public void ToggleGameOverMenu(float time)
     {
         settingsButton.SetActive(false);
         killCount.SetActive(false);
-        if (GameManager.Instance.clockUI.hoursFloat > 12)
+        if (time >= 12)
         {
             gameWinMenu.SetActive(true);
         }

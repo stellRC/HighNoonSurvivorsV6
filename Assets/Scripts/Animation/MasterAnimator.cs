@@ -117,6 +117,7 @@ public class MasterAnimator : MonoBehaviour
         };
     }
 
+    // Triggers and bools align with those in inspector
     void Update()
     {
         animatorStateInfo = masterAnimator.GetCurrentAnimatorStateInfo(0);
@@ -166,6 +167,7 @@ public class MasterAnimator : MonoBehaviour
         }
     }
 
+    // Change animation of enemies and player
     public void ChangeAnimation(string animation, float crossFade = 0.2f)
     {
         if (animation == "Die")

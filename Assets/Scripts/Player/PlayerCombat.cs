@@ -9,7 +9,7 @@ using UnityEngine.VFX;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField]
-    private PlayerData playerData; //SO
+    private PlayerData playerData;
 
     [SerializeField]
     private Transform attackPoint;

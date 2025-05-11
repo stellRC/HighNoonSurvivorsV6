@@ -4,13 +4,13 @@
 ### Submission Overview
 I submitted this project in a folder titled `StellaArce_CS50_FinalProject`. Inside that folder are two more:
 
-- `SurvivorsBuilds`
+- `HighNoonSurvivorsBuild`
 	- Contains the actual game
 - `ProjectCode`
 	- Contains the raw code I wrote for the game
 
 ### Launching the Game
-Open the `SurvivorsBuilds` folder. Inside you will see an executable file called `HighNoonSurvivorsV6.exe`.  Double click it to launch the game.
+Open the `HighNoonSurvivorsBuild` folder. Inside you will see an executable file called `HighNoonSurvivorsV6.exe`.  Double click it to launch the game.
 
 ***NB***: I built this on an Windows computer and tested it on two different Windows machines. Unfortunately, I don't have access to any Apple hardware, so while I did try to make sure it would run on MacOS, I'm not 100% confident. If you try to run it on Mac and run into issues, try it on Windows.
 ### Playing the Game

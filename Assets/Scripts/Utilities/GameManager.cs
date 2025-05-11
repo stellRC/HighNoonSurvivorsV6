@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         if (isGameOver && !gameOverPanel)
         {
             gameOverManager.OnGameOver();
-            mainNavigation.ToggleGameOverMenu();
+            mainNavigation.ToggleGameOverMenu(clockUI.hoursFloat);
 
             gameOverPanel = true;
             isGameOver = false;

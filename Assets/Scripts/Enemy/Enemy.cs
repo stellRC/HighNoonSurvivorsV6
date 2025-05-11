@@ -20,22 +20,16 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     private bool IsPlayingParticles;
 
-    // private float currentAliveTime;
-
-    // private float despawnTime;
-
     void Awake()
     {
         deathParticleSystem = GetComponent<ParticleSystem>();
 
         enemyAnimation = GetComponent<MasterAnimator>();
         enemyManager = FindAnyObjectByType<EnemyManager>();
-        // despawnTime = 15f;
     }
 
     void OnEnable()
     {
-        // currentAliveTime = 0;
         isDead = false;
         currentHealth = enemyData.maxHealth;
         EnableComponents();
@@ -47,7 +41,7 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     public void Update()
     {
-        // currentAliveTime += Time.deltaTime;
+        // Avoid error by stopping particle emission
         if (IsPlayingParticles && deathParticleSystem.isStopped)
         {
             DespawnSet();
