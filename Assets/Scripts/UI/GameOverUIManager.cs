@@ -35,6 +35,6 @@ public class GameOverUIManager : MonoBehaviour
         rollerCountText.text = "Rollers: " + GameManager.Instance.rollerCount;
         projectileCountText.text = "Projectiles: " + GameManager.Instance.projectileCount;
         gunmanCountText.text = "Shooters: " + GameManager.Instance.gunmanCount;
-        timeText.text = "Time Survived: " + clockUI.hoursString + ":" + clockUI.minutesString;
+        timeText.text = "Time of Death: " + clockUI.hoursString + ":" + clockUI.minutesString;
     }
 }

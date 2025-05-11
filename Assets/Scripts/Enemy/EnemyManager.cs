@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
         brawlerSpawnInterval = 15f;
         rollerSpawnInterval = 5f;
 
-        finalWaveTime = 400f;
+        finalWaveTime = 360f;
     }
 
     void Update()
@@ -67,12 +67,13 @@ public class EnemyManager : MonoBehaviour
             TimedSpawn(rollingEnemy);
         }
 
-        if (GameManager.Instance.clockUI.hoursFloat > 12 && currentWaveTime >= finalWaveTime)
+        if (currentWaveTime >= finalWaveTime)
         {
             SpawnFinalWave();
         }
     }
 
+    // Spawn final wave at noon
     private void SpawnFinalWave()
     {
         PlaceEnemy(projectileEnemy);
@@ -87,6 +88,7 @@ public class EnemyManager : MonoBehaviour
         currentSpawnTime = 0;
     }
 
+    // Spawn enemies if player isn't dead
     public void SpawnMoreEnemies()
     {
         if (!GameManager.Instance.playerDead)
@@ -133,6 +135,7 @@ public class EnemyManager : MonoBehaviour
         return Random.Range(1, 2);
     }
 
+    // Spawn new enemy into specific pool
     private void InstantiateEnemy(EnemyData enemyData)
     {
         var position = RandomScreenCornerPosition();

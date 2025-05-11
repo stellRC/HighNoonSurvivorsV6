@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class ClockUI : MonoBehaviour
 {
-    private const float secondsPerGameDay = 10000f;
+    // an in-game day is 6 minutes long
+    private const float realSecondsPerGameDay = 360f;
     private const float rotationDegreesPerDay = 360f;
     private const float hoursPerDay = 24f;
     private const float minutesPerHour = 60f;
@@ -35,7 +36,7 @@ public class ClockUI : MonoBehaviour
 
         if (!MainNavigation.isPaused || !GameManager.Instance.isGameOver)
         {
-            day += Time.deltaTime / secondsPerGameDay;
+            day += Time.deltaTime / realSecondsPerGameDay;
         }
 
         dayNormalized = day % 1f;

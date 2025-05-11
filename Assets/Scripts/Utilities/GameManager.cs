@@ -146,7 +146,6 @@ public class GameManager : MonoBehaviour
     // Check if skills are unlocked at end of level for use in next level
     private void UpdateObjectives()
     {
-        Debug.Log(clockUI.hoursFloat);
         if (brawlerCount >= levelData.maxBrawlerCount)
         {
             objectiveManager.UpdateObjectiveValue(
