@@ -12,12 +12,11 @@ public class PlayerData : ScriptableObject
 
     [Header("Enemy Movement")]
     public float moveSpeed;
-    public int movementPatternID;
-    public int movementSpeedID;
+    public float dashSpeed;
 
     [Header("Player Combat")]
     public float attackRate;
-    public int specialAttackCount;
-    public float attackRange;
-    public int attackDamage;
+
+    public float attackRange = 2;
+    public int attackDamage = 1;
 }

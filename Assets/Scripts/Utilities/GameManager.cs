@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -41,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     public bool playerDead;
 
+    public bool isEasyMode;
+
     [Header("Lvl Data")]
     public List<LevelData> LevelDataList = new();
 
@@ -67,10 +70,10 @@ public class GameManager : MonoBehaviour
         clockUI = GetComponentInChildren<ClockUI>();
         playerController = FindAnyObjectByType<PlayerController>();
 
-        LevelCycle();
-
         // Value is updated when skills are unlocked and remains true when level ends
         canUseSpecial = false;
+        isEasyMode = true;
+        levelData = LevelDataList[0];
     }
 
     private void Start()
@@ -97,9 +100,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void LevelCycle()
+    public void LevelCycle()
     {
-        levelData = LevelDataList[0];
+        if (isEasyMode)
+        {
+            levelData = LevelDataList[0];
+        }
+        else
+        {
+            levelData = LevelDataList[1];
+        }
+        objectiveManager.SwitchObjectives();
     }
 
     // Reset reference values after new game scene loads

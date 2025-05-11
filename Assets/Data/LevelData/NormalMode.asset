@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08d9fae28db2f6342ad00462f7f1ceec, type: 3}
-  m_Name: LevelOneData
+  m_Name: NormalMode
   m_EditorClassIdentifier: 
   levelNumber: 1
   maxBrawlerCount: 5

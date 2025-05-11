@@ -56,15 +56,21 @@ public class MainNavigation : MonoBehaviour
     [SerializeField]
     private GameObject settingsButton;
 
+    [SerializeField]
+    private ObjectivesManager objectivesManager;
+
     public static bool isPaused;
 
     private bool state;
 
     private bool isGameScene;
 
+    private bool loadObjectives;
+
     void Awake()
     {
         state = false;
+        loadObjectives = false;
         fade = gameObject.GetComponent<FadingCanvas>();
     }
 
@@ -101,9 +107,30 @@ public class MainNavigation : MonoBehaviour
 
         // Prevent pause menu from opening while in main menu
         isPaused = true;
-        isGameScene = false;
+
         // Start internal game clock (enable fog animations)
         Time.timeScale = 1f;
+
+        // load objectives menu when navigating from game over scene for fast restart
+        if (loadObjectives)
+        {
+            ToggleObjectives();
+            loadObjectives = false;
+        }
+        isGameScene = false;
+    }
+
+    public void SetMode(int mode)
+    {
+        if (mode == 0)
+        {
+            GameManager.Instance.isEasyMode = true;
+        }
+        else
+        {
+            GameManager.Instance.isEasyMode = false;
+        }
+        GameManager.Instance.LevelCycle();
     }
 
     public void LoadGame()
@@ -167,15 +194,20 @@ public class MainNavigation : MonoBehaviour
             fade.FadeIn();
             objectivesMenu.SetActive(true);
         }
+        else
+        {
+            objectivesMenu.SetActive(false);
+
+            fade.FadeIn();
+            startMenu.SetActive(true);
+        }
     }
 
-    public void RestartGame()
+    public void ReturnToObjectives()
     {
         GameManager.Instance.ResetValues();
-        isGameScene = false;
-        gameOverMenu.SetActive(false);
-
-        LoadGame();
+        StartCoroutine(LoadLevelASync("MainMenu"));
+        loadObjectives = true;
     }
 
     // Load game scene

@@ -7,10 +7,10 @@ public class PlayerMovement : MonoBehaviour
     private CameraFollowObject cameraFollowObject;
 
     [SerializeField]
-    private float moveSpeed = 5f;
+    private Animator fxAnimator;
 
     [SerializeField]
-    private Animator fxAnimator;
+    private PlayerData playerData;
 
     public MasterAnimator playerAnimator;
     private Rigidbody2D playerRigidBody;
@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     //DASH
     private float activeMoveSpeed;
     private float dashSpeed;
+
+    private float moveSpeed;
 
     private float breathingCount;
 
@@ -42,13 +44,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        // Start off idling
+        isMoving = false;
         isDashing = false;
         IsFacingRight = true;
 
-        isMoving = false;
+        // Assign serial object data
+        moveSpeed = playerData.moveSpeed;
+        dashSpeed = playerData.dashSpeed;
 
         activeMoveSpeed = moveSpeed;
-        dashSpeed = 7f;
+
         playerAnimator.ChangeAnimation("SwordIdle");
 
         TurnCheck(moveInput);

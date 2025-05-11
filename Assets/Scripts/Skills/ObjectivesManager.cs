@@ -12,18 +12,39 @@ public class ObjectivesManager : MonoBehaviour
 
     public Dictionary<string, bool> skillObjectives;
 
+    private bool brawlerValue;
+    private bool gunmenValue;
+    private bool projectileValue;
+
+    private bool noonValue;
+
     private void Awake()
     {
         skillObjectives = new()
         {
             { "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers", false },
-            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", false },
+            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", true },
             {
                 "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
                 false
             },
             { "survive past noon", false }
         };
+        SaveValues();
+    }
+
+    private void SaveValues()
+    {
+        brawlerValue = skillObjectives[
+            "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers"
+        ];
+        gunmenValue = skillObjectives[
+            "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen"
+        ];
+        projectileValue = skillObjectives[
+            "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles"
+        ];
+        noonValue = skillObjectives["survive past noon"];
     }
 
     private void Start()
@@ -32,11 +53,37 @@ public class ObjectivesManager : MonoBehaviour
         CheckObjectiveValue();
     }
 
+    public void SwitchObjectives()
+    {
+        DestroyObjectives();
+        UpdateDictionary();
+        CheckObjectiveValue();
+    }
+
+    public void UpdateDictionary()
+    {
+        skillObjectives = new()
+        {
+            {
+                "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers",
+                brawlerValue
+            },
+            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", gunmenValue },
+            {
+                "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
+                projectileValue
+            },
+            { "survive past noon", noonValue }
+        };
+        SaveValues();
+    }
+
     // Instantiate objectives when main menu is loaded both before and after game is played
     public void CheckObjectiveValue()
     {
         foreach (var (key, value) in skillObjectives)
         {
+            Debug.Log(value);
             if (value == false)
             {
                 InstantiateObjective(key);

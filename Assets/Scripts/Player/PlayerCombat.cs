@@ -59,7 +59,7 @@ public class PlayerCombat : MonoBehaviour
         // If number of killed enemies is == 10, special attack is true
         // Each enemy kill fills the bar
         // If special attack is used, drain bar and reset attack number needed
-        if (currentAttackCount >= playerData.specialAttackCount)
+        if (currentAttackCount >= GameManager.Instance.levelData.specialAttackRate)
         {
             canUseSpecial = true;
         }
@@ -137,7 +137,7 @@ public class PlayerCombat : MonoBehaviour
     {
         attackRange = playerData.attackRange + 5;
         CameraShake.instance.ScreenShakeFromProfile(3, impulseSource);
-        StartCoroutine(ToggleSwordCombo(playerData.specialAttackCount));
+        StartCoroutine(ToggleSwordCombo(GameManager.Instance.levelData.specialAttackRate));
     }
 
     // Player becomes impervious to damage
@@ -146,7 +146,7 @@ public class PlayerCombat : MonoBehaviour
         GameManager.Instance.noDamage = true;
         playerAnimator.noDamage = true;
         CameraShake.instance.ScreenShakeFromProfile(1, impulseSource);
-        StartCoroutine(ToggleSpin(playerData.specialAttackCount));
+        StartCoroutine(ToggleSpin(GameManager.Instance.levelData.specialAttackRate));
     }
 
     // Destroy enemies positioned between player and clock
@@ -156,7 +156,9 @@ public class PlayerCombat : MonoBehaviour
         lightningBoltScript.ManualMode = false;
         playerAnimator.isShocking = true;
         CameraShake.instance.ScreenShakeFromProfile(0, impulseSource);
-        StartCoroutine(ToggleLightning(playerData.specialAttackCount, lightningBoltScript));
+        StartCoroutine(
+            ToggleLightning(GameManager.Instance.levelData.specialAttackRate, lightningBoltScript)
+        );
     }
 
     // Randomly destroy enemies every second for length of special attack
@@ -166,10 +168,10 @@ public class PlayerCombat : MonoBehaviour
         collisionFog.isPlaying = true;
         isPopping = true;
         CameraShake.instance.ScreenShakeFromProfile(2, impulseSource);
-        StartCoroutine(ToggleFog(playerData.specialAttackCount, collisionFog));
+        StartCoroutine(ToggleFog(GameManager.Instance.levelData.specialAttackRate, collisionFog));
     }
 
-    IEnumerator ToggleLightning(int count, LightningBoltScript lightningBoltScript)
+    IEnumerator ToggleLightning(float count, LightningBoltScript lightningBoltScript)
     {
         yield return new WaitForSeconds(count);
 
@@ -177,7 +179,7 @@ public class PlayerCombat : MonoBehaviour
         playerAnimator.isShocking = false;
     }
 
-    IEnumerator ToggleSpin(int count)
+    IEnumerator ToggleSpin(float count)
     {
         yield return new WaitForSeconds(count);
 
@@ -185,13 +187,13 @@ public class PlayerCombat : MonoBehaviour
         playerAnimator.noDamage = false;
     }
 
-    IEnumerator ToggleSwordCombo(int count)
+    IEnumerator ToggleSwordCombo(float count)
     {
         yield return new WaitForSeconds(count);
         attackRange = playerData.attackRange;
     }
 
-    IEnumerator ToggleFog(int count, FogController collisionFog)
+    IEnumerator ToggleFog(float count, FogController collisionFog)
     {
         yield return new WaitForSeconds(count);
         collisionFog.isPlaying = false;

@@ -15,10 +15,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 2826692639356239775, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
   playerName: player
   maxHealth: 1
-  moveSpeed: 4
-  movementPatternID: 0
-  movementSpeedID: 0
-  attackRate: 3
-  specialAttackCount: 2
-  attackRange: 1
+  moveSpeed: 6
+  dashSpeed: 11
+  attackRate: 1
+  specialAttackCount: 0
+  attackRange: 2
   attackDamage: 1
