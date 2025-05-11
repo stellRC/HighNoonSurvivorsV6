@@ -44,6 +44,14 @@ public class EnemyManager : MonoBehaviour
         currentSpawnTime += Time.deltaTime;
         currentWaveTime += Time.deltaTime;
 
+        if (!GameManager.Instance.playerDead)
+        {
+            CheckSpawn();
+        }
+    }
+
+    private void CheckSpawn()
+    {
         if (currentSpawnTime >= projectileSpawnInterval)
         {
             TimedSpawn(projectileEnemy);
@@ -81,8 +89,11 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnMoreEnemies()
     {
-        PlaceEnemy(brawlEnemy);
-        PlaceEnemy(projectileEnemy);
+        if (!GameManager.Instance.playerDead)
+        {
+            PlaceEnemy(brawlEnemy);
+            PlaceEnemy(projectileEnemy);
+        }
     }
 
     private void PlaceEnemy(EnemyData enemyData)

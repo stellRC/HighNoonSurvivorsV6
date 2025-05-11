@@ -169,6 +169,15 @@ public class MainNavigation : MonoBehaviour
         }
     }
 
+    public void RestartGame()
+    {
+        GameManager.Instance.ResetValues();
+        isGameScene = false;
+        gameOverMenu.SetActive(false);
+
+        LoadGame();
+    }
+
     // Load game scene
     public void StartGame()
     {

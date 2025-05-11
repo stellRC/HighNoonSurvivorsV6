@@ -143,7 +143,11 @@ public class Enemy : MonoBehaviour, IDoDamage
     public void EnableParticles()
     {
         var emission = deathParticleSystem.emission;
-        EnemyDeathAudio();
+        if (!GameManager.Instance.playerDead)
+        {
+            EnemyDeathAudio();
+        }
+
         emission.enabled = true;
 
         if (!IsPlayingParticles)
@@ -159,7 +163,7 @@ public class Enemy : MonoBehaviour, IDoDamage
         SoundEffectsManager.instance.PlayRandomSoundFXClip(
             SoundEffectsManager.instance.particleDeathSoundClips,
             transform,
-            1f
+            .2f
         );
     }
 

@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     public bool isPopping;
 
+    public bool playerDead;
+
     [Header("Lvl Data")]
     public List<LevelData> LevelDataList = new();
 
@@ -115,6 +117,9 @@ public class GameManager : MonoBehaviour
         brawlerCount = 0;
         gunmanCount = 0;
         projectileCount = 0;
+        playerDead = false;
+        noDamage = false;
+        isGameOver = false;
 
         // Prevent player from dying before loading game if enemy collides with the player
         noDamage = true;
@@ -151,7 +156,7 @@ public class GameManager : MonoBehaviour
         // The value of "noon" changes depending on clock settings
         if (clockUI.hoursFloat >= levelData.maxHourCount)
         {
-            objectiveManager.UpdateObjectiveValue("Survive noon");
+            objectiveManager.UpdateObjectiveValue("survive past noon");
         }
     }
 }

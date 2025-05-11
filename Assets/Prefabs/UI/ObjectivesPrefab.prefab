@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: objective
+  m_text: survive past noon
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 70c10e52e4f76b14eb7a6ae89969d7bc, type: 2}
   m_sharedMaterial: {fileID: -3317262939102794186, guid: 70c10e52e4f76b14eb7a6ae89969d7bc, type: 2}
@@ -96,9 +96,9 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 40
-  m_fontSizeMax: 45
-  m_fontStyle: 32
+  m_fontSizeMin: 30
+  m_fontSizeMax: 35
+  m_fontStyle: 64
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

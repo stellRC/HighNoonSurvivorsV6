@@ -32,7 +32,7 @@ public class GameOverUIManager : MonoBehaviour
     {
         totalCountText.text = "Total Enemies: " + GameManager.Instance.totalCount;
         brawlerCountText.text = "Brawlers: " + GameManager.Instance.brawlerCount;
-        rollerCountText.text = "Rollers" + GameManager.Instance.rollerCount;
+        rollerCountText.text = "Rollers: " + GameManager.Instance.rollerCount;
         projectileCountText.text = "Projectiles: " + GameManager.Instance.projectileCount;
         gunmanCountText.text = "Shooters: " + GameManager.Instance.gunmanCount;
         timeText.text = "Time Survived: " + clockUI.hoursString + ":" + clockUI.minutesString;

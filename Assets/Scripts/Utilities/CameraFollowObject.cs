@@ -1,11 +1,13 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CameraFollowObject : MonoBehaviour
 {
     private float flipYRotationTime;
-    private Transform playerTransform;
 
-    private PlayerMovement playerMovement;
+    [SerializeField]
+    private PlayerMovement playerTransform;
+
     private bool isFacingRight;
 
     private void Awake()
@@ -15,14 +17,13 @@ public class CameraFollowObject : MonoBehaviour
 
     void Start()
     {
-        playerMovement = FindAnyObjectByType<PlayerMovement>();
-        isFacingRight = playerMovement.IsFacingRight;
+        isFacingRight = playerTransform.IsFacingRight;
     }
 
     private void FixedUpdate()
     {
         // cameraFollowObject follows player's position
-        transform.position = playerMovement.transform.position;
+        transform.position = playerTransform.transform.position;
     }
 
     public void CallTurn()
@@ -43,3 +44,6 @@ public class CameraFollowObject : MonoBehaviour
         }
     }
 }
+
+
+// target offset -3 when moving left and 2 when facing right

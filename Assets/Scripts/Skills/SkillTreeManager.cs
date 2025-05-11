@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Diagnostics;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,9 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField]
     private Color lockedColor;
 
+    [SerializeField]
+    private TMP_Text skillText;
+
     private ObjectivesManager objectiveManager;
 
     public int chosenSpecialMove;
@@ -54,6 +58,11 @@ public class SkillTreeManager : MonoBehaviour
         isSpecialAnim = false;
     }
 
+    private void Start()
+    {
+        SetColors();
+    }
+
     private void Update()
     {
         if (playerAnimator == null)
@@ -62,18 +71,30 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
+    private void SetColors()
+    {
+        electroBtn.GetComponent<Image>().color = lockedColor;
+
+        earthBtn.GetComponent<Image>().color = lockedColor;
+
+        swordBtn.GetComponent<Image>().color = lockedColor;
+
+        spinBtn.GetComponent<Image>().color = lockedColor;
+    }
+
     private void UnlockSkillSpin()
     {
-        if (objectiveManager.skillObjectives["Survive noon"])
+        if (objectiveManager.skillObjectives["survive past noon"])
         {
-            TransformReset();
-            TransformScale(spinBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
-            chosenSpecialMove = 0;
-            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
-            GameManager.Instance.canUseSpecial = true;
+            UnlockUI(spinBtn, 0);
+
+            skillText.text = "Unlocked: Invincibility";
         }
-        else { }
+        else
+        {
+            skillText.text = "survive past noon to unlock!";
+        }
     }
 
     private void UnlockSwordCombo()
@@ -84,13 +105,14 @@ public class SkillTreeManager : MonoBehaviour
             ]
         )
         {
-            TransformReset();
-            TransformScale(swordBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
-            chosenSpecialMove = 1;
-            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
-            GameManager.Instance.canUseSpecial = true;
-            isSpecialAnim = true;
+            UnlockUI(swordBtn, 1);
+            skillText.text = "Unlocked: Increased Attack Range";
+        }
+        else
+        {
+            skillText.text =
+                "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers to unlock!";
         }
     }
 
@@ -102,13 +124,15 @@ public class SkillTreeManager : MonoBehaviour
             ]
         )
         {
-            TransformReset();
-            TransformScale(electroBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
             chosenSpecialMove = 2;
-            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
-            GameManager.Instance.canUseSpecial = true;
-            isSpecialAnim = true;
+            UnlockUI(electroBtn, 2);
+            skillText.text = "Unlocked: Lightning Bolt";
+        }
+        else
+        {
+            skillText.text =
+                "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen to unlock!";
         }
     }
 
@@ -121,13 +145,31 @@ public class SkillTreeManager : MonoBehaviour
             ]
         )
         {
-            TransformReset();
-            TransformScale(earthBtn);
             playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
-            chosenSpecialMove = 3;
-            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
+            UnlockUI(earthBtn, 3);
+            skillText.text = "Unlocked: Death Fog";
+        }
+        else
+        {
+            skillText.text =
+                "Destroy "
+                + GameManager.Instance.levelData.maxProjectileCount
+                + " projectiles to unlock!";
+        }
+    }
+
+    private void UnlockUI(Button button, int specialMove)
+    {
+        TransformReset();
+        TransformScale(button);
+        chosenSpecialMove = specialMove;
+        playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
+        isSpecialAnim = true;
+
+        button.GetComponentInChildren<TMP_Text>().text = " ";
+        if (!GameManager.Instance.canUseSpecial)
+        {
             GameManager.Instance.canUseSpecial = true;
-            isSpecialAnim = true;
         }
     }
 

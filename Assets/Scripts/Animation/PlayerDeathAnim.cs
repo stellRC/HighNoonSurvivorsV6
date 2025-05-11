@@ -10,6 +10,7 @@ public class PlayerDeathAnim : StateMachineBehaviour
     )
     {
         GameManager.Instance.isGameOver = true;
+        GameManager.Instance.playerDead = true;
         // animator.enabled = false;
     }
 }

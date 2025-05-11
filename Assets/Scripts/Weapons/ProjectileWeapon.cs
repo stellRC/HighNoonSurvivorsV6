@@ -11,52 +11,52 @@ public class ProjectileWeapon : WeaponBase
 
     private MasterAnimator enemyAnimation;
 
-    private Transform playerTransform;
-
     private float waitTime;
 
-    private bool playOnce;
+    private bool playAudioOnce;
+
+    private float attackRate;
 
     void Awake()
     {
         enemyAnimation = GetComponent<MasterAnimator>();
-        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
     }
 
     private void OnEnable()
     {
-        playOnce = false;
+        playAudioOnce = false;
+        attackRate = 0;
     }
 
     private void Update()
     {
-        if (
-            Vector2.Distance(transform.position, playerTransform.position)
-            <= enemyData.minimumDistance
-        )
-        {
-            EnemyAttack();
-            waitTime = Random.Range(1.5f, 4);
-            StartCoroutine(EnemyAttackRate(waitTime));
-        }
+        attackRate += Time.deltaTime;
+        CheckIfCanAttack();
     }
 
-    IEnumerator EnemyAttackRate(float waitTime)
+    // Limit attack rate based on random range setting
+    private void CheckIfCanAttack()
     {
-        yield return new WaitForSeconds(waitTime);
-        EnemyAttack();
+        if (attackRate >= waitTime)
+        {
+            EnemyAttack();
+            waitTime = Random.Range(1f, 4f);
+            attackRate = 0;
+        }
     }
 
     private void EnemyAttack()
     {
         var attack = Random.Range(0, 4);
-        // Shoot animation
-        if (!playOnce)
+
+        enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
+
+        // Prevent audio from playing every instance since it can become annoying
+        // attack in this context has no meaning other than as a limiting factor
+        if (!playAudioOnce && attack == 0 && !GameManager.Instance.playerDead)
         {
             ProjectileAudio();
         }
-
-        enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
     }
 
     private void ProjectileAudio()
@@ -64,7 +64,7 @@ public class ProjectileWeapon : WeaponBase
         SoundEffectsManager.instance.PlayRandomSoundFXClip(
             SoundEffectsManager.instance.shootingSoundClips,
             transform,
-            1f
+            .75f
         );
     }
 
@@ -72,18 +72,21 @@ public class ProjectileWeapon : WeaponBase
     {
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
+        // Only collide with player if they are able to take damage (and don't currently have invincibility skill)
+
         if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
         {
-            playOnce = true;
+            playAudioOnce = true;
 
             iDoDamage?.DoDamage(damage);
         }
     }
 
+    // Instantiate bullet object from prefab at enemy position
     public void InstantiateProjectile(Vector2 position)
     {
-        // adjust offset
-        position = new Vector2(position.x + -.5f, position.y - .5f);
+        // adjust for sprite offset
+        position = new Vector2(position.x, position.y - .5f);
 
         ObjectPooling.SpawnObject(
             enemyData.projectilePrefab,

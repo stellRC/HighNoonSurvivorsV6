@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,11 +10,11 @@ public class Projectile : MonoBehaviour
 
     private SpriteRenderer projectileSprite;
 
+    [SerializeField]
+    private GameObject impactEffect;
+
     public float projectileSpeed;
 
-    private Animator projectileFX;
-
-    // private Coroutine returnToPoolCoroutine;
     private float destroyTime;
 
     private bool returned;
@@ -21,14 +22,15 @@ public class Projectile : MonoBehaviour
     private int damage;
     private Vector2 projectileTarget;
 
-    private float angle;
+    private float returnToPoolCount;
+
+    private float size;
 
     private void Awake()
     {
         playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
         projectileSprite = GetComponentInChildren<SpriteRenderer>();
         projectileRigidBody = GetComponent<Rigidbody2D>();
-        projectileFX = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -39,13 +41,10 @@ public class Projectile : MonoBehaviour
 
         projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
         FlipSprite();
+        // projectileRigidBody.linearVelocity = transform.forward * projectileSpeed;
     }
 
-    private void Update()
-    {
-        // RotateSprite();
-    }
-
+    // Return object to pool if no collision
     private void FixedUpdate()
     {
         MoveProjectile();
@@ -61,7 +60,10 @@ public class Projectile : MonoBehaviour
             projectileTarget,
             projectileSpeed * Time.deltaTime
         );
+    }
 
+    void Update()
+    {
         if (
             transform.position.x == projectileTarget.x
             && transform.position.y == projectileTarget.y
@@ -73,11 +75,10 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    // Rotate sprite independently of game object
-    private void RotateSprite()
+    private void ReturnToPool()
     {
-        angle = Mathf.Atan2(projectileTarget.y, projectileTarget.x);
-        projectileSprite.transform.rotation = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg);
+        ObjectPooling.ReturnObjectToPool(gameObject);
+        returned = true;
     }
 
     // Flip the sprite to face direction of player
@@ -94,52 +95,29 @@ public class Projectile : MonoBehaviour
     }
 
     // Destroy projectile if touching player and projectile has not already been destroyed
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
-
-        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
-        {
-            projectileFX.SetTrigger("BulletImpact");
-
-            iDoDamage?.DoDamage(damage);
-
-            ObjectPooling.ReturnObjectToPool(gameObject);
-            returned = true;
-        }
 
         if (returned)
         {
             return;
         }
+
+        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
+        {
+            // Instantiate(impactEffect, transform.position, Quaternion.identity);
+            iDoDamage?.DoDamage(damage);
+
+            ReturnToPool();
+        }
     }
 
+    // Lighting and fog collision
     public void NonPlayerCollision()
     {
-        projectileFX.SetTrigger("BulletImpact");
         ObjectPooling.ReturnObjectToPool(gameObject);
         GameManager.Instance.projectileCount += 1;
-        returned = true;
-    }
-
-    // Coroutine with designated wait time before destroying object
-    public IEnumerator ReturnToPoolAfterTime()
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < destroyTime)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        if (returned)
-        {
-            yield break;
-        }
-
-        ObjectPooling.ReturnObjectToPool(gameObject);
         returned = true;
     }
 }

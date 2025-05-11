@@ -70,6 +70,11 @@ public class EnemyMovement : MonoBehaviour
             {
                 EnemyMovementPatterns(enemyData.movementPatternID, angle, enemySpeed, distance);
             }
+
+            if (GameManager.Instance.playerDead)
+            {
+                StartCoroutine(TriggerDeath(Random.Range(2f, 6f)));
+            }
         }
     }
 
@@ -175,21 +180,27 @@ public class EnemyMovement : MonoBehaviour
         {
             RollAnimation();
             // RollingSound();
+            currentPosition = transform.position;
+            if (currentPosition == randomPosition)
+            {
+                StartCoroutine(TriggerDeath(Random.Range(3f, 10f)));
+            }
         }
         else
         {
             RunAnimation();
+
+            currentPosition = transform.position;
+            if (currentPosition == randomPosition)
+            {
+                DeathAnimation();
+            }
         }
 
         // Return roller enemy to pool after reached target position, stats not updated
-        currentPosition = transform.position;
-        if (currentPosition == randomPosition)
-        {
-            StartCoroutine(NewRollPosition(Random.Range(3f, 10f)));
-        }
     }
 
-    IEnumerator NewRollPosition(float count)
+    IEnumerator TriggerDeath(float count)
     {
         yield return new WaitForSeconds(count);
         DeathAnimation();

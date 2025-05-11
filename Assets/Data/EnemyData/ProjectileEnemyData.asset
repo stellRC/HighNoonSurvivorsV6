@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ProjectileEnemyData
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 9199026032389405178, guid: a54fa069b53f3e04da49a5c1f1631063, type: 3}
-  projectilePrefab: {fileID: 4439493502084162821, guid: ffeb1c5b1fafee14aa7edd41f1c41d58, type: 3}
+  projectilePrefab: {fileID: 2054278205709185365, guid: cde7293d3bf88834e92bf910a63af1bc, type: 3}
   EnemyName: projectile
   maxHealth: 1
   moveSpeed: 1.5

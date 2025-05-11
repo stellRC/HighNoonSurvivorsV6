@@ -22,7 +22,7 @@ public class ObjectivesManager : MonoBehaviour
                 "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
                 false
             },
-            { "Survive noon", false }
+            { "survive past noon", false }
         };
     }
 
