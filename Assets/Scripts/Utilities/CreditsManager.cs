@@ -13,6 +13,6 @@ public class CreditsManager : MonoBehaviour
 
     public void OpenLink()
     {
-        Application.OpenURL("https://github.com/stellRC/HighNoonSurvivors");
+        Application.OpenURL("https://github.com/stellRC/HighNoonSurvivorsV6");
     }
 }
