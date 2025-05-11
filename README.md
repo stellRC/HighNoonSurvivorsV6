@@ -1,6 +1,9 @@
 # High Noon Survivors
 ## *A game written in C# using the Unity platform*
 
+### Github Project Link
+[stellRC](https://github.com/stellRC/HighNoonSurvivorsV6)
+
 ### Submission Overview
 I submitted this project in a folder titled `StellaArce_CS50_FinalProject`. Inside that folder are two more:
 
