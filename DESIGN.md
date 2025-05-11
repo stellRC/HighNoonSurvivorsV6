@@ -8,7 +8,7 @@ The game loop is fairly straightforward. Ultimately, the player has to stay aliv
 | -------- | ------- |
 | Slay 5 brawlers | Increased attack range |
 | Slay 10 gunmen | Lightning bolt |
-| Destroy 15 projectiles | Death fog |
+| Destroy 15 rollers | Death fog |
 | Survive past noon | Invincibility |
 
 ## Time
@@ -21,17 +21,17 @@ Movement of in-game time is physically represented by the softly glowing clock i
 Objectives are stored within a public dictionary. Each key represents the player requirement needed to unlock a new skill. The value is a bool. Is the objective met? True if yes; false if not yet. The player requirements change depending on the level data, which is stored inside of a scriptable object. 
 The following values can be found in the levelData objects. 
 
-|| Test Level | Level One |
+|| Easy Mode | Normal Mode |
 | --------| -------- | ------- |
-| Max Brawler Count | 1 | 5|
+| Max Brawler Count | 2 | 5|
 | Max Gunman Count| 1| 10|
-| Max Projectile Count|1| 15|
-| Max Hour Count|1| 15|
+| Max Roller Count|2| 15|
+| Max Hour Count|2| 15|
 
 After each play session, the objectives are updated to reflect whether or not these goals have been met. Each time an objective is met, whether in easy or normal mode, the objective is instantiated with a strikethrough.
 
 ### Skills
-This is a fairly simple skill tree. Currently the branches aren't connected, meaning there is no direct linear progression to the unlocks. Although, it is technically impossible to access the death fog without unlocking either the lightning bolt or the increased attack range since the normal attack doesn't check for projectile collision. In theory as I add more levels, I will be able to build out the tree. For example, incrementing the attack range further, adding more bolts of lightning, etc.
+This is a fairly simple skill tree. Currently the branches aren't connected, meaning there is no direct linear progression to the unlocks. In theory as I add more levels, I will be able to build out the tree. For example, incrementing the attack range further, adding more bolts of lightning, etc.
 
 The user tests whether or not a skill is unlocked by selecting buttons on the skill wheel. The buttons stay visually 'locked' until their corresponding objective is met.
 
@@ -44,12 +44,11 @@ I also put all of the canvas objects into an array I created in the class Persis
 ## Scene Changing
 I use async to load individual game scenes. This helps with avoiding the player experiencing game freezes that can occur due to scene transitions. I use a slider to show loading progress. 
 
-
 ## Coroutine
 I use coroutines more often than I probably should as they can be quite expensive. I use them for movement checks, scene loading, etc.
 
 ## Collision Detection
-I use box colliders with activated triggers for enemy-player collision detection. When a trigger is activated, the triggering gameobject is checked if they can  receive damage (via the IDODAMAGE interface) and if they are the target of the collider. If both of these conditions are true, either the player dies and the game is over, or the enemy/projectile returns to their particular Object pool. Right now both the player and all the enemies die after one hit. I have a health check and health data-stat on their scriptable objects in case I decide to add health or revival as a future power-up.
+I use box colliders with activated triggers for enemy-player collision detection. When a collision is detected, the gameobject is checked to see if they should deliver damage (via the IDODAMAGE interface) or if they are the target of the collider. If both of these conditions are true, either the player dies and the game is over, or the enemy/projectile returns to their particular Object pool. Right now both the player and all the enemies die after one hit. I have a health check and health data-stat on their scriptable objects in case I decide to add health or revival as a future power-up.
 
 ## DATA
 
@@ -68,7 +67,7 @@ I have pools for:
 ## Camera & Lighting
 
 ### Cinemachine Virtual Camera
-The camera follows a point slightly in front of the player so that the player is never center screen. I also use a confiner 2d to define the interior boundary to prevent the camera from moving beyond the designated game space and showing the map 'void'.
+The camera follows a point slightly in front of the player so that the player is never center screen. I also use confiner2d to define the interior boundary of the playfield to prevent the camera from moving beyond the designated game space.
 
 [Reference: Cinemachine](https://unity.com/features/cinemachine)
 
@@ -78,20 +77,17 @@ The camera does a little dance when a special skill is used. This was done by ad
 ## VFX & Particles
 
 ### Fog
-I use three layers of fog. The first two layers are variations on a material I created using shader graph effects. The third is made up of collision detecting particles I created with a VFX shader graph. A sphere is drawn around the player so that when the fog clears when it collides with it. 
-
-### Dust
-There are two layers of dust, each with slightly different settings and on different z-axises to bring about an illusion of depth.
+I use three layers of fog. The first two layers are variations on a material I created using shader graph effects. The third is made up of collision detecting particles I created with a VFX shader graph. A sphere is drawn around the player so that the fog clears as the player moves through it. 
 
 ### Death Particles
-After an enemy dies via collision, they undergo ParticleDeathAnim. On exiting their animation state, the particle component attached the game object starts emitting in bursts. 
+After an enemy dies via collision, they undergo ParticleDeathAnim. On exiting their animation state, the particle component attached to the game object starts emitting bursts. 
 
 
 ## User Interface
 
 ### Display Settings
 
-While the resolution dropdown currently only displays common sizes (that work for both HNS and the user), this can be later updated to include all user valid resolutions. 
+While the resolution dropdown currently only displays common sizes (that work for both HNS and the user), this can be later updated to include all valid resolutions. 
 
 [Reference: Steam Hardware & Software Survey](https://store.steampowered.com/hwsurvey/)
 

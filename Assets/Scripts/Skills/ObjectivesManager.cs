@@ -77,7 +77,6 @@ public class ObjectivesManager : MonoBehaviour
     {
         foreach (var (key, value) in skillObjectives)
         {
-            Debug.Log(value);
             if (value == false)
             {
                 InstantiateObjective(key);

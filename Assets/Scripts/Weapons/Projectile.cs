@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         returned = false;
 
         damage = 1;
-        projectileSprite.color = Color.white;
+
         projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
         FlipSprite();
     }
