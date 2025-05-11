@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
         returned = false;
         destroyTime = 7.0f;
         damage = 1;
-
+        projectileSprite.color = Color.white;
         projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
         FlipSprite();
         // projectileRigidBody.linearVelocity = transform.forward * projectileSpeed;

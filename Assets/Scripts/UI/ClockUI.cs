@@ -23,6 +23,7 @@ public class ClockUI : MonoBehaviour
     public string hoursString;
     public string minutesString;
 
+    // Calculate starting time
     private void Awake()
     {
         day = startingTime / hoursPerDay;
@@ -30,6 +31,8 @@ public class ClockUI : MonoBehaviour
 
     private void Update()
     {
+        // Increase in-game time if game scene is active
+
         if (!MainNavigation.isPaused || !GameManager.Instance.isGameOver)
         {
             day += Time.deltaTime / secondsPerGameDay;
@@ -38,13 +41,18 @@ public class ClockUI : MonoBehaviour
         dayNormalized = day % 1f;
 
         UpdateClock();
+
+        // This value is use in the game manager for checking final objective
         hoursFloat = Mathf.Floor(dayNormalized * hoursPerDay);
+
+        // hour string and minute string are both used in the final game over panel
         hoursString = hoursFloat.ToString("00");
         minutesString = Mathf
             .Floor(dayNormalized * hoursPerDay % 1f * minutesPerHour)
             .ToString("00");
     }
 
+    // Rotate clock hands
     private void UpdateClock()
     {
         clockHourHandTransform.eulerAngles = new Vector3(

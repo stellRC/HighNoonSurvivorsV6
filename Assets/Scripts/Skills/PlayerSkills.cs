@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 // HANDLE ALL PLAYER SKILLS
 public class PlayerSkills
@@ -29,12 +27,15 @@ public class PlayerSkills
         unlockedSkillTypeList = new List<SkillType>();
     }
 
+    // Unlock skills, called through UI
     private void UnlockSkill(SkillType skillType)
     {
         if (!IsSkillUnlocked(skillType))
         {
             unlockedSkillTypeList.Add(skillType);
-            OnSkillUnlocked.Invoke(this, new OnSkillUnlockedEventArgs { skillType = skillType });
+
+            // Event is fired off when skill is unlocked
+            OnSkillUnlocked?.Invoke(this, new OnSkillUnlockedEventArgs { skillType = skillType });
         }
     }
 
@@ -46,8 +47,6 @@ public class PlayerSkills
 
     public bool TryUnlockSkill(SkillType skillType)
     {
-        Debug.Log("unlocked: " + skillType);
-
         UnlockSkill(skillType);
         return true;
     }

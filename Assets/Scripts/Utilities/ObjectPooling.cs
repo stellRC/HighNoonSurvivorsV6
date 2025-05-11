@@ -6,15 +6,15 @@ using UnityEngine;
 public class ObjectPooling : MonoBehaviour
 {
     // create new object pool for ever game object passed into it
-    private GameObject objectPoolEmptyHolder;
-    private static GameObject particleSystemEmpty;
-    private static GameObject projectilesEmpty;
-    private static GameObject enemiesEmpty;
-    private static GameObject brawlersEmpty;
-    private static GameObject shootersEmpty;
-    private static GameObject rollersEmpty;
+    private GameObject objectPoolParentHolder;
 
-    private static GameObject audioSourceEmpty;
+    private static GameObject projectilesParent;
+    private static GameObject enemiesParent;
+    private static GameObject brawlersParent;
+    private static GameObject shootersParent;
+    private static GameObject rollersParent;
+
+    private static GameObject audioSourceParent;
 
     private int projectileMaxCount;
 
@@ -22,10 +22,8 @@ public class ObjectPooling : MonoBehaviour
 
     public enum PoolType
     {
-        ParticleSystem,
         Projectiles,
 
-        // Enemies,
         Brawlers,
         Shooters,
         Rollers,
@@ -35,36 +33,33 @@ public class ObjectPooling : MonoBehaviour
 
     private void Awake()
     {
-        SetupEmpty();
+        SetupParent();
 
         enemyMaxCount = 15;
         projectileMaxCount = 40;
     }
 
-    private void SetupEmpty()
+    private void SetupParent()
     {
-        objectPoolEmptyHolder = new GameObject("Pooled Objects");
+        objectPoolParentHolder = new GameObject("Pooled Objects");
 
-        particleSystemEmpty = new GameObject("Particle Effects");
-        particleSystemEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+        projectilesParent = new GameObject("Projectile Objects");
+        projectilesParent.transform.SetParent(objectPoolParentHolder.transform);
 
-        projectilesEmpty = new GameObject("Projectile Objects");
-        projectilesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+        enemiesParent = new GameObject("Enemy Objects");
+        enemiesParent.transform.SetParent(objectPoolParentHolder.transform);
 
-        enemiesEmpty = new GameObject("Enemy Objects");
-        enemiesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+        brawlersParent = new GameObject("Brawler Objects");
+        brawlersParent.transform.SetParent(enemiesParent.transform);
 
-        brawlersEmpty = new GameObject("Brawler Objects");
-        brawlersEmpty.transform.SetParent(enemiesEmpty.transform);
+        shootersParent = new GameObject("Shooter Objects");
+        shootersParent.transform.SetParent(enemiesParent.transform);
 
-        shootersEmpty = new GameObject("Shooter Objects");
-        shootersEmpty.transform.SetParent(enemiesEmpty.transform);
+        rollersParent = new GameObject("Roller Objects");
+        rollersParent.transform.SetParent(enemiesParent.transform);
 
-        rollersEmpty = new GameObject("Roller Objects");
-        rollersEmpty.transform.SetParent(enemiesEmpty.transform);
-
-        audioSourceEmpty = new GameObject("Audio Source Objects");
-        audioSourceEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+        audioSourceParent = new GameObject("Audio Source Objects");
+        audioSourceParent.transform.SetParent(objectPoolParentHolder.transform);
     }
 
     public static PoolType PoolingType;
@@ -73,13 +68,13 @@ public class ObjectPooling : MonoBehaviour
 
     private void Update()
     {
-        CullPool(projectilesEmpty, projectileMaxCount);
+        CullPool(projectilesParent, projectileMaxCount);
 
-        CullPool(brawlersEmpty, enemyMaxCount);
-        CullPool(shootersEmpty, enemyMaxCount);
-        CullPool(rollersEmpty, enemyMaxCount);
+        CullPool(brawlersParent, enemyMaxCount);
+        CullPool(shootersParent, enemyMaxCount);
+        CullPool(rollersParent, enemyMaxCount);
 
-        CullAudioPool(audioSourceEmpty);
+        CullAudioPool(audioSourceParent);
     }
 
     private void CullPool(GameObject pool, int maxPoolCount)
@@ -154,7 +149,7 @@ public class ObjectPooling : MonoBehaviour
 
         if (pool == null)
         {
-            Debug.LogWarning("Trying to release an object that is not pooled " + obj.name);
+            Debug.LogWarning("Trying to release non-pooled object: " + obj.name);
         }
         else
         {
@@ -167,12 +162,11 @@ public class ObjectPooling : MonoBehaviour
     {
         return poolType switch
         {
-            PoolType.ParticleSystem => particleSystemEmpty,
-            PoolType.Projectiles => projectilesEmpty,
-            PoolType.Brawlers => brawlersEmpty,
-            PoolType.Shooters => shootersEmpty,
-            PoolType.Rollers => rollersEmpty,
-            PoolType.Audio => audioSourceEmpty,
+            PoolType.Projectiles => projectilesParent,
+            PoolType.Brawlers => brawlersParent,
+            PoolType.Shooters => shootersParent,
+            PoolType.Rollers => rollersParent,
+            PoolType.Audio => audioSourceParent,
             PoolType.None => null,
             _ => null,
         };

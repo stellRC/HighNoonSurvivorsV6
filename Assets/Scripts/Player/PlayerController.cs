@@ -19,26 +19,6 @@ public class PlayerController : MonoBehaviour, IDoDamage
         playerInput.enabled = true;
     }
 
-    public bool CanUseEarthshatter()
-    {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.GroundSlam);
-    }
-
-    public bool CanUseElectrocute()
-    {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.ShockHeavy);
-    }
-
-    public bool CanUseSpin()
-    {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Spin);
-    }
-
-    public bool CanUseSwordCombo()
-    {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.SwordCombo);
-    }
-
     public PlayerSkills GetPlayerSkills()
     {
         return playerSkills;

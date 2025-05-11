@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Diagnostics;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
