@@ -50,8 +50,8 @@ public class CameraShake : MonoBehaviour
             impulseListener = FindFirstObjectByType<CinemachineImpulseListener>();
         }
 
-        impulseDefinition = impulseSource.ImpulseDefinition;
         // Time of shake should align with time of special attack
+        impulseDefinition = impulseSource.ImpulseDefinition;
 
         //  impulse source settings
         impulseDefinition.ImpulseDuration = playerData.specialAttackCount;
@@ -59,7 +59,6 @@ public class CameraShake : MonoBehaviour
         impulseDefinition.CustomImpulseShape = profile.impulseCurve;
 
         // impulse listener settings
-
         impulseListener.ReactionSettings.AmplitudeGain = profile.listenerAmplitude;
         impulseListener.ReactionSettings.FrequencyGain = profile.listenerFrequency;
         impulseListener.ReactionSettings.Duration = profile.listenerDuration;

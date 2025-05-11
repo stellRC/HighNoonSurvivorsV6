@@ -1,7 +1,5 @@
 # HighNoonSurvivors
 
-
-
 ## Game Loop
 
 The game loop is fairly straightforward. Ultimately, the player has to stay alive 6 in-game hours to win, and the special skills unlocked are extremely helpful for doing so. The player completes objectives to unlock skills on the skill wheel. 
@@ -37,10 +35,11 @@ This is a fairly simple skill tree. Currently the branches aren't connected, mea
 
 The user tests whether or not a skill is unlocked by selecting buttons on the skill wheel. The buttons stay visually 'locked' until their corresponding objective is met.
 
-## Canvas & UI
-I store objects in several canvases since every time a canvas is updated, all objects that are children also update. This can be very expensive computational wise. 
+## Canvas 
 
 When any UI element changes take place, the entire canvas need to then be redrawn and recalculated. To avoid this, I decided to separate out my UI elements across seven different canvases. UI navigation is controlled via script in the MainNavigation class. This class could definitely do with a little bit of refactoring. I originally had a single method for deactivating all canvas objects. As the project grew and trouble ensued, typing out each SetActive() became extremely helpful.
+
+I also put all of the canvas objects into an array I created in the class PersistentObjects. Doing so keeps the game objects from being destroyed when the scene changes. 
 
 ## Scene Changing
 I use async to load individual game scenes. This helps with avoiding the player experiencing game freezes that can occur due to scene transitions. I use a slider to show loading progress. 
@@ -50,10 +49,21 @@ I use async to load individual game scenes. This helps with avoiding the player 
 I use coroutines more often than I probably should as they can be quite expensive. I use them for movement checks, scene loading, etc.
 
 ## Collision Detection
+I use box colliders with activated triggers for enemy-player collision detection. When a trigger is activated, the triggering gameobject is checked if they can one receive damage (via the IDODAMAGE interface) and if they are the target of the collider. If both of these conditions are true, either the player dies and the game is over, or the enemy/projectile returns to their particular Object pool. Right now both the player and all the enemies die after one hit. I have a health check and health data-stat on their scriptable objects in case I decide to add health or revival as a future power-up.
 
+## DATA
 
+### Data Persistence 
+I create a single instance of the gameManager to ensure persistent data across game scenes. 
 
-## Audio
+## Object Pooling
+I use object pooling to improve game performance. In doing so, I create and reuse objects so as to circumvent the need for creating and destroying a new projectile or a new enemy every time they are instantiated. I limit the size of each pool with a unique max value.
+
+I have pools for: 
+
+- sound effects
+- specific enemies e.g. brawlers, gunmen, and rollers
+- projectiles
 
 ## Camera & Lighting
 
@@ -63,6 +73,7 @@ The camera follows a point slightly in front of the player so that the player is
 [Reference: Cinemachine](https://unity.com/features/cinemachine)
 
 ### Camera Shake
+The camera does a little dance when a special skill is used. This was done by adding a cinemachine impulse source to the player object. 
 
 ## VFX & Particles
 
@@ -73,9 +84,8 @@ I use three layers of fog. The first two layers are variations on a material I c
 There are two layers of dust, each with slightly different settings and on different z-axises to bring about an illusion of depth.
 
 ### Death Particles
-TODO: Use object pool to reuse particles
+After an enemy dies via collision, they undergo ParticleDeathAnim. On exiting their animation state, the particle component attached the game object starts emitting in bursts. 
 
-### Cooldown bar aka power-up bar
 
 ## User Interface
 
@@ -87,7 +97,9 @@ While the resolution dropdown currently only displays common sizes (that work fo
 
 ### Audio Settings
 
-Users can adjust volume settings for sound effects, music, or both. 
+Users can adjust volume settings for sound effects, music, or both with the master slider. These levels are interpreted linearly so that changes in volume sound more natural.  
+
+All of the audio files for the SFX were free from the Unity asset store. 
 
 ### Typography
 
@@ -106,22 +118,10 @@ I used sprite and animations created by [Dead Revolver](https://deadrevolver.tho
 ## Animation
 
 ### LeanTween & doTween
-A useful tool for tweening aka filling in motion between two points. I use this for animating UI.
+A useful tool for tweening aka filling in motion between two points. I use this for animating UI and player movement. 
 
 [Source: LeanTween](https://assetstore.unity.com/packages/tools/animation/leantween-3595)
 
-## DATA
 
-### Data Persistence 
-I create a single instance of the gameManager to ensure persistent data across game scenes. 
-
-## Object Pooling
-I use object pooling to improve game performance. In doing so, I create and reuse objects so as to circumvent the need for creating and destroying a new projectile or a new enemy every time they are instantiated. I limit the size of each pool with a unique max value.
-
-I have pools for: 
-
-- sound effects
-- specific enemies e.g. brawlers, gunmen, and rollers
-- projectiles
 
 
