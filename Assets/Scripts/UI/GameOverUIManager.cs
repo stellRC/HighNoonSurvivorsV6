@@ -36,5 +36,10 @@ public class GameOverUIManager : MonoBehaviour
         projectileCountText.text = "Projectiles: " + GameManager.Instance.projectileCount;
         gunmanCountText.text = "Shooters: " + GameManager.Instance.gunmanCount;
         timeText.text = "Time of Death: " + clockUI.hoursString + ":" + clockUI.minutesString;
+
+        if (projectileCountText.gameObject.activeSelf)
+        {
+            projectileCountText.gameObject.SetActive(false);
+        }
     }
 }

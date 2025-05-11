@@ -123,9 +123,9 @@ GameObject:
   - component: {fileID: 1155198667113590535}
   - component: {fileID: 5098639834051936117}
   - component: {fileID: 4763318945040660466}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: BulletSprite
-  m_TagString: projectile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
