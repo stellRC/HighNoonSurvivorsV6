@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class Projectile : MonoBehaviour
 {
-    private Rigidbody2D projectileRigidBody;
     private Transform playerTransform;
 
     private SpriteRenderer projectileSprite;
@@ -15,33 +14,25 @@ public class Projectile : MonoBehaviour
 
     public float projectileSpeed;
 
-    private float destroyTime;
-
     private bool returned;
 
     private int damage;
     private Vector2 projectileTarget;
 
-    private float returnToPoolCount;
-
-    private float size;
-
     private void Awake()
     {
         playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
         projectileSprite = GetComponentInChildren<SpriteRenderer>();
-        projectileRigidBody = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
         returned = false;
-        destroyTime = 7.0f;
+
         damage = 1;
         projectileSprite.color = Color.white;
         projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
         FlipSprite();
-        // projectileRigidBody.linearVelocity = transform.forward * projectileSpeed;
     }
 
     // Return object to pool if no collision

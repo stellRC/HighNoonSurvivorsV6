@@ -117,4 +117,10 @@ public class SettingsManager : MonoBehaviour
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
     }
+
+    // Create dynamic variable for fullscreen that will set itself automatically when toggled
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
 }

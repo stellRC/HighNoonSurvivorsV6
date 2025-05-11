@@ -17,3 +17,4 @@ MonoBehaviour:
   maxGunmanCount: 10
   maxProjectileCount: 15
   maxHourCount: 12
+  specialAttackRate: 5

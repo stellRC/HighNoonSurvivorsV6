@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ClockUI : MonoBehaviour
 {
-    private const float secondsPerGameDay = 1200f;
+    private const float secondsPerGameDay = 10000f;
     private const float rotationDegreesPerDay = 360f;
     private const float hoursPerDay = 24f;
     private const float minutesPerHour = 60f;

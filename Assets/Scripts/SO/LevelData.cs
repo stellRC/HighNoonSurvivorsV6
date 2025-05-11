@@ -9,7 +9,7 @@ public class LevelData : ScriptableObject
     [Header("Objective Data")]
     public int maxBrawlerCount = 5;
     public int maxGunmanCount = 10;
-    public int maxProjectileCount = 15;
+    public int maxRollerCount = 15;
     public float maxHourCount = 12;
 
     public float specialAttackRate = 2;

@@ -134,12 +134,11 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    // Can only destroy projectiles with either fog or lightning skills
     private void UnlockSkillEarth()
     {
         if (
             objectiveManager.skillObjectives[
-                "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles"
+                "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers"
             ]
         )
         {
@@ -150,9 +149,7 @@ public class SkillTreeManager : MonoBehaviour
         else
         {
             skillText.text =
-                "Destroy "
-                + GameManager.Instance.levelData.maxProjectileCount
-                + " projectiles to unlock!";
+                "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers to unlock!";
         }
     }
 

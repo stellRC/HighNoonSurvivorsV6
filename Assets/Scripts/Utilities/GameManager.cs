@@ -157,11 +157,9 @@ public class GameManager : MonoBehaviour
         {
             objectiveManager.UpdateObjectiveValue("Slay " + levelData.maxGunmanCount + " gunmen");
         }
-        if (projectileCount >= levelData.maxProjectileCount)
+        if (projectileCount >= levelData.maxRollerCount)
         {
-            objectiveManager.UpdateObjectiveValue(
-                "Destroy " + levelData.maxProjectileCount + " projectiles"
-            );
+            objectiveManager.UpdateObjectiveValue("Slay " + levelData.maxRollerCount + " rollers");
         }
 
         // The value of "noon" changes depending on clock settings

@@ -9,9 +9,6 @@ public class CooldownBar : MonoBehaviour
     private Transform barTransform;
 
     [SerializeField]
-    private PlayerData playerData;
-
-    [SerializeField]
     private Image cooldownBarFillImage;
 
     [SerializeField]
@@ -74,7 +71,7 @@ public class CooldownBar : MonoBehaviour
 
         currentCool += 1f;
 
-        float ratio = currentCool / playerData.specialAttackCount;
+        float ratio = currentCool / GameManager.Instance.levelData.specialAttackRate;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
@@ -92,7 +89,7 @@ public class CooldownBar : MonoBehaviour
         }
 
         currentCool -= 1f;
-        float ratio = currentCool / playerData.specialAttackCount;
+        float ratio = currentCool / GameManager.Instance.levelData.specialAttackRate;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);

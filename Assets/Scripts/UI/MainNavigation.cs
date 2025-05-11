@@ -46,6 +46,9 @@ public class MainNavigation : MonoBehaviour
     [SerializeField]
     private GameObject gameOverMenu;
 
+    [SerializeField]
+    private GameObject gameWinMenu;
+
     [Header("Non-Menu Objects")]
     [SerializeField]
     private Slider loadingSlider;
@@ -102,6 +105,7 @@ public class MainNavigation : MonoBehaviour
         settingsMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        gameWinMenu.SetActive(false);
         cooldownCanvas.SetActive(false);
         worldGameCanvas.SetActive(false);
 
@@ -268,7 +272,15 @@ public class MainNavigation : MonoBehaviour
     {
         settingsButton.SetActive(false);
         killCount.SetActive(false);
-        gameOverMenu.SetActive(true);
+        if (GameManager.Instance.clockUI.hoursFloat > 12)
+        {
+            gameWinMenu.SetActive(true);
+        }
+        else
+        {
+            gameOverMenu.SetActive(true);
+        }
+
         worldGameCanvas.SetActive(false);
     }
 

@@ -139,7 +139,6 @@ public class EnemyManager : MonoBehaviour
 
         if (enemyData.name == "RollEnemy")
         {
-            Debug.Log("spawn roller");
             ObjectPooling.SpawnObject(
                 enemyData.enemyPrefab,
                 position,
@@ -149,7 +148,6 @@ public class EnemyManager : MonoBehaviour
         }
         else if (enemyData.name == "ProjectileEnemyData")
         {
-            Debug.Log("spawn projectile man");
             ObjectPooling.SpawnObject(
                 enemyData.enemyPrefab,
                 position,
@@ -159,7 +157,6 @@ public class EnemyManager : MonoBehaviour
         }
         else if (enemyData.name == "BrawlerEnemyData")
         {
-            Debug.Log("spawn brawler");
             ObjectPooling.SpawnObject(
                 enemyData.enemyPrefab,
                 position,

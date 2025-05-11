@@ -15,5 +15,6 @@ MonoBehaviour:
   levelNumber: 1
   maxBrawlerCount: 2
   maxGunmanCount: 1
-  maxProjectileCount: 1
+  maxRollerCount: 2
   maxHourCount: 2
+  specialAttackRate: 2

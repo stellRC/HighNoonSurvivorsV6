@@ -14,7 +14,7 @@ public class ObjectivesManager : MonoBehaviour
 
     private bool brawlerValue;
     private bool gunmenValue;
-    private bool projectileValue;
+    private bool rollerValue;
 
     private bool noonValue;
 
@@ -23,11 +23,8 @@ public class ObjectivesManager : MonoBehaviour
         skillObjectives = new()
         {
             { "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers", false },
-            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", true },
-            {
-                "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
-                false
-            },
+            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", false },
+            { "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers", false },
             { "survive past noon", false }
         };
         SaveValues();
@@ -41,8 +38,8 @@ public class ObjectivesManager : MonoBehaviour
         gunmenValue = skillObjectives[
             "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen"
         ];
-        projectileValue = skillObjectives[
-            "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles"
+        rollerValue = skillObjectives[
+            "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers"
         ];
         noonValue = skillObjectives["survive past noon"];
     }
@@ -69,10 +66,7 @@ public class ObjectivesManager : MonoBehaviour
                 brawlerValue
             },
             { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", gunmenValue },
-            {
-                "Destroy " + GameManager.Instance.levelData.maxProjectileCount + " projectiles",
-                projectileValue
-            },
+            { "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers", rollerValue },
             { "survive past noon", noonValue }
         };
         SaveValues();

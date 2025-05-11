@@ -80,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (isDashing & !isMoving)
+        {
+            transform.position += activeMoveSpeed * Time.deltaTime * transform.up;
+        }
+
         // Running
         if (!isDashing & isMoving)
         {

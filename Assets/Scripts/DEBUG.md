@@ -37,16 +37,3 @@ git pull origin main
 git merge main-temp --allow-unrelated-histories
 ```
 
-## Unity 6 Upgrade
-
-## Disappearing animations
-
-## Multiple inspectors
-
-## Canvas
-
-## Pivots & Anchors
-
-## Input System
-
-## Crashes
