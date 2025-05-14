@@ -80,12 +80,12 @@ public class SkillTreeManager : MonoBehaviour
         spinBtn.GetComponent<Image>().color = lockedColor;
     }
 
-    private void UnlockSkillSpin()
+    public void UnlockSkillSpin()
     {
         if (_objectiveManager.SkillObjectives["survive past noon"])
         {
             _playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
-
+            UnlockUI(spinBtn, 0);
             skillText.text = "Unlocked: Invincibility";
         }
         else
@@ -94,7 +94,7 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    private void UnlockSwordCombo()
+    public void UnlockSwordCombo()
     {
         if (
             _objectiveManager.SkillObjectives[
@@ -113,7 +113,7 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    private void UnlockSkillElectro()
+    public void UnlockSkillElectro()
     {
         if (
             _objectiveManager.SkillObjectives[
@@ -122,7 +122,7 @@ public class SkillTreeManager : MonoBehaviour
         )
         {
             _playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
-            chosenSpecialMove = 2;
+
             UnlockUI(electroBtn, 2);
             skillText.text = "Unlocked: Lightning Bolt";
         }
@@ -133,7 +133,7 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    private void UnlockSkillEarth()
+    public void UnlockSkillEarth()
     {
         if (
             _objectiveManager.SkillObjectives[

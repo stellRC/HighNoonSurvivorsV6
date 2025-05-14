@@ -179,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
     // Must change in update or won't always transition to dashing animation
     private void RunningOrIdleDashing()
     {
+        // GameManager.Instance.NoDamage = true;
         PlayerAnimator.ChangeAnimation(PlayerAnimator.MoveAnimation[4]);
     }
 

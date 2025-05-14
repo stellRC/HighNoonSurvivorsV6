@@ -21,7 +21,6 @@ public class ParticleBurst : WeaponBase
             && sprite.enabled == false
         )
         {
-            Debug.Log("player hit by particle");
             _once = false;
             iDoDamage?.DoDamage(Damage);
         }

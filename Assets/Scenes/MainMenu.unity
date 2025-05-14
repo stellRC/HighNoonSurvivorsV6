@@ -10233,8 +10233,8 @@ MonoBehaviour:
   _pauseMenu: {fileID: 1782216077}
   _gameOverMenu: {fileID: 9108302}
   _loadingSlider: {fileID: 155002802}
-  _killCount: {fileID: 1308346336}
-  _settingsButton: {fileID: 235944311}
+  _killCount: {fileID: 2043330354}
+  _settingsButton: {fileID: 640863759}
 --- !u!114 &1322262949
 MonoBehaviour:
   m_ObjectHideFlags: 0

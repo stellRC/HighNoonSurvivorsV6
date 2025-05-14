@@ -15,7 +15,6 @@ public class RollWeapon : WeaponBase
 
         if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.NoDamage)
         {
-            Debug.Log("player hit");
             iDoDamage?.DoDamage(Damage);
             // enemy explodes on impact
             enemy.DoDamage(Damage);

@@ -41,14 +41,10 @@ public class BrawlWeapon : WeaponBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // if (isTriggered)
-        //     return;
-        // Damage Enemy
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
         if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.NoDamage)
         {
-            Debug.Log("player hit");
             iDoDamage?.DoDamage(Damage);
             // isTriggered = true;
         }

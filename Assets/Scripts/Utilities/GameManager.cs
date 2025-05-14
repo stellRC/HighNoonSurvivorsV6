@@ -154,20 +154,24 @@ public class GameManager : MonoBehaviour
             _objectiveManager.UpdateObjectiveValue(
                 "Slay " + LevelData.MaxBrawlerCount + " brawlers"
             );
+            _skillTreeManager.UnlockSwordCombo();
         }
         if (GunmanCount >= LevelData.MaxGunmanCount)
         {
             _objectiveManager.UpdateObjectiveValue("Slay " + LevelData.MaxGunmanCount + " gunmen");
+            _skillTreeManager.UnlockSkillElectro();
         }
-        if (ProjectileCount >= LevelData.MaxRollerCount)
+        if (RollerCount >= LevelData.MaxRollerCount)
         {
             _objectiveManager.UpdateObjectiveValue("Slay " + LevelData.MaxRollerCount + " rollers");
+            _skillTreeManager.UnlockSkillEarth();
         }
 
         // The value of "noon" changes depending on clock settings
         if (ClockUI.HoursFloat + _startingTime >= LevelData.MaxHourCount)
         {
             _objectiveManager.UpdateObjectiveValue("survive past noon");
+            _skillTreeManager.UnlockSkillSpin();
         }
     }
 }

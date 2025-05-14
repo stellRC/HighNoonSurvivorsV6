@@ -7,6 +7,8 @@ public class FogController : MonoBehaviour
 
     private PlayerMovement _playerPosition;
 
+    private Enemy _enemyPosition;
+
     public bool IsPlaying;
 
     void Awake()
@@ -31,7 +33,6 @@ public class FogController : MonoBehaviour
         if (_vfxRenderer != null)
         {
             _vfxRenderer.SetVector3("ColliderPosition", _playerPosition.transform.position);
-
             if (IsPlaying)
             {
                 _vfxRenderer.Play();
@@ -54,6 +55,7 @@ public class FogController : MonoBehaviour
             || collision.transform.CompareTag("roller")
         )
         {
+            Debug.Log("fog collision");
             collision.GetComponent<Enemy>().DoDamage(damage);
         }
         else if (collision.transform.CompareTag("projectile"))

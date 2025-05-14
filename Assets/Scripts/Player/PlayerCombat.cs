@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DigitalRuby.LightningBolt;
 using Unity.Cinemachine;
@@ -91,7 +92,8 @@ public class PlayerCombat : MonoBehaviour
             _popEnemyTime += Time.deltaTime;
             if (_popEnemyTime >= 1)
             {
-                PopEnemy();
+                _attackRange = UnityEngine.Random.Range(3, 10);
+                Attack();
                 _popEnemyTime = 0;
             }
         }
@@ -215,6 +217,7 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(count);
         collisionFog.IsPlaying = false;
+        _attackRange = _playerData.AttackRange;
         _isPopping = false;
     }
 
