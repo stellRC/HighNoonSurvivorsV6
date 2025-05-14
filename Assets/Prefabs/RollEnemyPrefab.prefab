@@ -5128,14 +5128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da5cdf0c971bee4a9f9327569696959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
-  enemySprite: {fileID: 2002885026620486804}
-  particleDeathSoundClips:
-  - {fileID: 8300000, guid: 0a7a5b85dfddd49f5ba6750610dc5f8c, type: 3}
-  - {fileID: 8300000, guid: a7abf4a58f1af4fbc941365494ffe8d8, type: 3}
-  - {fileID: 8300000, guid: 455c8f13b43da462e85f60af32a95fb6, type: 3}
-  currentHealth: 0
-  isDead: 0
+  _enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
+  _enemySprite: {fileID: 2002885026620486804}
+  IsDead: 0
 --- !u!114 &4445066377277658690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5148,12 +5143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7cd1907dfdc874cb674d38c38fa2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
-  enemySprite: {fileID: 2002885026620486804}
-  rollingSoundClips:
-  - {fileID: 8300000, guid: 1984b6d3c2008496d970d19f71cc95b8, type: 3}
-  - {fileID: 8300000, guid: 2fcf574ed10f640639a120a3938457c3, type: 3}
-  - {fileID: 8300000, guid: 19d900beae36741c1aa52d5b07007e89, type: 3}
+  _enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
+  _enemySprite: {fileID: 2002885026620486804}
 --- !u!114 &6989411929803712618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5166,21 +5157,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5680b469b3d144cb7e2c16fe7bc871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterAnimator: {fileID: 3363467961261832870}
-  stateAnimation: []
-  brawlAnimation: []
-  swordAnimation: []
-  projectileAnimation: []
-  specialAnimation: []
-  moveAnimation: []
-  moveSwordAnimation: []
-  moveProjectileAnimation: []
-  animationFinished: 0
+  _masterAnimator: {fileID: 3363467961261832870}
+  StateAnimation: []
+  BrawlAnimation: []
+  SwordAnimation: []
+  ProjectileAnimation: []
+  SpecialAnimation: []
+  MoveAnimation: []
+  MoveSwordAnimation: []
+  MoveProjectileAnimation: []
+  AnimationFinished: 0
   IsRunning: 0
-  isAttacking: 0
-  isShocking: 0
+  IsAttacking: 0
+  IsShocking: 0
   noDamage: 0
-  isGameScene: 0
+  IsGameScene: 0
 --- !u!114 &1944261365959821988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5193,8 +5184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02559105c01bbcf4282e374a3439b7d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  enemyData: {fileID: 11400000, guid: 862195eb2311fc945a131f1bb93e8a39, type: 2}
+  Damage: 1
 --- !u!114 &7317164290373356968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5207,4 +5197,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8b55c86b4adef40bf22cc664456f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  Damage: 1

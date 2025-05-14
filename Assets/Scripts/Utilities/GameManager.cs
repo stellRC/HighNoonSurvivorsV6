@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     public bool IsEasyMode;
 
+    private int _startingTime;
+
     [Header("Lvl Data")]
     public List<LevelData> LevelDataList = new();
 
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
         CanUseSpecial = false;
         IsEasyMode = true;
         LevelData = LevelDataList[0];
+        _startingTime = 6;
     }
 
     private void Start()
@@ -125,6 +128,7 @@ public class GameManager : MonoBehaviour
         TotalCount = 0;
         BrawlerCount = 0;
         GunmanCount = 0;
+        RollerCount = 0;
         ProjectileCount = 0;
         PlayerDead = false;
         NoDamage = false;
@@ -139,6 +143,7 @@ public class GameManager : MonoBehaviour
         _objectiveManager.DestroyObjectives();
         // Instantiate updated objectives
         _objectiveManager.CheckObjectiveValue();
+        ClockUI.ResetClock();
     }
 
     // Check if skills are unlocked at end of level for use in next level
@@ -160,7 +165,7 @@ public class GameManager : MonoBehaviour
         }
 
         // The value of "noon" changes depending on clock settings
-        if (ClockUI.HoursFloat >= LevelData.MaxHourCount)
+        if (ClockUI.HoursFloat + _startingTime >= LevelData.MaxHourCount)
         {
             _objectiveManager.UpdateObjectiveValue("survive past noon");
         }

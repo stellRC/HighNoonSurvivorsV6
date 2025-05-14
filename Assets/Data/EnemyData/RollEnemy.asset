@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1fe1d9c2fe18e4bbe98498a9544522, type: 3}
   m_Name: RollEnemy
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 6918488918944700169, guid: e691aee1a150f52408f14dde05f5e92e, type: 3}
-  projectilePrefab: {fileID: 4439493502084162821, guid: ffeb1c5b1fafee14aa7edd41f1c41d58, type: 3}
+  EnemyPrefab: {fileID: 6918488918944700169, guid: e691aee1a150f52408f14dde05f5e92e, type: 3}
+  ProjectilePrefab: {fileID: 2054278205709185365, guid: cde7293d3bf88834e92bf910a63af1bc, type: 3}
   EnemyName: roller
-  maxHealth: 1
-  moveSpeed: 5
-  distanceBetween: 10
-  attackDistance: 0
-  minimumDistance: 0
-  movementPatternID: 3
-  movementSpeedID: 2
-  isBoss: 0
+  MaxHealth: 1
+  MoveSpeed: 8
+  AttackDistance: 5
+  MinimumDistance: 0
+  MovementPatternID: 3
+  MovementSpeedID: 0
+  IsBoss: 0

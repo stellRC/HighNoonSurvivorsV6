@@ -10,11 +10,11 @@ public class SkillTreeManager : MonoBehaviour
 
     // Press skill button to unlock a skill that is ted to a key press
 
-    private PlayerSkills playerSkills;
+    private PlayerSkills _playerSkills;
 
     [SerializeField]
-    private MasterAnimator playerAnimator;
-    private ObjectivesManager objectiveManager;
+    private MasterAnimator _playerAnimator;
+    private ObjectivesManager _objectiveManager;
 
     [Header("Skill Buttons")]
     [SerializeField]
@@ -45,7 +45,7 @@ public class SkillTreeManager : MonoBehaviour
 
     private void Awake()
     {
-        objectiveManager = GetComponent<ObjectivesManager>();
+        _objectiveManager = GetComponent<ObjectivesManager>();
 
         earthBtn.onClick.AddListener(UnlockSkillEarth);
         electroBtn.onClick.AddListener(UnlockSkillElectro);
@@ -63,9 +63,9 @@ public class SkillTreeManager : MonoBehaviour
 
     private void Update()
     {
-        if (playerAnimator == null)
+        if (_playerAnimator == null)
         {
-            playerAnimator = FindAnyObjectByType<PlayerMovement>().PlayerAnimator;
+            _playerAnimator = FindAnyObjectByType<PlayerMovement>().PlayerAnimator;
         }
     }
 
@@ -82,9 +82,9 @@ public class SkillTreeManager : MonoBehaviour
 
     private void UnlockSkillSpin()
     {
-        if (objectiveManager.skillObjectives["survive past noon"])
+        if (_objectiveManager.SkillObjectives["survive past noon"])
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
+            _playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Spin);
 
             skillText.text = "Unlocked: Invincibility";
         }
@@ -97,12 +97,12 @@ public class SkillTreeManager : MonoBehaviour
     private void UnlockSwordCombo()
     {
         if (
-            objectiveManager.skillObjectives[
+            _objectiveManager.SkillObjectives[
                 "Slay " + GameManager.Instance.LevelData.MaxBrawlerCount + " brawlers"
             ]
         )
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
+            _playerSkills.TryUnlockSkill(PlayerSkills.SkillType.SwordCombo);
             UnlockUI(swordBtn, 1);
             skillText.text = "Unlocked: Increased Attack Range";
         }
@@ -116,12 +116,12 @@ public class SkillTreeManager : MonoBehaviour
     private void UnlockSkillElectro()
     {
         if (
-            objectiveManager.skillObjectives[
+            _objectiveManager.SkillObjectives[
                 "Slay " + GameManager.Instance.LevelData.MaxGunmanCount + " gunmen"
             ]
         )
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
+            _playerSkills.TryUnlockSkill(PlayerSkills.SkillType.ShockHeavy);
             chosenSpecialMove = 2;
             UnlockUI(electroBtn, 2);
             skillText.text = "Unlocked: Lightning Bolt";
@@ -136,12 +136,12 @@ public class SkillTreeManager : MonoBehaviour
     private void UnlockSkillEarth()
     {
         if (
-            objectiveManager.skillObjectives[
+            _objectiveManager.SkillObjectives[
                 "Slay " + GameManager.Instance.LevelData.MaxRollerCount + " rollers"
             ]
         )
         {
-            playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
+            _playerSkills.TryUnlockSkill(PlayerSkills.SkillType.GroundSlam);
             UnlockUI(earthBtn, 3);
             skillText.text = "Unlocked: Death Fog";
         }
@@ -157,7 +157,7 @@ public class SkillTreeManager : MonoBehaviour
         TransformReset();
         TransformScale(button);
         chosenSpecialMove = specialMove;
-        playerAnimator.ChangeAnimation(playerAnimator.SpecialAnimation[chosenSpecialMove]);
+        _playerAnimator.ChangeAnimation(_playerAnimator.SpecialAnimation[chosenSpecialMove]);
         isSpecialAnim = true;
 
         button.GetComponentInChildren<TMP_Text>().text = " ";
@@ -170,7 +170,7 @@ public class SkillTreeManager : MonoBehaviour
     // Set player skills when unlocked
     public void SetPlayerSkills(PlayerSkills playerSkills)
     {
-        this.playerSkills = playerSkills;
+        this._playerSkills = playerSkills;
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
     }
 
@@ -185,7 +185,7 @@ public class SkillTreeManager : MonoBehaviour
 
     private void UpdateVisuals(PlayerSkills.SkillType skillType)
     {
-        if (playerSkills.CanUnlockSkill(skillType))
+        if (_playerSkills.CanUnlockSkill(skillType))
         {
             switch (skillType)
             {

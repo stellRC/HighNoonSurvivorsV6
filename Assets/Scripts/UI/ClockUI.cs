@@ -8,8 +8,6 @@ public class ClockUI : MonoBehaviour
     private const float hoursPerDay = 24f;
     private const float minutesPerHour = 60f;
 
-    private const float startingTime = 6f; //6:00am
-
     [SerializeField]
     private Transform _clockHourHandTransform;
 
@@ -21,13 +19,12 @@ public class ClockUI : MonoBehaviour
 
     public float HoursFloat;
 
-    public string HoursString;
     public string MinutesString;
 
     // Calculate starting time
     private void Awake()
     {
-        _day = startingTime / hoursPerDay;
+        ResetClock();
     }
 
     private void Update()
@@ -47,10 +44,14 @@ public class ClockUI : MonoBehaviour
         HoursFloat = Mathf.Floor(_dayNormalized * hoursPerDay);
 
         // hour string and minute string are both used in the final game over panel
-        HoursString = HoursFloat.ToString("00");
         MinutesString = Mathf
             .Floor(_dayNormalized * hoursPerDay % 1f * minutesPerHour)
             .ToString("00");
+    }
+
+    public void ResetClock()
+    {
+        _day = hoursPerDay;
     }
 
     // Rotate clock hands

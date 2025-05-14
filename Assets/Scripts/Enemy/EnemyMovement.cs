@@ -5,73 +5,71 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField]
-    private EnemyData enemyData;
+    private EnemyData _enemyData;
 
     [SerializeField]
-    private SpriteRenderer enemySprite;
+    private SpriteRenderer _enemySprite;
 
-    private Transform playerTransform;
+    private Transform _playerTransform;
 
-    private MasterAnimator enemyAnimation;
+    private MasterAnimator _enemyAnimation;
     public bool IsFacingRight { get; set; }
 
-    private float distance;
-    bool isDead;
-    private bool isMovingForward;
+    private float _distance;
+    private bool _isDead;
+    private bool _isMovingForward;
 
-    private string projectileName;
+    private string _projectileName;
 
-    private float enemySpeed;
+    private float _enemySpeed;
 
-    private Vector2 randomPosition;
-    private Vector2 currentPosition;
-
-    private Vector2 targetPosition;
+    private Vector2 _randomPosition;
+    private Vector2 _currentPosition;
 
     private void Awake()
     {
-        enemyAnimation = GetComponent<MasterAnimator>();
-        isDead = GetComponent<Enemy>().isDead;
-        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
-        projectileName = "projectile";
+        _enemyAnimation = GetComponent<MasterAnimator>();
+        _isDead = GetComponent<Enemy>().IsDead;
+        _playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
+        _projectileName = "projectile";
     }
 
     private void OnEnable()
     {
         InitialTurnCheck();
-        enemyAnimation.ChangeAnimation("Walk");
-        isMovingForward = true;
-        enemySpeed = Random.Range(enemyData.MoveSpeed, enemyData.MoveSpeed + 1.5f);
-        randomPosition = RandomScreenPosition();
+        _enemyAnimation.ChangeAnimation("Walk");
+        _isMovingForward = true;
+        _enemySpeed = Random.Range(_enemyData.MoveSpeed, _enemyData.MoveSpeed + 1.5f);
+        _randomPosition = RandomScreenPosition();
     }
 
     private void FixedUpdate()
     {
-        if (!MainNavigation.isPaused)
+        if (!MainNavigation.IsPaused)
         {
             // distance between enemy and player
-            distance = Vector2.Distance(transform.position, playerTransform.position);
+            _distance = Vector2.Distance(transform.position, _playerTransform.position);
 
             // Direction player is moving in
-            Vector2 direction = playerTransform.position - transform.position;
+            Vector2 direction = _playerTransform.position - transform.position;
             direction.Normalize();
 
             // Rotation angle
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             // Flip sprite in direction of player movement
-            if (enemySprite != null)
+            if (_enemySprite != null)
             {
                 TurnCheck();
             }
 
             // Walk towards player
-            if (!isDead && enemyAnimation.AnimationFinished)
+            if (!_isDead && _enemyAnimation.AnimationFinished)
             {
-                EnemyMovementPatterns(enemyData.MovementPatternID, angle, enemySpeed, distance);
+                EnemyMovementPatterns(_enemyData.MovementPatternID, angle, _enemySpeed, _distance);
             }
 
-            if (GameManager.Instance.playerDead)
+            if (GameManager.Instance.PlayerDead)
             {
                 StartCoroutine(TriggerDeath(Random.Range(2f, 6f)));
             }
@@ -97,7 +95,7 @@ public class EnemyMovement : MonoBehaviour
                 ForwardAndRetreat(speed, distance);
                 break;
             case 3:
-                MoveToRandomPosition(speed);
+                MoveTo_randomPosition(speed);
                 break;
         }
     }
@@ -106,25 +104,25 @@ public class EnemyMovement : MonoBehaviour
     {
         // Idle animation
 
-        if (enemyData.EnemyName == projectileName)
+        if (_enemyData.EnemyName == _projectileName)
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.MoveProjectileAnimation[0]);
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.MoveProjectileAnimation[0]);
         }
         else
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.MoveAnimation[0]);
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.MoveAnimation[0]);
         }
     }
 
     private void RunAnimation()
     {
-        if (enemyData.EnemyName == projectileName)
+        if (_enemyData.EnemyName == _projectileName)
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.MoveProjectileAnimation[2]);
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.MoveProjectileAnimation[2]);
         }
         else
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.MoveAnimation[2]);
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.MoveAnimation[2]);
         }
     }
 
@@ -136,8 +134,8 @@ public class EnemyMovement : MonoBehaviour
         transform.SetPositionAndRotation(
             Vector2.MoveTowards(
                 this.transform.position,
-                playerTransform.position,
-                enemyData.MoveSpeed * Time.deltaTime
+                _playerTransform.position,
+                _enemyData.MoveSpeed * Time.deltaTime
             ),
             Quaternion.Euler(Vector3.forward * angle)
         );
@@ -146,18 +144,18 @@ public class EnemyMovement : MonoBehaviour
     // Move towards player and then retreat if player moves towards enemy
     private void ForwardAndRetreat(float speed, float distanceBetween)
     {
-        if (isMovingForward)
+        if (_isMovingForward)
         {
             MoveTowardsPlayer(speed);
-            if (distanceBetween < enemyData.AttackDistance)
+            if (distanceBetween < _enemyData.AttackDistance)
             {
-                isMovingForward = false;
+                _isMovingForward = false;
             }
         }
         else
         {
             // Retreat from player if too close
-            if (distanceBetween < enemyData.MinimumDistance)
+            if (distanceBetween < _enemyData.MinimumDistance)
             {
                 MoveTowardsPlayer(-speed);
             }
@@ -169,19 +167,19 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Check if reached target position, continue if haven't and change target if have;
-    private void MoveToRandomPosition(float speed)
+    private void MoveTo_randomPosition(float speed)
     {
         transform.position = Vector2.MoveTowards(
             transform.position,
-            randomPosition,
+            _randomPosition,
             Time.deltaTime * speed
         );
         if (transform.CompareTag("roller"))
         {
             RollAnimation();
             // RollingSound();
-            currentPosition = transform.position;
-            if (currentPosition == randomPosition)
+            _currentPosition = transform.position;
+            if (_currentPosition == _randomPosition)
             {
                 StartCoroutine(TriggerDeath(Random.Range(3f, 10f)));
             }
@@ -190,8 +188,8 @@ public class EnemyMovement : MonoBehaviour
         {
             RunAnimation();
 
-            currentPosition = transform.position;
-            if (currentPosition == randomPosition)
+            _currentPosition = transform.position;
+            if (_currentPosition == _randomPosition)
             {
                 DeathAnimation();
             }
@@ -209,18 +207,18 @@ public class EnemyMovement : MonoBehaviour
     private void DeathAnimation()
     {
         // state animation 4 = knockback
-        enemyAnimation.ChangeAnimation(enemyAnimation.StateAnimation[4]);
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.StateAnimation[4]);
     }
 
     private void RollAnimation()
     {
-        enemyAnimation.ChangeAnimation(enemyAnimation.MoveAnimation[5]);
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.MoveAnimation[5]);
     }
 
     private void RollingSound()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.rollingSoundClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.rollingSoundClips,
             transform,
             .5f
         );
@@ -239,7 +237,7 @@ public class EnemyMovement : MonoBehaviour
     {
         transform.position = Vector2.MoveTowards(
             transform.position,
-            playerTransform.position,
+            _playerTransform.position,
             speed * Time.deltaTime
         );
         RunAnimation();
@@ -247,11 +245,11 @@ public class EnemyMovement : MonoBehaviour
 
     private void TurnCheck()
     {
-        if (playerTransform.position.x > transform.position.x && !IsFacingRight)
+        if (_playerTransform.position.x > transform.position.x && !IsFacingRight)
         {
             Turn();
         }
-        else if (playerTransform.position.x < transform.position.x && IsFacingRight)
+        else if (_playerTransform.position.x < transform.position.x && IsFacingRight)
         {
             Turn();
         }
@@ -259,7 +257,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void InitialTurnCheck()
     {
-        if (playerTransform.position.x < transform.position.x)
+        if (_playerTransform.position.x < transform.position.x)
         {
             Turn();
         }

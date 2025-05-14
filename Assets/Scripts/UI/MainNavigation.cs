@@ -45,9 +45,6 @@ public class MainNavigation : MonoBehaviour
     [SerializeField]
     private GameObject _gameOverMenu;
 
-    [SerializeField]
-    private GameObject _gameWinMenu;
-
     [Header("Non-Menu Objects")]
     [SerializeField]
     private Slider _loadingSlider;
@@ -101,7 +98,7 @@ public class MainNavigation : MonoBehaviour
         _settingsMenu.SetActive(false);
         _pauseMenu.SetActive(false);
         _gameOverMenu.SetActive(false);
-        _gameWinMenu.SetActive(false);
+
         _cooldownCanvas.SetActive(false);
         _worldGameCanvas.SetActive(false);
 
@@ -272,14 +269,7 @@ public class MainNavigation : MonoBehaviour
         // hide clock
         _worldGameCanvas.SetActive(false);
 
-        if (time >= 12)
-        {
-            _gameWinMenu.SetActive(true);
-        }
-        else
-        {
-            _gameOverMenu.SetActive(true);
-        }
+        _gameOverMenu.SetActive(true);
     }
 
     public void ToggleOptionsMenu()

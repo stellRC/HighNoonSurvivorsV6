@@ -52,7 +52,7 @@ public class CameraShake : MonoBehaviour
         _impulseDefinition = impulseSource.ImpulseDefinition;
 
         //  impulse source settings
-        _impulseDefinition.ImpulseDuration = GameManager.Instance.LevelData.specialAttackRate;
+        _impulseDefinition.ImpulseDuration = GameManager.Instance.LevelData.SpecialAttackRate;
         impulseSource.DefaultVelocity = profile.defaultVelocity;
         _impulseDefinition.CustomImpulseShape = profile.impulseCurve;
 

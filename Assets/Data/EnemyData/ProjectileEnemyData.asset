@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1fe1d9c2fe18e4bbe98498a9544522, type: 3}
   m_Name: ProjectileEnemyData
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 9199026032389405178, guid: a54fa069b53f3e04da49a5c1f1631063, type: 3}
-  projectilePrefab: {fileID: 2054278205709185365, guid: cde7293d3bf88834e92bf910a63af1bc, type: 3}
+  EnemyPrefab: {fileID: 9199026032389405178, guid: a54fa069b53f3e04da49a5c1f1631063, type: 3}
+  ProjectilePrefab: {fileID: 2054278205709185365, guid: cde7293d3bf88834e92bf910a63af1bc, type: 3}
   EnemyName: projectile
-  maxHealth: 1
-  moveSpeed: 1.5
-  distanceBetween: 7
-  attackDistance: 3
-  minimumDistance: 3
-  movementPatternID: 2
-  movementSpeedID: 2
-  isBoss: 0
+  MaxHealth: 1
+  MoveSpeed: 2
+  AttackDistance: 5
+  MinimumDistance: 3
+  MovementPatternID: 2
+  MovementSpeedID: 0
+  IsBoss: 0

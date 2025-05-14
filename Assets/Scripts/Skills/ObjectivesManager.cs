@@ -5,26 +5,26 @@ using UnityEngine;
 public class ObjectivesManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject objectivePrefab;
+    private GameObject _objectivePrefab;
 
     [SerializeField]
-    private Transform objectivePanel;
+    private Transform _objectivePanel;
 
-    public Dictionary<string, bool> skillObjectives;
+    public Dictionary<string, bool> SkillObjectives;
 
-    private bool brawlerValue;
-    private bool gunmenValue;
-    private bool rollerValue;
+    private bool _brawlerValue;
+    private bool _gunmenValue;
+    private bool _rollerValue;
 
-    private bool noonValue;
+    private bool _noonValue;
 
     private void Awake()
     {
-        skillObjectives = new()
+        SkillObjectives = new()
         {
-            { "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers", false },
-            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", false },
-            { "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers", false },
+            { "Slay " + GameManager.Instance.LevelData.MaxBrawlerCount + " brawlers", false },
+            { "Slay " + GameManager.Instance.LevelData.MaxGunmanCount + " gunmen", false },
+            { "Slay " + GameManager.Instance.LevelData.MaxRollerCount + " rollers", false },
             { "survive past noon", false }
         };
         SaveValues();
@@ -34,21 +34,22 @@ public class ObjectivesManager : MonoBehaviour
     {
         DestroyObjectives();
         CheckObjectiveValue();
+        SaveValues();
     }
 
     // Save values into variables so that they unlocks can persist when switching between normal and easy mode
     private void SaveValues()
     {
-        brawlerValue = skillObjectives[
-            "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers"
+        _brawlerValue = SkillObjectives[
+            "Slay " + GameManager.Instance.LevelData.MaxBrawlerCount + " brawlers"
         ];
-        gunmenValue = skillObjectives[
-            "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen"
+        _gunmenValue = SkillObjectives[
+            "Slay " + GameManager.Instance.LevelData.MaxGunmanCount + " gunmen"
         ];
-        rollerValue = skillObjectives[
-            "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers"
+        _rollerValue = SkillObjectives[
+            "Slay " + GameManager.Instance.LevelData.MaxRollerCount + " rollers"
         ];
-        noonValue = skillObjectives["survive past noon"];
+        _noonValue = SkillObjectives["survive past noon"];
     }
 
     // Switch modes
@@ -62,23 +63,22 @@ public class ObjectivesManager : MonoBehaviour
     // Create new dictionary with updated values
     public void UpdateDictionary()
     {
-        skillObjectives = new()
+        SkillObjectives = new()
         {
             {
-                "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers",
-                brawlerValue
+                "Slay " + GameManager.Instance.LevelData.MaxBrawlerCount + " brawlers",
+                _brawlerValue
             },
-            { "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen", gunmenValue },
-            { "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers", rollerValue },
-            { "survive past noon", noonValue }
+            { "Slay " + GameManager.Instance.LevelData.MaxGunmanCount + " gunmen", _gunmenValue },
+            { "Slay " + GameManager.Instance.LevelData.MaxRollerCount + " rollers", _rollerValue },
+            { "survive past noon", _noonValue }
         };
-        SaveValues();
     }
 
     // Instantiate objectives when main menu is loaded both before and after game is played
     public void CheckObjectiveValue()
     {
-        foreach (var (key, value) in skillObjectives)
+        foreach (var (key, value) in SkillObjectives)
         {
             if (value == false)
             {
@@ -94,7 +94,7 @@ public class ObjectivesManager : MonoBehaviour
     // Destroy previous objectives so player can see what objectives have yet to be accomplished
     public void DestroyObjectives()
     {
-        foreach (Transform child in objectivePanel.transform)
+        foreach (Transform child in _objectivePanel.transform)
         {
             Destroy(child.gameObject);
         }
@@ -104,18 +104,19 @@ public class ObjectivesManager : MonoBehaviour
     public void UpdateObjectiveValue(string objectiveString)
     {
         if (
-            skillObjectives.ContainsKey(objectiveString)
-            && skillObjectives[objectiveString] == false
+            SkillObjectives.ContainsKey(objectiveString)
+            && SkillObjectives[objectiveString] == false
         )
         {
-            skillObjectives[objectiveString] = true;
+            SkillObjectives[objectiveString] = true;
         }
+        SaveValues();
     }
 
     // Check if value is true or false
     public bool CheckValue(string key)
     {
-        if (skillObjectives[key])
+        if (SkillObjectives[key])
         {
             return true;
         }
@@ -128,16 +129,16 @@ public class ObjectivesManager : MonoBehaviour
     // Instantiate objective without strikethrough
     private void InstantiateObjective(string objective)
     {
-        objectivePrefab.GetComponent<TMP_Text>().text = objective;
-        objectivePrefab.GetComponent<TMP_Text>().fontStyle = FontStyles.Normal;
-        Instantiate(objectivePrefab, objectivePanel);
+        _objectivePrefab.GetComponent<TMP_Text>().text = objective;
+        _objectivePrefab.GetComponent<TMP_Text>().fontStyle = FontStyles.Normal;
+        Instantiate(_objectivePrefab, _objectivePanel);
     }
 
     // Instantiate objective with strikethrough
     private void InstantiateCompletedObjective(string objective)
     {
-        objectivePrefab.GetComponent<TMP_Text>().text = objective;
-        objectivePrefab.GetComponent<TMP_Text>().fontStyle = FontStyles.Strikethrough;
-        Instantiate(objectivePrefab, objectivePanel);
+        _objectivePrefab.GetComponent<TMP_Text>().text = objective;
+        _objectivePrefab.GetComponent<TMP_Text>().fontStyle = FontStyles.Strikethrough;
+        Instantiate(_objectivePrefab, _objectivePanel);
     }
 }

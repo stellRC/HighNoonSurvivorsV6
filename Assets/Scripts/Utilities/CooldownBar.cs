@@ -69,7 +69,7 @@ public class CooldownBar : MonoBehaviour
 
         _currentCool += 1f;
 
-        float ratio = _currentCool / GameManager.Instance.LevelData.specialAttackRate;
+        float ratio = _currentCool / GameManager.Instance.LevelData.SpecialAttackRate;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(_cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
@@ -89,7 +89,7 @@ public class CooldownBar : MonoBehaviour
         }
 
         _currentCool -= 1f;
-        float ratio = _currentCool / GameManager.Instance.LevelData.specialAttackRate;
+        float ratio = _currentCool / GameManager.Instance.LevelData.SpecialAttackRate;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(_cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);

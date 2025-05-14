@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d27def8656f9724ea644306c0893bbd, type: 3}
   m_Name: ProjectileWeaponData
   m_EditorClassIdentifier: 
-  weaponName: 
+  WeaponName: gun

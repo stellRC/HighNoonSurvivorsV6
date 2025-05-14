@@ -270,8 +270,8 @@ public class PlayerMovement : MonoBehaviour
     // SFX initial volume varies to add layers to sounds effects
     private void RunningSFX()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.playerRunningClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.playerRunningClips,
             transform,
             .3f
         );
@@ -279,8 +279,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void IdleSFX()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.playerIdleClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.playerIdleClips,
             transform,
             .1f
         );
@@ -288,8 +288,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void DashingSFX()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.playerDashingClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.playerDashingClips,
             transform,
             .5f
         );

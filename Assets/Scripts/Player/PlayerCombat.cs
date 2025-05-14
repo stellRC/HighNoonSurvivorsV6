@@ -77,7 +77,7 @@ public class PlayerCombat : MonoBehaviour
         // If number of killed enemies is == 10, special attack is true
         // Each enemy kill fills the bar
         // If special attack is used, drain bar and reset attack number needed
-        if (_currentAttackCount >= GameManager.Instance.LevelData.specialAttackRate)
+        if (_currentAttackCount >= GameManager.Instance.LevelData.SpecialAttackRate)
         {
             _canUseSpecial = true;
         }
@@ -99,8 +99,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void PlayerAttackAudio()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.normalPlayerAttackSingleSoundClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.normalPlayerAttackSingleSoundClips,
             transform,
             1f
         );
@@ -154,8 +154,8 @@ public class PlayerCombat : MonoBehaviour
     private void TriggerSwordCombo()
     {
         _attackRange = _playerData.SpecialAttackRange;
-        CameraShake.instance.ScreenShakeFromProfile(3, _impulseSource);
-        StartCoroutine(ToggleSwordCombo(GameManager.Instance.LevelData.specialAttackRate));
+        CameraShake.Instance.ScreenShakeFromProfile(3, _impulseSource);
+        StartCoroutine(ToggleSwordCombo(GameManager.Instance.LevelData.SpecialAttackRate));
     }
 
     // Player becomes impervious to damage
@@ -163,8 +163,8 @@ public class PlayerCombat : MonoBehaviour
     {
         GameManager.Instance.NoDamage = true;
         playerAnimator.noDamage = true;
-        CameraShake.instance.ScreenShakeFromProfile(1, _impulseSource);
-        StartCoroutine(ToggleSpin(GameManager.Instance.LevelData.specialAttackRate));
+        CameraShake.Instance.ScreenShakeFromProfile(1, _impulseSource);
+        StartCoroutine(ToggleSpin(GameManager.Instance.LevelData.SpecialAttackRate));
     }
 
     // Destroy enemies positioned between player and clock
@@ -173,9 +173,9 @@ public class PlayerCombat : MonoBehaviour
         LightningBoltScript lightningBoltScript = FindFirstObjectByType<LightningBoltScript>();
         lightningBoltScript.ManualMode = false;
         playerAnimator.IsShocking = true;
-        CameraShake.instance.ScreenShakeFromProfile(0, _impulseSource);
+        CameraShake.Instance.ScreenShakeFromProfile(0, _impulseSource);
         StartCoroutine(
-            ToggleLightning(GameManager.Instance.LevelData.specialAttackRate, lightningBoltScript)
+            ToggleLightning(GameManager.Instance.LevelData.SpecialAttackRate, lightningBoltScript)
         );
     }
 
@@ -185,8 +185,8 @@ public class PlayerCombat : MonoBehaviour
         FogController collisionFog = FindAnyObjectByType<FogController>();
         collisionFog.IsPlaying = true;
         _isPopping = true;
-        CameraShake.instance.ScreenShakeFromProfile(2, _impulseSource);
-        StartCoroutine(ToggleFog(GameManager.Instance.LevelData.specialAttackRate, collisionFog));
+        CameraShake.Instance.ScreenShakeFromProfile(2, _impulseSource);
+        StartCoroutine(ToggleFog(GameManager.Instance.LevelData.SpecialAttackRate, collisionFog));
     }
 
     IEnumerator ToggleLightning(float count, LightningBoltScript lightningBoltScript)

@@ -33,7 +33,7 @@ public class ProjectileWeapon : MonoBehaviour
     private void CheckIfCanAttack()
     {
         // Ensure enemy is in camera viewport
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 viewPos = GetComponent<Enemy>().CurrentPosition;
         if (
             _attackRate >= _waitTime
             && viewPos.x >= 0.05f
@@ -64,8 +64,8 @@ public class ProjectileWeapon : MonoBehaviour
 
     private void ProjectileAudio()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.shootingSoundClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.shootingSoundClips,
             transform,
             .75f
         );

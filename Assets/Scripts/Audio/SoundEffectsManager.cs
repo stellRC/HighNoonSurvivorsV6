@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class SoundEffectsManager : MonoBehaviour
 {
-    public static SoundEffectsManager instance;
+    public static SoundEffectsManager Instance;
 
     [SerializeField]
-    private GameObject soundFXObject;
+    private GameObject _soundFXObject;
 
     [Header("Player Audio")]
     public AudioClip[] normalPlayerAttackSingleSoundClips;
@@ -27,9 +27,9 @@ public class SoundEffectsManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
     }
 
@@ -38,7 +38,7 @@ public class SoundEffectsManager : MonoBehaviour
         //  Pool audioSource
 
         GameObject audioSource = ObjectPooling.SpawnObject(
-            soundFXObject,
+            _soundFXObject,
             spawnTransform.position,
             quaternion.identity,
             ObjectPooling.PoolType.Audio
@@ -64,7 +64,7 @@ public class SoundEffectsManager : MonoBehaviour
             // Spawn audioSource
 
             GameObject audioSource = ObjectPooling.SpawnObject(
-                soundFXObject,
+                _soundFXObject,
                 spawnTransform.position,
                 quaternion.identity,
                 ObjectPooling.PoolType.Audio

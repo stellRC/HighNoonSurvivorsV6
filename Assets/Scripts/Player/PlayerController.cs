@@ -49,8 +49,8 @@ public class PlayerController : MonoBehaviour, IDoDamage
 
     private void DeathAudio()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.deathSoundClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.deathSoundClips,
             transform,
             .20f
         );

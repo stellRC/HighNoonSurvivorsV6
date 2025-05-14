@@ -3,35 +3,37 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IDoDamage
 {
     [SerializeField]
-    private EnemyData enemyData;
+    private EnemyData _enemyData;
 
     [SerializeField]
-    private SpriteRenderer enemySprite;
+    private SpriteRenderer _enemySprite;
 
-    private EnemyManager enemyManager;
+    private EnemyManager _enemyManager;
 
-    private ParticleSystem deathParticleSystem;
+    private ParticleSystem _deathParticleSystem;
 
-    private MasterAnimator enemyAnimation;
+    private MasterAnimator _enemyAnimation;
 
-    public float currentHealth;
+    private float _currentHealth;
 
-    public bool isDead;
+    public bool IsDead;
 
-    private bool IsPlayingParticles;
+    private bool _isPlayingParticles;
+
+    public Vector3 CurrentPosition;
 
     void Awake()
     {
-        deathParticleSystem = GetComponent<ParticleSystem>();
+        _deathParticleSystem = GetComponent<ParticleSystem>();
 
-        enemyAnimation = GetComponent<MasterAnimator>();
-        enemyManager = FindAnyObjectByType<EnemyManager>();
+        _enemyAnimation = GetComponent<MasterAnimator>();
+        _enemyManager = FindAnyObjectByType<EnemyManager>();
     }
 
     void OnEnable()
     {
-        isDead = false;
-        currentHealth = enemyData.MaxHealth;
+        IsDead = false;
+        _currentHealth = _enemyData.MaxHealth;
         EnableComponents();
         Physics2D.IgnoreCollision(
             GetComponent<BoxCollider2D>(),
@@ -41,8 +43,9 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     public void Update()
     {
+        CurrentPosition = Camera.main.WorldToViewportPoint(transform.position);
         // Avoid error by stopping particle emission
-        if (IsPlayingParticles && deathParticleSystem.isStopped)
+        if (_isPlayingParticles && _deathParticleSystem.isStopped)
         {
             DespawnSet();
             ReturnToPool();
@@ -51,9 +54,9 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     private void DespawnSet()
     {
-        enemyManager.SpawnMoreEnemies();
-        deathParticleSystem.Stop();
-        IsPlayingParticles = false;
+        _enemyManager.SpawnMoreEnemies();
+        _deathParticleSystem.Stop();
+        _isPlayingParticles = false;
     }
 
     public void DoDamage(int damage)
@@ -62,12 +65,12 @@ public class Enemy : MonoBehaviour, IDoDamage
         {
             HurtAnimation();
             // Decrease health based on damage
-            currentHealth -= damage;
+            _currentHealth -= damage;
 
             // play hurt animation
-            if (currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
-                isDead = true;
+                IsDead = true;
                 Die();
             }
         }
@@ -76,7 +79,7 @@ public class Enemy : MonoBehaviour, IDoDamage
     private void HurtAnimation()
     {
         // // Hurt animation
-        enemyAnimation.ChangeAnimation(enemyAnimation.StateAnimation[4]);
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.StateAnimation[4]);
     }
 
     private void Die()
@@ -88,24 +91,24 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     private void UpdateStats()
     {
-        GameManager.Instance.totalCount += 1;
+        GameManager.Instance.TotalCount += 1;
         if (transform.CompareTag("brawler"))
         {
-            GameManager.Instance.brawlerCount++;
+            GameManager.Instance.BrawlerCount++;
         }
         else if (transform.CompareTag("gunman"))
         {
-            GameManager.Instance.gunmanCount++;
+            GameManager.Instance.GunmanCount++;
         }
         else if (transform.CompareTag("roller"))
         {
-            GameManager.Instance.rollerCount++;
+            GameManager.Instance.RollerCount++;
         }
     }
 
     public void DeathAnimation()
     {
-        enemyAnimation.ChangeAnimation(enemyAnimation.StateAnimation[4]);
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.StateAnimation[4]);
         EnableParticles();
     }
 
@@ -130,32 +133,33 @@ public class Enemy : MonoBehaviour, IDoDamage
         {
             GetComponent<ProjectileWeapon>().enabled = true;
         }
-        enemySprite.enabled = true;
+        _enemySprite.enabled = true;
     }
 
     // Enabled when Death animation finishes via Particle Death Animation script
     public void EnableParticles()
     {
-        var emission = deathParticleSystem.emission;
-        if (!GameManager.Instance.playerDead)
+        var emission = _deathParticleSystem.emission;
+        if (!GameManager.Instance.PlayerDead)
         {
             EnemyDeathAudio();
         }
 
         emission.enabled = true;
 
-        if (!IsPlayingParticles)
+        if (!_isPlayingParticles)
         {
-            deathParticleSystem.Play();
-            enemySprite.enabled = false;
-            IsPlayingParticles = true;
+            _deathParticleSystem.Play();
+            // Hide sprite prior to particles
+            _enemySprite.enabled = false;
+            _isPlayingParticles = true;
         }
     }
 
     private void EnemyDeathAudio()
     {
-        SoundEffectsManager.instance.PlayRandomSoundFXClip(
-            SoundEffectsManager.instance.particleDeathSoundClips,
+        SoundEffectsManager.Instance.PlayRandomSoundFXClip(
+            SoundEffectsManager.Instance.particleDeathSoundClips,
             transform,
             .2f
         );
@@ -163,7 +167,7 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     public void ReturnToPool()
     {
-        if (deathParticleSystem.isStopped)
+        if (_deathParticleSystem.isStopped)
         {
             ObjectPooling.ReturnObjectToPool(gameObject);
         }

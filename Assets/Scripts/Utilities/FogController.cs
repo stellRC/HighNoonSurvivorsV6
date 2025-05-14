@@ -45,15 +45,19 @@ public class FogController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        var damage = 1;
+
         // If a missile hits this object
-        if (collision.transform.CompareTag("brawler") || collision.transform.CompareTag("gunman"))
+        if (
+            collision.transform.CompareTag("brawler")
+            || collision.transform.CompareTag("gunman")
+            || collision.transform.CompareTag("roller")
+        )
         {
-            Debug.Log("fog: " + collision);
-            collision.GetComponent<Enemy>().DoDamage(1);
+            collision.GetComponent<Enemy>().DoDamage(damage);
         }
         else if (collision.transform.CompareTag("projectile"))
         {
-            Debug.Log("fog: " + collision);
             collision.GetComponent<Projectile>().NonPlayerCollision();
         }
     }

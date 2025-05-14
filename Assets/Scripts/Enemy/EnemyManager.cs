@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
         brawlerSpawnInterval = 15f;
         rollerSpawnInterval = 5f;
 
-        finalWaveTime = 360f;
+        finalWaveTime = 2f;
     }
 
     void Update()
@@ -44,7 +44,7 @@ public class EnemyManager : MonoBehaviour
         currentSpawnTime += Time.deltaTime;
         currentWaveTime += Time.deltaTime;
 
-        if (!GameManager.Instance.playerDead)
+        if (!GameManager.Instance.PlayerDead)
         {
             CheckSpawn();
         }
@@ -91,7 +91,7 @@ public class EnemyManager : MonoBehaviour
     // Spawn enemies if player isn't dead
     public void SpawnMoreEnemies()
     {
-        if (!GameManager.Instance.playerDead)
+        if (!GameManager.Instance.PlayerDead)
         {
             PlaceEnemy(brawlEnemy);
             PlaceEnemy(projectileEnemy);

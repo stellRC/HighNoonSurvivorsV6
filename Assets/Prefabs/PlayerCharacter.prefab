@@ -396,21 +396,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5680b469b3d144cb7e2c16fe7bc871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterAnimator: {fileID: 1223885213097588424}
-  stateAnimation: []
-  brawlAnimation: []
-  swordAnimation: []
-  projectileAnimation: []
-  specialAnimation: []
-  moveAnimation: []
-  moveSwordAnimation: []
-  moveProjectileAnimation: []
-  animationFinished: 0
+  _masterAnimator: {fileID: 1223885213097588424}
+  StateAnimation: []
+  BrawlAnimation: []
+  SwordAnimation: []
+  ProjectileAnimation: []
+  SpecialAnimation: []
+  MoveAnimation: []
+  MoveSwordAnimation: []
+  MoveProjectileAnimation: []
+  AnimationFinished: 0
   IsRunning: 0
-  isAttacking: 0
-  isShocking: 0
+  IsAttacking: 0
+  IsShocking: 0
   noDamage: 0
-  isGameScene: 0
+  IsGameScene: 0
 --- !u!114 &250871763161332340
 MonoBehaviour:
   m_ObjectHideFlags: 0

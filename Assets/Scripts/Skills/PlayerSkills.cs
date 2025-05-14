@@ -20,11 +20,11 @@ public class PlayerSkills
         SwordCombo
     }
 
-    private List<SkillType> unlockedSkillTypeList;
+    private List<SkillType> _unlockedSkillTypeList;
 
     public PlayerSkills()
     {
-        unlockedSkillTypeList = new List<SkillType>();
+        _unlockedSkillTypeList = new List<SkillType>();
     }
 
     // Unlock skills, called through UI
@@ -32,7 +32,7 @@ public class PlayerSkills
     {
         if (!IsSkillUnlocked(skillType))
         {
-            unlockedSkillTypeList.Add(skillType);
+            _unlockedSkillTypeList.Add(skillType);
 
             // Event is fired off when skill is unlocked
             OnSkillUnlocked?.Invoke(this, new OnSkillUnlockedEventArgs { skillType = skillType });
@@ -42,7 +42,7 @@ public class PlayerSkills
     // Test if skill type has been unlocked
     public bool IsSkillUnlocked(SkillType skillType)
     {
-        return unlockedSkillTypeList.Contains(skillType);
+        return _unlockedSkillTypeList.Contains(skillType);
     }
 
     public bool TryUnlockSkill(SkillType skillType)
