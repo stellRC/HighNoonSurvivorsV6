@@ -1,138 +1,134 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainNavigation : MonoBehaviour
 {
-    private FadingCanvas fade;
+    private FadingCanvas _fade;
 
     [Header("Canvas Groups")]
     [SerializeField]
-    private GameObject mainMenuCanvas;
+    private GameObject _mainMenuCanvas;
 
     [SerializeField]
-    private GameObject gameMenuCanvas;
+    private GameObject _gameMenuCanvas;
 
     [SerializeField]
-    private GameObject gameUICanvas;
+    private GameObject _gameUICanvas;
 
     [SerializeField]
-    private GameObject loadingCanvas;
+    private GameObject _loadingCanvas;
 
     [SerializeField]
-    private GameObject worldGameCanvas;
+    private GameObject _worldGameCanvas;
 
     [SerializeField]
-    private GameObject cooldownCanvas;
+    private GameObject _cooldownCanvas;
 
     [Header("UI Elements")]
     [SerializeField]
-    private GameObject startMenu;
+    private GameObject _startMenu;
 
     [SerializeField]
-    private GameObject aboutMenu;
+    private GameObject _aboutMenu;
 
     [SerializeField]
-    private GameObject objectivesMenu;
+    private GameObject _objectivesMenu;
 
     [SerializeField]
-    private GameObject settingsMenu;
+    private GameObject _settingsMenu;
 
     [SerializeField]
-    private GameObject pauseMenu;
+    private GameObject _pauseMenu;
 
     [SerializeField]
-    private GameObject gameOverMenu;
+    private GameObject _gameOverMenu;
 
     [SerializeField]
-    private GameObject gameWinMenu;
+    private GameObject _gameWinMenu;
 
     [Header("Non-Menu Objects")]
     [SerializeField]
-    private Slider loadingSlider;
+    private Slider _loadingSlider;
 
     [SerializeField]
-    private GameObject killCount;
+    private GameObject _killCount;
 
     [SerializeField]
-    private GameObject settingsButton;
+    private GameObject _settingsButton;
 
-    [SerializeField]
-    private ObjectivesManager objectivesManager;
+    public static bool IsPaused;
 
-    public static bool isPaused;
+    private bool _state;
 
-    private bool state;
+    private bool _isGameScene;
 
-    private bool isGameScene;
-
-    private bool loadObjectives;
+    private bool _loadObjectives;
 
     void Awake()
     {
-        state = false;
-        loadObjectives = false;
-        fade = gameObject.GetComponent<FadingCanvas>();
+        _state = false;
+        _loadObjectives = false;
+        _fade = gameObject.GetComponent<FadingCanvas>();
     }
 
     void Start()
     {
-        InitializeObjStates();
+        InitializeObj_states();
     }
 
     void Update()
     {
         // // // Handle keyboard input
-        if (Input.GetKeyDown(KeyCode.Escape) && isGameScene && gameOverMenu.activeSelf == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && _isGameScene && _gameOverMenu.activeSelf == false)
         {
             TogglePauseMenu();
         }
     }
 
-    private void InitializeObjStates()
+    private void InitializeObj_states()
     {
-        mainMenuCanvas.SetActive(true);
-        gameMenuCanvas.SetActive(false);
+        _mainMenuCanvas.SetActive(true);
+        _gameMenuCanvas.SetActive(false);
 
-        startMenu.SetActive(true);
-        aboutMenu.SetActive(false);
-        objectivesMenu.SetActive(false);
+        _startMenu.SetActive(true);
+        _aboutMenu.SetActive(false);
+        _objectivesMenu.SetActive(false);
 
-        loadingCanvas.SetActive(false);
-        gameUICanvas.SetActive(false);
-        settingsMenu.SetActive(false);
-        pauseMenu.SetActive(false);
-        gameOverMenu.SetActive(false);
-        gameWinMenu.SetActive(false);
-        cooldownCanvas.SetActive(false);
-        worldGameCanvas.SetActive(false);
+        _loadingCanvas.SetActive(false);
+        _gameUICanvas.SetActive(false);
+        _settingsMenu.SetActive(false);
+        _pauseMenu.SetActive(false);
+        _gameOverMenu.SetActive(false);
+        _gameWinMenu.SetActive(false);
+        _cooldownCanvas.SetActive(false);
+        _worldGameCanvas.SetActive(false);
 
         // Prevent pause menu from opening while in main menu
-        isPaused = true;
+        IsPaused = true;
 
         // Start internal game clock (enable fog animations)
         Time.timeScale = 1f;
 
         // load objectives menu when navigating from game over scene for fast restart
-        if (loadObjectives)
+        if (_loadObjectives)
         {
             ToggleObjectives();
-            loadObjectives = false;
+            _loadObjectives = false;
         }
-        isGameScene = false;
+        _isGameScene = false;
     }
 
     public void SetMode(int mode)
     {
         if (mode == 0)
         {
-            GameManager.Instance.isEasyMode = true;
+            GameManager.Instance.IsEasyMode = true;
         }
         else
         {
-            GameManager.Instance.isEasyMode = false;
+            GameManager.Instance.IsEasyMode = false;
         }
         GameManager.Instance.LevelCycle();
     }
@@ -140,10 +136,10 @@ public class MainNavigation : MonoBehaviour
     public void LoadGame()
     {
         // hide menus
-        mainMenuCanvas.SetActive(false);
+        _mainMenuCanvas.SetActive(false);
 
-        loadingCanvas.SetActive(true);
-        fade.FadeOut();
+        _loadingCanvas.SetActive(true);
+        _fade.FadeOut();
 
         // Run Async
         StartCoroutine(LoadLevelASync("Level_One"));
@@ -157,53 +153,53 @@ public class MainNavigation : MonoBehaviour
         while (!loadOperation.isDone)
         {
             float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
-            loadingSlider.value = progressValue;
+            _loadingSlider.value = progressValue;
 
             yield return null;
         }
 
         // Load main menu
-        if (isGameScene)
+        if (_isGameScene)
         {
-            fade.FadeIn();
-            InitializeObjStates();
+            _fade.FadeIn();
+            InitializeObj_states();
         }
         // Load game scene
         else
         {
-            fade.FadeIn();
+            _fade.FadeIn();
             StartGame();
         }
     }
 
     public void ToggleAbout()
     {
-        if (startMenu.activeSelf)
+        if (_startMenu.activeSelf)
         {
-            startMenu.SetActive(false);
-            aboutMenu.SetActive(true);
+            _startMenu.SetActive(false);
+            _aboutMenu.SetActive(true);
         }
         else
         {
-            startMenu.SetActive(true);
-            aboutMenu.SetActive(false);
+            _startMenu.SetActive(true);
+            _aboutMenu.SetActive(false);
         }
     }
 
     public void ToggleObjectives()
     {
-        if (startMenu.activeSelf)
+        if (_startMenu.activeSelf)
         {
-            startMenu.SetActive(false);
-            fade.FadeIn();
-            objectivesMenu.SetActive(true);
+            _startMenu.SetActive(false);
+            _fade.FadeIn();
+            _objectivesMenu.SetActive(true);
         }
         else
         {
-            objectivesMenu.SetActive(false);
+            _objectivesMenu.SetActive(false);
 
-            fade.FadeIn();
-            startMenu.SetActive(true);
+            _fade.FadeIn();
+            _startMenu.SetActive(true);
         }
     }
 
@@ -211,7 +207,7 @@ public class MainNavigation : MonoBehaviour
     {
         GameManager.Instance.ResetValues();
         StartCoroutine(LoadLevelASync("MainMenu"));
-        loadObjectives = true;
+        _loadObjectives = true;
     }
 
     // Load game scene
@@ -219,16 +215,16 @@ public class MainNavigation : MonoBehaviour
     {
         GameManager.Instance.ResetValuesOnLoad();
         // Show kill count and settings button
-        gameUICanvas.SetActive(true);
-        settingsButton.SetActive(true);
-        killCount.SetActive(true);
-        worldGameCanvas.SetActive(true);
+        _gameUICanvas.SetActive(true);
+        _settingsButton.SetActive(true);
+        _killCount.SetActive(true);
+        _worldGameCanvas.SetActive(true);
 
-        loadingCanvas.SetActive(false);
-        cooldownCanvas.SetActive(true);
+        _loadingCanvas.SetActive(false);
+        _cooldownCanvas.SetActive(true);
 
-        isPaused = false;
-        isGameScene = true;
+        IsPaused = false;
+        _isGameScene = true;
     }
 
     // Return to main menu from pause screen
@@ -240,68 +236,68 @@ public class MainNavigation : MonoBehaviour
 
     public void TogglePauseMenu()
     {
-        if (!isGameScene)
+        if (!_isGameScene)
             return;
 
-        if (!isPaused)
+        if (!IsPaused)
         {
             // Stop in-game clock to stop animations and updates
             Time.timeScale = 0f;
-            isPaused = true;
+            IsPaused = true;
 
             // clock.SetActive(false);
-            gameMenuCanvas.SetActive(true);
-            pauseMenu.SetActive(true);
+            _gameMenuCanvas.SetActive(true);
+            _pauseMenu.SetActive(true);
 
-            gameUICanvas.SetActive(false);
-            settingsMenu.SetActive(false);
+            _gameUICanvas.SetActive(false);
+            _settingsMenu.SetActive(false);
         }
-        else if (isPaused)
+        else if (IsPaused)
         {
             // Resume in game clock
             Time.timeScale = 1f;
-            isPaused = false;
+            IsPaused = false;
 
             // clock.SetActive(true);
-            gameMenuCanvas.SetActive(false);
-            gameUICanvas.SetActive(true);
+            _gameMenuCanvas.SetActive(false);
+            _gameUICanvas.SetActive(true);
         }
     }
 
     public void ToggleGameOverMenu(float time)
     {
-        settingsButton.SetActive(false);
-        killCount.SetActive(false);
+        _settingsButton.SetActive(false);
+        _killCount.SetActive(false);
 
         // hide clock
-        worldGameCanvas.SetActive(false);
+        _worldGameCanvas.SetActive(false);
 
         if (time >= 12)
         {
-            gameWinMenu.SetActive(true);
+            _gameWinMenu.SetActive(true);
         }
         else
         {
-            gameOverMenu.SetActive(true);
+            _gameOverMenu.SetActive(true);
         }
     }
 
     public void ToggleOptionsMenu()
     {
-        if (isGameScene)
+        if (_isGameScene)
         {
-            pauseMenu.SetActive(state);
+            _pauseMenu.SetActive(_state);
         }
         else
         {
-            gameMenuCanvas.SetActive(!state);
-            mainMenuCanvas.SetActive(state);
-            startMenu.SetActive(state);
+            _gameMenuCanvas.SetActive(!_state);
+            _mainMenuCanvas.SetActive(_state);
+            _startMenu.SetActive(_state);
         }
 
-        settingsMenu.SetActive(!state);
+        _settingsMenu.SetActive(!_state);
 
-        state = !state;
+        _state = !_state;
     }
 
     // Exit application

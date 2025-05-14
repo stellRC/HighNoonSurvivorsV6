@@ -4,22 +4,19 @@ using UnityEngine;
 public class GameOverUIManager : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text totalCountText;
+    private TMP_Text _totalCountText;
 
     [SerializeField]
-    private TMP_Text brawlerCountText;
+    private TMP_Text _brawlerCountText;
 
     [SerializeField]
-    private TMP_Text projectileCountText;
+    private TMP_Text _gunmanCountText;
 
     [SerializeField]
-    private TMP_Text gunmanCountText;
+    private TMP_Text _rollerCountText;
 
     [SerializeField]
-    private TMP_Text rollerCountText;
-
-    [SerializeField]
-    private TMP_Text timeText;
+    private TMP_Text _timeText;
 
     private ClockUI clockUI;
 
@@ -30,16 +27,11 @@ public class GameOverUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        totalCountText.text = "Total Enemies: " + GameManager.Instance.totalCount;
-        brawlerCountText.text = "Brawlers: " + GameManager.Instance.brawlerCount;
-        rollerCountText.text = "Rollers: " + GameManager.Instance.rollerCount;
-        projectileCountText.text = "Projectiles: " + GameManager.Instance.projectileCount;
-        gunmanCountText.text = "Shooters: " + GameManager.Instance.gunmanCount;
-        timeText.text = "Time of Death: " + clockUI.hoursString + ":" + clockUI.minutesString;
+        _totalCountText.text = "Total Enemies: " + GameManager.Instance.TotalCount;
+        _brawlerCountText.text = "Brawlers: " + GameManager.Instance.BrawlerCount;
+        _rollerCountText.text = "Rollers: " + GameManager.Instance.RollerCount;
 
-        if (projectileCountText.gameObject.activeSelf)
-        {
-            projectileCountText.gameObject.SetActive(false);
-        }
+        _gunmanCountText.text = "Shooters: " + GameManager.Instance.GunmanCount;
+        _timeText.text = "Time of Death: " + clockUI.HoursString + ":" + clockUI.MinutesString;
     }
 }

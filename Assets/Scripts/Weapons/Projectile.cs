@@ -1,37 +1,33 @@
-using System.Collections;
-using System.Transactions;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Projectile : MonoBehaviour
+public class Projectile : WeaponBase
 {
-    private Transform playerTransform;
+    private Transform _playerTransform;
 
-    private SpriteRenderer projectileSprite;
+    private SpriteRenderer _projectileSprite;
 
     [SerializeField]
-    private GameObject impactEffect;
+    private float _projectileSpeed;
 
-    public float projectileSpeed;
+    [SerializeField]
+    [Tooltip("Check if returned to pool")]
+    private bool _returned;
 
-    private bool returned;
-
-    private int damage;
-    private Vector2 projectileTarget;
+    private Vector2 _projectileTarget;
 
     private void Awake()
     {
-        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
-        projectileSprite = GetComponentInChildren<SpriteRenderer>();
+        _playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
+        _projectileSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void OnEnable()
     {
-        returned = false;
+        _returned = false;
 
-        damage = 1;
+        _projectileSpeed = 6.5f;
 
-        projectileTarget = new Vector2(playerTransform.position.x, playerTransform.position.y);
+        _projectileTarget = new Vector2(_playerTransform.position.x, _playerTransform.position.y);
         FlipSprite();
     }
 
@@ -48,40 +44,40 @@ public class Projectile : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(
             transform.position,
-            projectileTarget,
-            projectileSpeed * Time.deltaTime
+            _projectileTarget,
+            _projectileSpeed * Time.deltaTime
         );
     }
 
     void Update()
     {
         if (
-            transform.position.x == projectileTarget.x
-            && transform.position.y == projectileTarget.y
-            && !returned
+            transform.position.x == _projectileTarget.x
+            && transform.position.y == _projectileTarget.y
+            && !_returned
         )
         {
             ObjectPooling.ReturnObjectToPool(gameObject);
-            returned = true;
+            _returned = true;
         }
     }
 
     private void ReturnToPool()
     {
         ObjectPooling.ReturnObjectToPool(gameObject);
-        returned = true;
+        _returned = true;
     }
 
     // Flip the sprite to face direction of player
     private void FlipSprite()
     {
-        if (playerTransform.position.x > transform.position.x)
+        if (_playerTransform.position.x > transform.position.x)
         {
-            projectileSprite.flipX = false;
+            _projectileSprite.flipX = false;
         }
         else
         {
-            projectileSprite.flipX = true;
+            _projectileSprite.flipX = true;
         }
     }
 
@@ -90,15 +86,15 @@ public class Projectile : MonoBehaviour
     {
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
-        if (returned)
+        if (_returned)
         {
             return;
         }
 
-        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
+        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.NoDamage)
         {
             // Instantiate(impactEffect, transform.position, Quaternion.identity);
-            iDoDamage?.DoDamage(damage);
+            iDoDamage?.DoDamage(Damage);
 
             ReturnToPool();
         }
@@ -108,7 +104,7 @@ public class Projectile : MonoBehaviour
     public void NonPlayerCollision()
     {
         ObjectPooling.ReturnObjectToPool(gameObject);
-        GameManager.Instance.projectileCount += 1;
-        returned = true;
+        GameManager.Instance.ProjectileCount += 1;
+        _returned = true;
     }
 }

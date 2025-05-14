@@ -41,7 +41,7 @@ public class EnemyMovement : MonoBehaviour
         InitialTurnCheck();
         enemyAnimation.ChangeAnimation("Walk");
         isMovingForward = true;
-        enemySpeed = Random.Range(enemyData.moveSpeed, enemyData.moveSpeed + 1.5f);
+        enemySpeed = Random.Range(enemyData.MoveSpeed, enemyData.MoveSpeed + 1.5f);
         randomPosition = RandomScreenPosition();
     }
 
@@ -66,9 +66,9 @@ public class EnemyMovement : MonoBehaviour
             }
 
             // Walk towards player
-            if (!isDead && enemyAnimation.animationFinished)
+            if (!isDead && enemyAnimation.AnimationFinished)
             {
-                EnemyMovementPatterns(enemyData.movementPatternID, angle, enemySpeed, distance);
+                EnemyMovementPatterns(enemyData.MovementPatternID, angle, enemySpeed, distance);
             }
 
             if (GameManager.Instance.playerDead)
@@ -108,11 +108,11 @@ public class EnemyMovement : MonoBehaviour
 
         if (enemyData.EnemyName == projectileName)
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.moveProjectileAnimation[0]);
+            enemyAnimation.ChangeAnimation(enemyAnimation.MoveProjectileAnimation[0]);
         }
         else
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.moveAnimation[0]);
+            enemyAnimation.ChangeAnimation(enemyAnimation.MoveAnimation[0]);
         }
     }
 
@@ -120,11 +120,11 @@ public class EnemyMovement : MonoBehaviour
     {
         if (enemyData.EnemyName == projectileName)
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.moveProjectileAnimation[2]);
+            enemyAnimation.ChangeAnimation(enemyAnimation.MoveProjectileAnimation[2]);
         }
         else
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.moveAnimation[2]);
+            enemyAnimation.ChangeAnimation(enemyAnimation.MoveAnimation[2]);
         }
     }
 
@@ -137,7 +137,7 @@ public class EnemyMovement : MonoBehaviour
             Vector2.MoveTowards(
                 this.transform.position,
                 playerTransform.position,
-                enemyData.moveSpeed * Time.deltaTime
+                enemyData.MoveSpeed * Time.deltaTime
             ),
             Quaternion.Euler(Vector3.forward * angle)
         );
@@ -149,7 +149,7 @@ public class EnemyMovement : MonoBehaviour
         if (isMovingForward)
         {
             MoveTowardsPlayer(speed);
-            if (distanceBetween < enemyData.attackDistance)
+            if (distanceBetween < enemyData.AttackDistance)
             {
                 isMovingForward = false;
             }
@@ -157,7 +157,7 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             // Retreat from player if too close
-            if (distanceBetween < enemyData.minimumDistance)
+            if (distanceBetween < enemyData.MinimumDistance)
             {
                 MoveTowardsPlayer(-speed);
             }
@@ -209,12 +209,12 @@ public class EnemyMovement : MonoBehaviour
     private void DeathAnimation()
     {
         // state animation 4 = knockback
-        enemyAnimation.ChangeAnimation(enemyAnimation.stateAnimation[4]);
+        enemyAnimation.ChangeAnimation(enemyAnimation.StateAnimation[4]);
     }
 
     private void RollAnimation()
     {
-        enemyAnimation.ChangeAnimation(enemyAnimation.moveAnimation[5]);
+        enemyAnimation.ChangeAnimation(enemyAnimation.MoveAnimation[5]);
     }
 
     private void RollingSound()

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ParticleBurst : WeaponBase
 {
-    private bool once;
+    private bool _once;
 
     void OnEnable()
     {
-        once = true;
+        _once = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -16,14 +16,14 @@ public class ParticleBurst : WeaponBase
 
         if (
             collision.gameObject.name == "PlayerCharacter"
-            && !GameManager.Instance.noDamage
-            && once
+            && !GameManager.Instance.NoDamage
+            && _once
             && sprite.enabled == false
         )
         {
             Debug.Log("player hit by particle");
-            once = false;
-            iDoDamage?.DoDamage(damage);
+            _once = false;
+            iDoDamage?.DoDamage(Damage);
         }
     }
 }

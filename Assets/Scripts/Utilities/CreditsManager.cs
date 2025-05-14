@@ -4,11 +4,11 @@ using UnityEngine.UI;
 public class CreditsManager : MonoBehaviour
 {
     [SerializeField]
-    private Button gitBtn;
+    private Button _gitBtn;
 
     void Awake()
     {
-        gitBtn.onClick.AddListener(OpenLink);
+        _gitBtn.onClick.AddListener(OpenLink);
     }
 
     public void OpenLink()

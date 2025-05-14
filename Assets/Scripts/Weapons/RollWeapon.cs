@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class RollWeapon : WeaponBase
 {
-    [SerializeField]
-    private EnemyData enemyData;
-
     private Enemy enemy;
 
     void OnEnable()
@@ -16,12 +13,12 @@ public class RollWeapon : WeaponBase
     {
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
-        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
+        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.NoDamage)
         {
             Debug.Log("player hit");
-            iDoDamage?.DoDamage(damage);
+            iDoDamage?.DoDamage(Damage);
             // enemy explodes on impact
-            enemy.DoDamage(damage);
+            enemy.DoDamage(Damage);
         }
     }
 }

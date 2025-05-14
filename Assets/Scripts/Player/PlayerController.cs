@@ -68,6 +68,6 @@ public class PlayerController : MonoBehaviour, IDoDamage
     // Death animation (not looped)
     private void DeathAnimation()
     {
-        _playerAnimator.ChangeAnimation(_playerAnimator.stateAnimation[0]);
+        _playerAnimator.ChangeAnimation(_playerAnimator.StateAnimation[0]);
     }
 }

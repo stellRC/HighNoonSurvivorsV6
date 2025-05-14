@@ -1,59 +1,62 @@
-using System.Collections;
 using UnityEngine;
 
-public class ProjectileWeapon : WeaponBase
+public class ProjectileWeapon : MonoBehaviour
 {
     [SerializeField]
-    private EnemyData enemyData;
+    private EnemyData _enemyData;
 
-    [SerializeField]
-    private Transform attackPoint;
+    private MasterAnimator _enemyAnimation;
+    private float _waitTime;
 
-    private MasterAnimator enemyAnimation;
+    private bool _playAudioOnce;
 
-    private float waitTime;
-
-    private bool playAudioOnce;
-
-    private float attackRate;
+    private float _attackRate;
 
     void Awake()
     {
-        enemyAnimation = GetComponent<MasterAnimator>();
+        _enemyAnimation = GetComponent<MasterAnimator>();
     }
 
     private void OnEnable()
     {
-        playAudioOnce = false;
-        attackRate = 0;
+        _playAudioOnce = false;
+        _attackRate = 0;
     }
 
     private void Update()
     {
-        attackRate += Time.deltaTime;
+        _attackRate += Time.deltaTime;
         CheckIfCanAttack();
     }
 
     // Limit attack rate based on random range setting
     private void CheckIfCanAttack()
     {
-        if (attackRate >= waitTime)
+        // Ensure enemy is in camera viewport
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+        if (
+            _attackRate >= _waitTime
+            && viewPos.x >= 0.05f
+            && viewPos.x <= .95f
+            && viewPos.y >= 0.05f
+            && viewPos.y <= .95f
+        )
         {
             EnemyAttack();
-            waitTime = Random.Range(1f, 4f);
-            attackRate = 0;
+            _waitTime = Random.Range(1f, 4f);
+            _attackRate = 0;
         }
     }
 
     private void EnemyAttack()
     {
-        var attack = Random.Range(0, 4);
+        var attackID = Random.Range(0, 4);
 
-        enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.ProjectileAnimation[attackID]);
 
         // Prevent audio from playing every instance since it can become annoying
         // attack in this context has no meaning other than as a limiting factor
-        if (!playAudioOnce && attack == 0 && !GameManager.Instance.playerDead)
+        if (!_playAudioOnce && attackID == 0 && !GameManager.Instance.PlayerDead)
         {
             ProjectileAudio();
         }
@@ -68,19 +71,19 @@ public class ProjectileWeapon : WeaponBase
         );
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
-        // Only collide with player if they are able to take damage (and don't currently have invincibility skill)
+    //     // Only collide with player if they are able to take damage (and don't currently have invincibility skill)
 
-        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
-        {
-            playAudioOnce = true;
+    //     if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
+    //     {
+    //         _playAudioOnce = true;
 
-            iDoDamage?.DoDamage(damage);
-        }
-    }
+    //         iDoDamage?.DoDamage(Damage);
+    //     }
+    // }
 
     // Instantiate bullet object from prefab at enemy position
     public void InstantiateProjectile(Vector2 position)
@@ -89,7 +92,7 @@ public class ProjectileWeapon : WeaponBase
         position = new Vector2(position.x, position.y - .5f);
 
         ObjectPooling.SpawnObject(
-            enemyData.projectilePrefab,
+            _enemyData.ProjectilePrefab,
             position,
             Quaternion.identity,
             ObjectPooling.PoolType.Projectiles

@@ -3,38 +3,40 @@ using UnityEngine;
 
 public class CameraFollowObject : MonoBehaviour
 {
-    private float flipYRotationTime;
+    private float _flipYRotationTime;
 
     [SerializeField]
-    private PlayerMovement playerTransform;
+    private PlayerMovement _playerTransform;
 
-    private bool isFacingRight;
+    private bool _isFacingRight;
 
     private void Awake()
     {
-        flipYRotationTime = 0.5f;
+        _flipYRotationTime = 0.5f;
     }
 
     void Start()
     {
-        isFacingRight = playerTransform.IsFacingRight;
+        _isFacingRight = _playerTransform.IsFacingRight;
     }
 
     private void FixedUpdate()
     {
         // cameraFollowObject follows player's position
-        transform.position = playerTransform.transform.position;
+        transform.position = _playerTransform.transform.position;
     }
 
     public void CallTurn()
     {
-        LeanTween.rotateY(gameObject, DetermineEndRotation(), flipYRotationTime).setEaseInOutSine();
+        LeanTween
+            .rotateY(gameObject, DetermineEndRotation(), _flipYRotationTime)
+            .setEaseInOutSine();
     }
 
     private float DetermineEndRotation()
     {
-        isFacingRight = !isFacingRight;
-        if (isFacingRight)
+        _isFacingRight = !_isFacingRight;
+        if (_isFacingRight)
         {
             return 180f;
         }

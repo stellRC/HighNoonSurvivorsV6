@@ -143,7 +143,7 @@ public class EnemyManager : MonoBehaviour
         if (enemyData.name == "RollEnemy")
         {
             ObjectPooling.SpawnObject(
-                enemyData.enemyPrefab,
+                enemyData.EnemyPrefab,
                 position,
                 Quaternion.identity,
                 ObjectPooling.PoolType.Rollers
@@ -152,7 +152,7 @@ public class EnemyManager : MonoBehaviour
         else if (enemyData.name == "ProjectileEnemyData")
         {
             ObjectPooling.SpawnObject(
-                enemyData.enemyPrefab,
+                enemyData.EnemyPrefab,
                 position,
                 Quaternion.identity,
                 ObjectPooling.PoolType.Shooters
@@ -161,7 +161,7 @@ public class EnemyManager : MonoBehaviour
         else if (enemyData.name == "BrawlerEnemyData")
         {
             ObjectPooling.SpawnObject(
-                enemyData.enemyPrefab,
+                enemyData.EnemyPrefab,
                 position,
                 Quaternion.identity,
                 ObjectPooling.PoolType.Brawlers

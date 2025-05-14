@@ -4,33 +4,30 @@ using UnityEngine;
 public class EnemyWeapon : WeaponBase
 {
     [SerializeField]
-    private EnemyData enemyData;
+    private EnemyData _enemyData;
 
-    [SerializeField]
-    private Transform attackPoint;
+    private MasterAnimator _enemyAnimation;
 
-    private MasterAnimator enemyAnimation;
+    private Transform _playerTransform;
 
-    private Transform playerTransform;
-
-    private float waitTime;
+    private float _waitTime;
 
     void Awake()
     {
-        enemyAnimation = GetComponent<MasterAnimator>();
-        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
+        _enemyAnimation = GetComponent<MasterAnimator>();
+        _playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
     }
 
     private void Update()
     {
         if (
-            Vector2.Distance(transform.position, playerTransform.position)
-            <= enemyData.minimumDistance
+            Vector2.Distance(transform.position, _playerTransform.position)
+            <= _enemyData.MinimumDistance
         )
         {
             EnemyAttack();
-            waitTime = Random.Range(1.5f, 4);
-            StartCoroutine(EnemyAttackRate(waitTime));
+            _waitTime = Random.Range(1.5f, 4);
+            StartCoroutine(EnemyAttackRate(_waitTime));
         }
     }
 
@@ -44,13 +41,13 @@ public class EnemyWeapon : WeaponBase
     {
         var attack = Random.Range(0, 4);
         // Shoot animation
-        if (enemyData.name == "brawl")
+        if (_enemyData.name == "brawl")
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.brawlAnimation[attack]);
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.BrawlAnimation[attack]);
         }
         else
         {
-            enemyAnimation.ChangeAnimation(enemyAnimation.projectileAnimation[attack]);
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.ProjectileAnimation[attack]);
         }
     }
 
@@ -64,17 +61,17 @@ public class EnemyWeapon : WeaponBase
         if (collision.gameObject.name == "PlayerCharacter")
         {
             Debug.Log("player hit");
-            iDoDamage?.DoDamage(damage);
+            iDoDamage?.DoDamage(Damage);
             // isTriggered = true;
         }
     }
 
     public void InstantiateProjectile(Vector2 position)
     {
-        if (enemyData.name != "brawl")
+        if (_enemyData.name != "brawl")
         {
             ObjectPooling.SpawnObject(
-                enemyData.projectilePrefab,
+                _enemyData.ProjectilePrefab,
                 position,
                 Quaternion.identity,
                 ObjectPooling.PoolType.Projectiles

@@ -4,13 +4,13 @@ using UnityEngine;
 public class LevelData : ScriptableObject
 {
     [Header("Level Data")]
-    public int levelNumber = 1;
+    public int LevelNumber = 1;
 
     [Header("Objective Data")]
-    public int maxBrawlerCount = 5;
-    public int maxGunmanCount = 10;
-    public int maxRollerCount = 15;
-    public float maxHourCount = 12;
+    public int MaxBrawlerCount = 5;
+    public int MaxGunmanCount = 10;
+    public int MaxRollerCount = 15;
+    public float MaxHourCount = 12;
 
-    public float specialAttackRate = 2;
+    public float SpecialAttackRate = 2;
 }

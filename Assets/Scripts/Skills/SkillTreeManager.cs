@@ -14,6 +14,7 @@ public class SkillTreeManager : MonoBehaviour
 
     [SerializeField]
     private MasterAnimator playerAnimator;
+    private ObjectivesManager objectiveManager;
 
     [Header("Skill Buttons")]
     [SerializeField]
@@ -28,6 +29,7 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField]
     private Button swordBtn;
 
+    [Header("Color & Text")]
     [SerializeField]
     private Color unlockedColor;
 
@@ -36,8 +38,6 @@ public class SkillTreeManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text skillText;
-
-    private ObjectivesManager objectiveManager;
 
     public int chosenSpecialMove;
 
@@ -65,7 +65,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (playerAnimator == null)
         {
-            playerAnimator = FindAnyObjectByType<PlayerMovement>().playerAnimator;
+            playerAnimator = FindAnyObjectByType<PlayerMovement>().PlayerAnimator;
         }
     }
 
@@ -98,7 +98,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (
             objectiveManager.skillObjectives[
-                "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers"
+                "Slay " + GameManager.Instance.LevelData.MaxBrawlerCount + " brawlers"
             ]
         )
         {
@@ -109,7 +109,7 @@ public class SkillTreeManager : MonoBehaviour
         else
         {
             skillText.text =
-                "Slay " + GameManager.Instance.levelData.maxBrawlerCount + " brawlers to unlock!";
+                "Slay " + GameManager.Instance.LevelData.MaxBrawlerCount + " brawlers to unlock!";
         }
     }
 
@@ -117,7 +117,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (
             objectiveManager.skillObjectives[
-                "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen"
+                "Slay " + GameManager.Instance.LevelData.MaxGunmanCount + " gunmen"
             ]
         )
         {
@@ -129,7 +129,7 @@ public class SkillTreeManager : MonoBehaviour
         else
         {
             skillText.text =
-                "Slay " + GameManager.Instance.levelData.maxGunmanCount + " gunmen to unlock!";
+                "Slay " + GameManager.Instance.LevelData.MaxGunmanCount + " gunmen to unlock!";
         }
     }
 
@@ -137,7 +137,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (
             objectiveManager.skillObjectives[
-                "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers"
+                "Slay " + GameManager.Instance.LevelData.MaxRollerCount + " rollers"
             ]
         )
         {
@@ -148,7 +148,7 @@ public class SkillTreeManager : MonoBehaviour
         else
         {
             skillText.text =
-                "Slay " + GameManager.Instance.levelData.maxRollerCount + " rollers to unlock!";
+                "Slay " + GameManager.Instance.LevelData.MaxRollerCount + " rollers to unlock!";
         }
     }
 
@@ -157,13 +157,13 @@ public class SkillTreeManager : MonoBehaviour
         TransformReset();
         TransformScale(button);
         chosenSpecialMove = specialMove;
-        playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
+        playerAnimator.ChangeAnimation(playerAnimator.SpecialAnimation[chosenSpecialMove]);
         isSpecialAnim = true;
 
         button.GetComponentInChildren<TMP_Text>().text = " ";
-        if (!GameManager.Instance.canUseSpecial)
+        if (!GameManager.Instance.CanUseSpecial)
         {
-            GameManager.Instance.canUseSpecial = true;
+            GameManager.Instance.CanUseSpecial = true;
         }
     }
 

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed92e1f4c070b14987b5406c4835e3b, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2826692639356239775, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
-  playerName: player
-  maxHealth: 1
-  moveSpeed: 6
-  dashSpeed: 15
-  attackRate: 1
-  attackRange: 2
-  attackDamage: 1
+  PlayerPrefab: {fileID: 2826692639356239775, guid: 8d7b43dee9e759945abbec07bd655686, type: 3}
+  PlayerName: player
+  MaxHealth: 1
+  MoveSpeed: 6
+  DashSpeed: 15
+  AttackRange: 2
+  SpecialAttackRange: 7
+  AttackDamage: 1

@@ -4,41 +4,40 @@ using UnityEngine;
 public class MasterAnimator : MonoBehaviour
 {
     [SerializeField]
-    private Animator masterAnimator;
-    private string currentAnimation;
-    AnimatorStateInfo animatorStateInfo;
+    private Animator _masterAnimator;
+    private string _currentAnimation;
+    AnimatorStateInfo _animatorStateInfo;
 
-    public List<string> stateAnimation;
+    public List<string> StateAnimation;
 
     [Header("Combat Animations")]
-    public List<string> brawlAnimation;
-    public List<string> swordAnimation;
-    public List<string> projectileAnimation;
-    public List<string> specialAnimation;
+    public List<string> BrawlAnimation;
+    public List<string> SwordAnimation;
+    public List<string> ProjectileAnimation;
+    public List<string> SpecialAnimation;
 
     [Header("Movement Animations")]
-    public List<string> moveAnimation;
-    public List<string> moveSwordAnimation;
-    public List<string> moveProjectileAnimation;
+    public List<string> MoveAnimation;
+    public List<string> MoveSwordAnimation;
+    public List<string> MoveProjectileAnimation;
 
-    public bool animationFinished;
-
-    private float NTime;
+    public bool AnimationFinished;
 
     public bool IsRunning;
 
-    public bool isAttacking;
+    public bool IsAttacking;
 
-    public bool isShocking;
+    public bool IsShocking;
     public bool noDamage;
 
-    public bool isGameScene;
+    public bool IsGameScene;
+    private float _normalizedTime;
 
     void Awake()
     {
         IsRunning = false;
-        isAttacking = false;
-        isShocking = false;
+        IsAttacking = false;
+        IsShocking = false;
     }
 
     void OnEnable()
@@ -48,7 +47,7 @@ public class MasterAnimator : MonoBehaviour
 
     private void InitAnimationLists()
     {
-        stateAnimation = new List<string>()
+        StateAnimation = new List<string>()
         {
             "Die",
             "Stunned",
@@ -57,8 +56,8 @@ public class MasterAnimator : MonoBehaviour
             "Knockback"
         };
 
-        brawlAnimation = new List<string>() { "PunchA", "PunchB", "PunchC", "KickA", "KickB" };
-        moveAnimation = new List<string>()
+        BrawlAnimation = new List<string>() { "PunchA", "PunchB", "PunchC", "KickA", "KickB" };
+        MoveAnimation = new List<string>()
         {
             "Idle",
             "Walk",
@@ -67,7 +66,7 @@ public class MasterAnimator : MonoBehaviour
             "DashLoop",
             "RollLoop"
         };
-        projectileAnimation = new List<string>()
+        ProjectileAnimation = new List<string>()
         {
             "GunFire",
             "GunFire2H",
@@ -76,7 +75,7 @@ public class MasterAnimator : MonoBehaviour
             "GunSprintFire",
             "GunCrouchFire"
         };
-        moveProjectileAnimation = new List<string>()
+        MoveProjectileAnimation = new List<string>()
         {
             "GunAim",
             "GunWalk",
@@ -85,7 +84,7 @@ public class MasterAnimator : MonoBehaviour
             "GunCrouch",
             "GunReload"
         };
-        moveSwordAnimation = new List<string>()
+        MoveSwordAnimation = new List<string>()
         {
             "SwordIdle",
             "SwordWalk",
@@ -94,7 +93,7 @@ public class MasterAnimator : MonoBehaviour
             "SwordSprint",
             "SwordCrouch"
         };
-        swordAnimation = new List<string>()
+        SwordAnimation = new List<string>()
         {
             "SwordGuard",
             "SwordGuardImpact",
@@ -108,7 +107,7 @@ public class MasterAnimator : MonoBehaviour
             "ComboAttackD"
         };
 
-        specialAnimation = new List<string>()
+        SpecialAnimation = new List<string>()
         {
             "Spin",
             "ComboAttackA",
@@ -120,50 +119,50 @@ public class MasterAnimator : MonoBehaviour
     // Triggers and bools align with those in inspector
     void Update()
     {
-        animatorStateInfo = masterAnimator.GetCurrentAnimatorStateInfo(0);
-        NTime = animatorStateInfo.normalizedTime;
+        _animatorStateInfo = _masterAnimator.GetCurrentAnimatorStateInfo(0);
+        _normalizedTime = _animatorStateInfo.normalizedTime;
 
-        if (NTime >= 1.0f)
+        if (_normalizedTime >= 1.0f)
         {
-            animationFinished = true;
+            AnimationFinished = true;
         }
         else
         {
-            animationFinished = false;
+            AnimationFinished = false;
         }
 
         if (IsRunning)
         {
-            masterAnimator.SetBool("IsRunning", true);
+            _masterAnimator.SetBool("IsRunning", true);
         }
         else
         {
-            masterAnimator.SetBool("IsRunning", false);
+            _masterAnimator.SetBool("IsRunning", false);
         }
 
-        if (isAttacking)
+        if (IsAttacking)
         {
-            isAttacking = false;
-            masterAnimator.SetTrigger("IsAttacking");
+            IsAttacking = false;
+            _masterAnimator.SetTrigger("IsAttacking");
         }
 
         if (noDamage)
         {
             Debug.Log("spin");
-            masterAnimator.SetBool("IsSpinning", true);
+            _masterAnimator.SetBool("IsSpinning", true);
         }
         else
         {
-            masterAnimator.SetBool("IsSpinning", false);
+            _masterAnimator.SetBool("IsSpinning", false);
         }
 
-        if (isShocking)
+        if (IsShocking)
         {
-            masterAnimator.SetBool("IsShocking", true);
+            _masterAnimator.SetBool("IsShocking", true);
         }
         else
         {
-            masterAnimator.SetBool("IsShocking", false);
+            _masterAnimator.SetBool("IsShocking", false);
         }
     }
 
@@ -172,12 +171,12 @@ public class MasterAnimator : MonoBehaviour
     {
         if (animation == "Die")
         {
-            masterAnimator.SetTrigger("IsDead");
+            _masterAnimator.SetTrigger("IsDead");
         }
-        else if (currentAnimation != animation && animationFinished)
+        else if (_currentAnimation != animation && AnimationFinished)
         {
-            currentAnimation = animation;
-            masterAnimator.CrossFade(animation, crossFade);
+            _currentAnimation = animation;
+            _masterAnimator.CrossFade(animation, crossFade);
         }
     }
 }

@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class LightningCollision : MonoBehaviour
 {
-    private EdgeCollider2D edgeCollider2D;
-    private LightningBoltScript lightningLine;
-    private LineRenderer lineRenderer;
+    private EdgeCollider2D _edgeCollider2D;
+    private LightningBoltScript _lightningLine;
+    private LineRenderer _lineRenderer;
 
     void Start()
     {
-        edgeCollider2D = GetComponent<EdgeCollider2D>();
-        lightningLine = GetComponent<LightningBoltScript>();
-        lineRenderer = GetComponent<LineRenderer>();
+        _edgeCollider2D = GetComponent<EdgeCollider2D>();
+        _lightningLine = GetComponent<LightningBoltScript>();
+        _lineRenderer = GetComponent<LineRenderer>();
     }
 
     void Update()
     {
-        if (!lightningLine.ManualMode)
+        if (!_lightningLine.ManualMode)
         {
-            edgeCollider2D.enabled = true;
-            SetEdgeCollider(lineRenderer);
+            _edgeCollider2D.enabled = true;
+            SetEdgeCollider(_lineRenderer);
         }
-        else if (edgeCollider2D.enabled)
+        else if (_edgeCollider2D.enabled)
         {
-            edgeCollider2D.Reset();
-            edgeCollider2D.enabled = false;
+            _edgeCollider2D.Reset();
+            _edgeCollider2D.enabled = false;
         }
     }
 
@@ -39,7 +39,7 @@ public class LightningCollision : MonoBehaviour
             edges.Add(lineRendererPoint);
         }
 
-        edgeCollider2D.SetPoints(edges);
+        _edgeCollider2D.SetPoints(edges);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

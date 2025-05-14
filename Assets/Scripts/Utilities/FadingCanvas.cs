@@ -4,10 +4,10 @@ using UnityEngine;
 public class FadingCanvas : MonoBehaviour
 {
     [SerializeField]
-    private CanvasGroup canvasGroup;
+    private CanvasGroup _canvasGroup;
 
     [SerializeField]
-    private float fadeDuration = 5.0f;
+    private float _fadeDuration = 5.0f;
 
     void Start()
     {
@@ -16,14 +16,14 @@ public class FadingCanvas : MonoBehaviour
 
     public void FadeIn()
     {
-        canvasGroup.gameObject.SetActive(true);
-        canvasGroup.alpha = 1;
-        StartCoroutine(FadeCanvasGroup(canvasGroup, canvasGroup.alpha, 0, fadeDuration));
+        _canvasGroup.gameObject.SetActive(true);
+        _canvasGroup.alpha = 1;
+        StartCoroutine(FadeCanvasGroup(_canvasGroup, _canvasGroup.alpha, 0, _fadeDuration));
     }
 
     public void FadeOut()
     {
-        StartCoroutine(FadeCanvasGroup(canvasGroup, canvasGroup.alpha, 1, fadeDuration));
+        StartCoroutine(FadeCanvasGroup(_canvasGroup, _canvasGroup.alpha, 1, _fadeDuration));
     }
 
     private IEnumerator FadeCanvasGroup(
@@ -34,7 +34,7 @@ public class FadingCanvas : MonoBehaviour
     )
     {
         float elapsedTime = 0.0f;
-        while (elapsedTime < fadeDuration)
+        while (elapsedTime < _fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             canvasGroup.alpha = Mathf.Lerp(start, end, elapsedTime / duration);

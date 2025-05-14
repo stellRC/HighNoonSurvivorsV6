@@ -5,9 +5,6 @@ public class BrawlWeapon : WeaponBase
     [SerializeField]
     private EnemyData enemyData;
 
-    [SerializeField]
-    private Transform attackPoint;
-
     private MasterAnimator enemyAnimation;
 
     private Transform playerTransform;
@@ -25,15 +22,15 @@ public class BrawlWeapon : WeaponBase
     {
         if (
             Vector2.Distance(transform.position, playerTransform.position)
-            <= enemyData.minimumDistance
+            <= enemyData.MinimumDistance
         )
         {
             // Check if can shoot
-            if (Time.time > nextShotTime && enemyAnimation.animationFinished)
+            if (Time.time > nextShotTime && enemyAnimation.AnimationFinished)
             {
                 var attack = Random.Range(0, 4);
                 // Shoot animation
-                enemyAnimation.ChangeAnimation(enemyAnimation.brawlAnimation[attack]);
+                enemyAnimation.ChangeAnimation(enemyAnimation.BrawlAnimation[attack]);
 
                 // Reset timer
                 timeBetweenShots = Random.Range(1.5f, 5.0f);
@@ -49,10 +46,10 @@ public class BrawlWeapon : WeaponBase
         // Damage Enemy
         IDoDamage iDoDamage = collision.gameObject.GetComponent<IDoDamage>();
 
-        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.noDamage)
+        if (collision.gameObject.name == "PlayerCharacter" && !GameManager.Instance.NoDamage)
         {
             Debug.Log("player hit");
-            iDoDamage?.DoDamage(damage);
+            iDoDamage?.DoDamage(Damage);
             // isTriggered = true;
         }
     }

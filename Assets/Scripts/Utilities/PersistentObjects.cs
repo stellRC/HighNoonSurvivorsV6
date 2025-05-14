@@ -5,7 +5,8 @@ public class PersistentObjects : MonoBehaviour
     public static PersistentObjects Instance;
 
     [Header("Persistent Objects")]
-    public GameObject[] persistentObjects;
+    [SerializeField]
+    private GameObject[] _persistentObjects;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class PersistentObjects : MonoBehaviour
 
     private void MarkPersistentObjects()
     {
-        foreach (GameObject obj in persistentObjects)
+        foreach (GameObject obj in _persistentObjects)
         {
             if (obj != null)
             {
@@ -36,7 +37,7 @@ public class PersistentObjects : MonoBehaviour
     // Destroy duplicates of persistent objects
     private void CleanUpAndDestroy()
     {
-        foreach (GameObject obj in persistentObjects)
+        foreach (GameObject obj in _persistentObjects)
         {
             Destroy(obj);
         }

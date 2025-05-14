@@ -6,19 +6,19 @@ using UnityEngine;
 public class ObjectPooling : MonoBehaviour
 {
     // create new object pool for ever game object passed into it
-    private GameObject objectPoolParentHolder;
+    private GameObject _objectPoolParentHolder;
 
-    private static GameObject projectilesParent;
-    private static GameObject enemiesParent;
-    private static GameObject brawlersParent;
-    private static GameObject shootersParent;
-    private static GameObject rollersParent;
+    private static GameObject _projectilesParent;
+    private static GameObject _enemiesParent;
+    private static GameObject _brawlersParent;
+    private static GameObject _shootersParent;
+    private static GameObject _rollersParent;
 
-    private static GameObject audioSourceParent;
+    private static GameObject _audioSourceParent;
 
-    private int projectileMaxCount;
+    private int _projectileMaxCount;
 
-    private int enemyMaxCount;
+    private int _enemyMaxCount;
 
     public enum PoolType
     {
@@ -35,31 +35,31 @@ public class ObjectPooling : MonoBehaviour
     {
         SetupParent();
 
-        enemyMaxCount = 15;
-        projectileMaxCount = 40;
+        _enemyMaxCount = 15;
+        _projectileMaxCount = 40;
     }
 
     private void SetupParent()
     {
-        objectPoolParentHolder = new GameObject("Pooled Objects");
+        _objectPoolParentHolder = new GameObject("Pooled Objects");
 
-        projectilesParent = new GameObject("Projectile Objects");
-        projectilesParent.transform.SetParent(objectPoolParentHolder.transform);
+        _projectilesParent = new GameObject("Projectile Objects");
+        _projectilesParent.transform.SetParent(_objectPoolParentHolder.transform);
 
-        enemiesParent = new GameObject("Enemy Objects");
-        enemiesParent.transform.SetParent(objectPoolParentHolder.transform);
+        _enemiesParent = new GameObject("Enemy Objects");
+        _enemiesParent.transform.SetParent(_objectPoolParentHolder.transform);
 
-        brawlersParent = new GameObject("Brawler Objects");
-        brawlersParent.transform.SetParent(enemiesParent.transform);
+        _brawlersParent = new GameObject("Brawler Objects");
+        _brawlersParent.transform.SetParent(_enemiesParent.transform);
 
-        shootersParent = new GameObject("Shooter Objects");
-        shootersParent.transform.SetParent(enemiesParent.transform);
+        _shootersParent = new GameObject("Shooter Objects");
+        _shootersParent.transform.SetParent(_enemiesParent.transform);
 
-        rollersParent = new GameObject("Roller Objects");
-        rollersParent.transform.SetParent(enemiesParent.transform);
+        _rollersParent = new GameObject("Roller Objects");
+        _rollersParent.transform.SetParent(_enemiesParent.transform);
 
-        audioSourceParent = new GameObject("Audio Source Objects");
-        audioSourceParent.transform.SetParent(objectPoolParentHolder.transform);
+        _audioSourceParent = new GameObject("Audio Source Objects");
+        _audioSourceParent.transform.SetParent(_objectPoolParentHolder.transform);
     }
 
     public static PoolType PoolingType;
@@ -68,13 +68,13 @@ public class ObjectPooling : MonoBehaviour
 
     private void Update()
     {
-        CullPool(projectilesParent, projectileMaxCount);
+        CullPool(_projectilesParent, _projectileMaxCount);
 
-        CullPool(brawlersParent, enemyMaxCount);
-        CullPool(shootersParent, enemyMaxCount);
-        CullPool(rollersParent, enemyMaxCount);
+        CullPool(_brawlersParent, _enemyMaxCount);
+        CullPool(_shootersParent, _enemyMaxCount);
+        CullPool(_rollersParent, _enemyMaxCount);
 
-        CullAudioPool(audioSourceParent);
+        CullAudioPool(_audioSourceParent);
     }
 
     private void CullPool(GameObject pool, int maxPoolCount)
@@ -162,11 +162,11 @@ public class ObjectPooling : MonoBehaviour
     {
         return poolType switch
         {
-            PoolType.Projectiles => projectilesParent,
-            PoolType.Brawlers => brawlersParent,
-            PoolType.Shooters => shootersParent,
-            PoolType.Rollers => rollersParent,
-            PoolType.Audio => audioSourceParent,
+            PoolType.Projectiles => _projectilesParent,
+            PoolType.Brawlers => _brawlersParent,
+            PoolType.Shooters => _shootersParent,
+            PoolType.Rollers => _rollersParent,
+            PoolType.Audio => _audioSourceParent,
             PoolType.None => null,
             _ => null,
         };

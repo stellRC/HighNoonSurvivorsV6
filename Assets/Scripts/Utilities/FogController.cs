@@ -3,42 +3,42 @@ using UnityEngine.VFX;
 
 public class FogController : MonoBehaviour
 {
-    private VisualEffect vfxRenderer;
+    private VisualEffect _vfxRenderer;
 
-    private PlayerMovement playerPosition;
+    private PlayerMovement _playerPosition;
 
-    public bool isPlaying;
+    public bool IsPlaying;
 
     void Awake()
     {
-        playerPosition = FindFirstObjectByType<PlayerMovement>();
-        vfxRenderer = FindFirstObjectByType<VisualEffect>();
-        vfxRenderer.Stop();
-        isPlaying = false;
+        _playerPosition = FindFirstObjectByType<PlayerMovement>();
+        _vfxRenderer = FindFirstObjectByType<VisualEffect>();
+        _vfxRenderer.Stop();
+        IsPlaying = false;
     }
 
     void Update()
     {
         // Control collision with fog layer (foreground)
-        if (playerPosition == null)
+        if (_playerPosition == null)
         {
-            playerPosition = FindFirstObjectByType<PlayerMovement>();
-            vfxRenderer = FindFirstObjectByType<VisualEffect>();
-            vfxRenderer.Stop();
-            isPlaying = false;
+            _playerPosition = FindFirstObjectByType<PlayerMovement>();
+            _vfxRenderer = FindFirstObjectByType<VisualEffect>();
+            _vfxRenderer.Stop();
+            IsPlaying = false;
         }
 
-        if (vfxRenderer != null)
+        if (_vfxRenderer != null)
         {
-            vfxRenderer.SetVector3("ColliderPosition", playerPosition.transform.position);
+            _vfxRenderer.SetVector3("ColliderPosition", _playerPosition.transform.position);
 
-            if (isPlaying)
+            if (IsPlaying)
             {
-                vfxRenderer.Play();
+                _vfxRenderer.Play();
             }
             else
             {
-                vfxRenderer.Stop();
+                _vfxRenderer.Stop();
             }
         }
     }

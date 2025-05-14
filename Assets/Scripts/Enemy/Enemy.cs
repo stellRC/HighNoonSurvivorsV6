@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour, IDoDamage
     void OnEnable()
     {
         isDead = false;
-        currentHealth = enemyData.maxHealth;
+        currentHealth = enemyData.MaxHealth;
         EnableComponents();
         Physics2D.IgnoreCollision(
             GetComponent<BoxCollider2D>(),
@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour, IDoDamage
     private void HurtAnimation()
     {
         // // Hurt animation
-        enemyAnimation.ChangeAnimation(enemyAnimation.stateAnimation[4]);
+        enemyAnimation.ChangeAnimation(enemyAnimation.StateAnimation[4]);
     }
 
     private void Die()
@@ -105,7 +105,7 @@ public class Enemy : MonoBehaviour, IDoDamage
 
     public void DeathAnimation()
     {
-        enemyAnimation.ChangeAnimation(enemyAnimation.stateAnimation[4]);
+        enemyAnimation.ChangeAnimation(enemyAnimation.StateAnimation[4]);
         EnableParticles();
     }
 

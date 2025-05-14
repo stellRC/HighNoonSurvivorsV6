@@ -6,57 +6,55 @@ using UnityEngine.UI;
 public class CooldownBar : MonoBehaviour
 {
     [SerializeField]
-    private Transform barTransform;
+    private Transform _barTransform;
 
     [SerializeField]
-    private Image cooldownBarFillImage;
+    private Image _cooldownBarFillImage;
 
     [SerializeField]
-    private Image cooldownBarTrailingFillImage;
+    private Image _cooldownBarTrailingFillImage;
 
     [SerializeField]
-    private float trailDelay = 0.4f;
+    private float _trailDelay = 0.4f;
 
-    public float currentCool;
+    private float _currentCool;
 
-    private PlayerMovement playerCharacter;
+    private PlayerMovement _playerCharacter;
 
-    public bool startRefill;
-
-    public bool startDrain;
+    public bool StartDrain;
 
     private void Awake()
     {
-        playerCharacter = FindAnyObjectByType<PlayerMovement>();
+        _playerCharacter = FindAnyObjectByType<PlayerMovement>();
         ResetValues();
     }
 
     public void ResetValues()
     {
-        currentCool = 0;
-        cooldownBarFillImage.fillAmount = 0f;
-        cooldownBarTrailingFillImage.fillAmount = 0f;
+        _currentCool = 0;
+        _cooldownBarFillImage.fillAmount = 0f;
+        _cooldownBarTrailingFillImage.fillAmount = 0f;
     }
 
     private void Update()
     {
         // Assign transform when player is destroyed when loading scene
-        if (playerCharacter == null)
+        if (_playerCharacter == null)
         {
-            playerCharacter = FindAnyObjectByType<PlayerMovement>();
+            _playerCharacter = FindAnyObjectByType<PlayerMovement>();
         }
 
-        barTransform.position = new Vector2(
-            playerCharacter.transform.position.x,
-            playerCharacter.transform.position.y - .5f
+        _barTransform.position = new Vector2(
+            _playerCharacter.transform.position.x,
+            _playerCharacter.transform.position.y - .5f
         );
 
-        if (cooldownBarFillImage.fillAmount <= 0.09)
+        if (_cooldownBarFillImage.fillAmount <= 0.09)
         {
-            startDrain = false;
+            StartDrain = false;
         }
 
-        if (startDrain)
+        if (StartDrain)
         {
             DrainCooldown();
         }
@@ -64,38 +62,42 @@ public class CooldownBar : MonoBehaviour
 
     public void RefillCooldown()
     {
-        if (currentCool < 0)
+        if (_currentCool < 0)
         {
-            currentCool = 0;
+            _currentCool = 0;
         }
 
-        currentCool += 1f;
+        _currentCool += 1f;
 
-        float ratio = currentCool / GameManager.Instance.levelData.specialAttackRate;
+        float ratio = _currentCool / GameManager.Instance.LevelData.specialAttackRate;
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
+        sequence.Append(_cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
         // Add delay
-        sequence.AppendInterval(trailDelay);
-        sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.3f)).SetEase(Ease.InOutSine);
+        sequence.AppendInterval(_trailDelay);
+        sequence
+            .Append(_cooldownBarTrailingFillImage.DOFillAmount(ratio, 0.3f))
+            .SetEase(Ease.InOutSine);
         sequence.Play();
     }
 
     public void DrainCooldown()
     {
-        if (currentCool < 0)
+        if (_currentCool < 0)
         {
-            currentCool = 0;
+            _currentCool = 0;
         }
 
-        currentCool -= 1f;
-        float ratio = currentCool / GameManager.Instance.levelData.specialAttackRate;
+        _currentCool -= 1f;
+        float ratio = _currentCool / GameManager.Instance.LevelData.specialAttackRate;
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
+        sequence.Append(_cooldownBarFillImage.DOFillAmount(ratio, 0.25f)).SetEase(Ease.InOutSine);
         // Add delay
-        sequence.AppendInterval(trailDelay);
-        sequence.Append(cooldownBarFillImage.DOFillAmount(ratio, 0.3f)).SetEase(Ease.InOutSine);
+        sequence.AppendInterval(_trailDelay);
+        sequence
+            .Append(_cooldownBarTrailingFillImage.DOFillAmount(ratio, 0.3f))
+            .SetEase(Ease.InOutSine);
         sequence.Play();
     }
 }

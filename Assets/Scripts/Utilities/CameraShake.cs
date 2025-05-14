@@ -4,40 +4,38 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    public static CameraShake instance;
+    public static CameraShake Instance;
 
     [SerializeField]
-    private float globalShakeForce = 1f;
+    private float _globalShakeForce = 1f;
 
     [SerializeField]
-    private PlayerData playerData;
+    private CinemachineImpulseListener _impulseListener;
+
+    private CinemachineImpulseDefinition _impulseDefinition;
 
     [SerializeField]
-    private CinemachineImpulseListener impulseListener;
-
-    private CinemachineImpulseDefinition impulseDefinition;
-
-    public List<ScreenShakeProfile> profileList = new();
+    private List<ScreenShakeProfile> ProfileList = new();
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
     }
 
     public void ShakeCamera(CinemachineImpulseSource impulseSource)
     {
-        impulseSource.GenerateImpulseWithForce(globalShakeForce);
+        impulseSource.GenerateImpulseWithForce(_globalShakeForce);
     }
 
     public void ScreenShakeFromProfile(int profileID, CinemachineImpulseSource impulseSource)
     {
         // Apply settings
-        SetupScreenShakeSettings(profileList[profileID], impulseSource);
+        SetupScreenShakeSettings(ProfileList[profileID], impulseSource);
         // perform shake
-        impulseSource.GenerateImpulseWithForce(profileList[profileID].impactForce);
+        impulseSource.GenerateImpulseWithForce(ProfileList[profileID].impactForce);
     }
 
     private void SetupScreenShakeSettings(
@@ -45,22 +43,22 @@ public class CameraShake : MonoBehaviour
         CinemachineImpulseSource impulseSource
     )
     {
-        if (impulseListener == null)
+        if (_impulseListener == null)
         {
-            impulseListener = FindFirstObjectByType<CinemachineImpulseListener>();
+            _impulseListener = FindFirstObjectByType<CinemachineImpulseListener>();
         }
 
         // Time of shake should align with time of special attack
-        impulseDefinition = impulseSource.ImpulseDefinition;
+        _impulseDefinition = impulseSource.ImpulseDefinition;
 
         //  impulse source settings
-        impulseDefinition.ImpulseDuration = GameManager.Instance.levelData.specialAttackRate;
+        _impulseDefinition.ImpulseDuration = GameManager.Instance.LevelData.specialAttackRate;
         impulseSource.DefaultVelocity = profile.defaultVelocity;
-        impulseDefinition.CustomImpulseShape = profile.impulseCurve;
+        _impulseDefinition.CustomImpulseShape = profile.impulseCurve;
 
         // impulse listener settings
-        impulseListener.ReactionSettings.AmplitudeGain = profile.listenerAmplitude;
-        impulseListener.ReactionSettings.FrequencyGain = profile.listenerFrequency;
-        impulseListener.ReactionSettings.Duration = profile.listenerDuration;
+        _impulseListener.ReactionSettings.AmplitudeGain = profile.listenerAmplitude;
+        _impulseListener.ReactionSettings.FrequencyGain = profile.listenerFrequency;
+        _impulseListener.ReactionSettings.Duration = profile.listenerDuration;
     }
 }

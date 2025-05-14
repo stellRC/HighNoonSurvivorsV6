@@ -6,70 +6,70 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
+    // Components
     private PlayerData _playerData;
+    private MasterAnimator playerAnimator;
+    private CinemachineImpulseSource _impulseSource;
+    private SkillTreeManager _skillTreeManager;
+    private CooldownBar _cooldownBar;
+
+    [Header("Combat")]
+    [SerializeField]
+    private Transform _attackPoint;
 
     [SerializeField]
-    private Transform attackPoint;
+    public LayerMask EnemyLayers;
 
     [Header("Input")]
     [SerializeField]
-    private InputActionReference attack;
+    private InputActionReference _normalAttack;
 
     [SerializeField]
-    private InputActionReference specialAttack;
+    private InputActionReference _specialAttack;
 
-    private CinemachineImpulseSource impulseSource;
+    // Private variables
 
-    private SkillTreeManager skillTreeManager;
+    private int _chosenSpecialMove;
 
-    private CooldownBar cooldownBar;
+    private bool _canUseSpecial;
 
-    private MasterAnimator playerAnimator;
+    private int _currentAttackCount;
 
-    private int chosenSpecialMove;
-    public LayerMask enemyLayers;
+    private float _attackRange;
 
-    public bool canUseSpecial;
+    private float _popEnemyTime;
 
-    private int currentAttackCount;
-
-    private float attackRange;
-
-    public bool triggerSpin;
-    private float popEnemyTime;
-
-    private bool isPopping;
+    private bool _isPopping;
 
     private void Awake()
     {
         playerAnimator = GetComponent<MasterAnimator>();
-        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
-        impulseSource = GetComponent<CinemachineImpulseSource>();
+        _skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
         _playerData = GetComponent<PlayerController>().PlayerData;
-        triggerSpin = false;
     }
 
     private void Start()
     {
-        attackRange = _playerData.AttackRange;
-        canUseSpecial = false;
+        _attackRange = _playerData.AttackRange;
+        _canUseSpecial = false;
 
-        chosenSpecialMove = skillTreeManager.chosenSpecialMove;
-        cooldownBar = FindFirstObjectByType<CooldownBar>();
-        currentAttackCount = 0;
+        _chosenSpecialMove = _skillTreeManager.chosenSpecialMove;
+        _cooldownBar = FindFirstObjectByType<CooldownBar>();
+        _currentAttackCount = 0;
     }
 
     // Input messaging, prevent accidental multiple attacks
     void OnEnable()
     {
-        attack.action.started += NormalAttack;
-        specialAttack.action.started += SpecialAttack;
+        _normalAttack.action.started += NormalAttack;
+        _specialAttack.action.started += SpecialAttack;
     }
 
     void OnDisable()
     {
-        attack.action.started -= NormalAttack;
-        specialAttack.action.started -= SpecialAttack;
+        _normalAttack.action.started -= NormalAttack;
+        _specialAttack.action.started -= SpecialAttack;
     }
 
     void Update()
@@ -77,22 +77,22 @@ public class PlayerCombat : MonoBehaviour
         // If number of killed enemies is == 10, special attack is true
         // Each enemy kill fills the bar
         // If special attack is used, drain bar and reset attack number needed
-        if (currentAttackCount >= GameManager.Instance.levelData.specialAttackRate)
+        if (_currentAttackCount >= GameManager.Instance.LevelData.specialAttackRate)
         {
-            canUseSpecial = true;
+            _canUseSpecial = true;
         }
         else
         {
-            canUseSpecial = false;
+            _canUseSpecial = false;
         }
 
-        if (isPopping)
+        if (_isPopping)
         {
-            popEnemyTime += Time.deltaTime;
-            if (popEnemyTime >= 1)
+            _popEnemyTime += Time.deltaTime;
+            if (_popEnemyTime >= 1)
             {
                 PopEnemy();
-                popEnemyTime = 0;
+                _popEnemyTime = 0;
             }
         }
     }
@@ -108,9 +108,9 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        if (!skillTreeManager.isSpecialAnim)
+        if (!_skillTreeManager.isSpecialAnim)
         {
-            playerAnimator.isAttacking = true;
+            playerAnimator.IsAttacking = true;
 
             Attack();
             PlayerAttackAudio();
@@ -121,13 +121,13 @@ public class PlayerCombat : MonoBehaviour
     {
         // mouse up
 
-        if (canUseSpecial && context.started && chosenSpecialMove >= 0)
+        if (_canUseSpecial && context.started && _chosenSpecialMove >= 0)
         {
-            playerAnimator.ChangeAnimation(playerAnimator.specialAnimation[chosenSpecialMove]);
-            CheckSpecialMove(chosenSpecialMove);
+            playerAnimator.ChangeAnimation(playerAnimator.SpecialAnimation[_chosenSpecialMove]);
+            CheckSpecialMove(_chosenSpecialMove);
             Attack();
-            cooldownBar.startDrain = true;
-            currentAttackCount = 0;
+            _cooldownBar.StartDrain = true;
+            _currentAttackCount = 0;
         }
     }
 
@@ -153,18 +153,18 @@ public class PlayerCombat : MonoBehaviour
     // Player's attack range increases
     private void TriggerSwordCombo()
     {
-        attackRange = _playerData.SpecialAttackRange;
-        CameraShake.instance.ScreenShakeFromProfile(3, impulseSource);
-        StartCoroutine(ToggleSwordCombo(GameManager.Instance.levelData.specialAttackRate));
+        _attackRange = _playerData.SpecialAttackRange;
+        CameraShake.instance.ScreenShakeFromProfile(3, _impulseSource);
+        StartCoroutine(ToggleSwordCombo(GameManager.Instance.LevelData.specialAttackRate));
     }
 
     // Player becomes impervious to damage
     private void TriggerSpin()
     {
-        GameManager.Instance.noDamage = true;
+        GameManager.Instance.NoDamage = true;
         playerAnimator.noDamage = true;
-        CameraShake.instance.ScreenShakeFromProfile(1, impulseSource);
-        StartCoroutine(ToggleSpin(GameManager.Instance.levelData.specialAttackRate));
+        CameraShake.instance.ScreenShakeFromProfile(1, _impulseSource);
+        StartCoroutine(ToggleSpin(GameManager.Instance.LevelData.specialAttackRate));
     }
 
     // Destroy enemies positioned between player and clock
@@ -172,10 +172,10 @@ public class PlayerCombat : MonoBehaviour
     {
         LightningBoltScript lightningBoltScript = FindFirstObjectByType<LightningBoltScript>();
         lightningBoltScript.ManualMode = false;
-        playerAnimator.isShocking = true;
-        CameraShake.instance.ScreenShakeFromProfile(0, impulseSource);
+        playerAnimator.IsShocking = true;
+        CameraShake.instance.ScreenShakeFromProfile(0, _impulseSource);
         StartCoroutine(
-            ToggleLightning(GameManager.Instance.levelData.specialAttackRate, lightningBoltScript)
+            ToggleLightning(GameManager.Instance.LevelData.specialAttackRate, lightningBoltScript)
         );
     }
 
@@ -183,10 +183,10 @@ public class PlayerCombat : MonoBehaviour
     private void TriggerFog()
     {
         FogController collisionFog = FindAnyObjectByType<FogController>();
-        collisionFog.isPlaying = true;
-        isPopping = true;
-        CameraShake.instance.ScreenShakeFromProfile(2, impulseSource);
-        StartCoroutine(ToggleFog(GameManager.Instance.levelData.specialAttackRate, collisionFog));
+        collisionFog.IsPlaying = true;
+        _isPopping = true;
+        CameraShake.instance.ScreenShakeFromProfile(2, _impulseSource);
+        StartCoroutine(ToggleFog(GameManager.Instance.LevelData.specialAttackRate, collisionFog));
     }
 
     IEnumerator ToggleLightning(float count, LightningBoltScript lightningBoltScript)
@@ -194,28 +194,28 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(count);
 
         lightningBoltScript.ManualMode = true;
-        playerAnimator.isShocking = false;
+        playerAnimator.IsShocking = false;
     }
 
     IEnumerator ToggleSpin(float count)
     {
         yield return new WaitForSeconds(count);
 
-        GameManager.Instance.noDamage = false;
+        GameManager.Instance.NoDamage = false;
         playerAnimator.noDamage = false;
     }
 
     IEnumerator ToggleSwordCombo(float count)
     {
         yield return new WaitForSeconds(count);
-        attackRange = _playerData.AttackRange;
+        _attackRange = _playerData.AttackRange;
     }
 
     IEnumerator ToggleFog(float count, FogController collisionFog)
     {
         yield return new WaitForSeconds(count);
-        collisionFog.isPlaying = false;
-        isPopping = false;
+        collisionFog.IsPlaying = false;
+        _isPopping = false;
     }
 
     private void PopEnemy()
@@ -225,7 +225,7 @@ public class PlayerCombat : MonoBehaviour
         if (enemy != null)
         {
             enemy.GetComponent<Enemy>().DoDamage(_playerData.AttackDamage);
-            currentAttackCount++;
+            _currentAttackCount++;
         }
         else
         {
@@ -237,9 +237,9 @@ public class PlayerCombat : MonoBehaviour
     {
         //Detect enemies in range of attack
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
-            attackPoint.position,
-            attackRange,
-            enemyLayers
+            _attackPoint.position,
+            _attackRange,
+            EnemyLayers
         );
 
         // Damage Enemies
@@ -248,8 +248,8 @@ public class PlayerCombat : MonoBehaviour
             if (enemy != null)
             {
                 enemy.GetComponent<Enemy>().DoDamage(_playerData.AttackDamage);
-                currentAttackCount++;
-                cooldownBar.RefillCooldown();
+                _currentAttackCount++;
+                _cooldownBar.RefillCooldown();
             }
         }
     }

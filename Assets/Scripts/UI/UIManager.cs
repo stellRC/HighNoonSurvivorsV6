@@ -4,17 +4,11 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text killCountText;
-
-    private GameManager gameManager;
-
-    void Awake()
-    {
-        gameManager = gameObject.GetComponentInParent<GameManager>();
-    }
+    private TMP_Text _killCountText;
 
     private void Update()
     {
-        killCountText.text = gameManager.totalCount.ToString();
+        // Count of all enemies
+        _killCountText.text = GameManager.Instance.TotalCount.ToString();
     }
 }

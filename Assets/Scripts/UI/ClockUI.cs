@@ -11,60 +11,60 @@ public class ClockUI : MonoBehaviour
     private const float startingTime = 6f; //6:00am
 
     [SerializeField]
-    private Transform clockHourHandTransform;
+    private Transform _clockHourHandTransform;
 
     [SerializeField]
-    private Transform clockMinuteHandTransform;
+    private Transform _clockMinuteHandTransform;
 
-    private float day;
-    private float dayNormalized;
+    private float _day;
+    private float _dayNormalized;
 
-    public float hoursFloat;
+    public float HoursFloat;
 
-    public string hoursString;
-    public string minutesString;
+    public string HoursString;
+    public string MinutesString;
 
     // Calculate starting time
     private void Awake()
     {
-        day = startingTime / hoursPerDay;
+        _day = startingTime / hoursPerDay;
     }
 
     private void Update()
     {
         // Increase in-game time if game scene is active
 
-        if (!MainNavigation.isPaused || !GameManager.Instance.isGameOver)
+        if (!MainNavigation.IsPaused || !GameManager.Instance.IsGameOver)
         {
-            day += Time.deltaTime / realSecondsPerGameDay;
+            _day += Time.deltaTime / realSecondsPerGameDay;
         }
 
-        dayNormalized = day % 1f;
+        _dayNormalized = _day % 1f;
 
         UpdateClock();
 
         // This value is use in the game manager for checking final objective
-        hoursFloat = Mathf.Floor(dayNormalized * hoursPerDay);
+        HoursFloat = Mathf.Floor(_dayNormalized * hoursPerDay);
 
         // hour string and minute string are both used in the final game over panel
-        hoursString = hoursFloat.ToString("00");
-        minutesString = Mathf
-            .Floor(dayNormalized * hoursPerDay % 1f * minutesPerHour)
+        HoursString = HoursFloat.ToString("00");
+        MinutesString = Mathf
+            .Floor(_dayNormalized * hoursPerDay % 1f * minutesPerHour)
             .ToString("00");
     }
 
     // Rotate clock hands
     private void UpdateClock()
     {
-        clockHourHandTransform.eulerAngles = new Vector3(
+        _clockHourHandTransform.eulerAngles = new Vector3(
             0,
             0,
-            -dayNormalized * rotationDegreesPerDay
+            -_dayNormalized * rotationDegreesPerDay
         );
-        clockMinuteHandTransform.eulerAngles = new Vector3(
+        _clockMinuteHandTransform.eulerAngles = new Vector3(
             0,
             0,
-            -dayNormalized * rotationDegreesPerDay * hoursPerDay
+            -_dayNormalized * rotationDegreesPerDay * hoursPerDay
         );
     }
 }

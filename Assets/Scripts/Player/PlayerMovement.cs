@@ -11,8 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator _fxAnimator;
 
-    [SerializeField]
-    private MasterAnimator _playerAnimator;
+    public MasterAnimator PlayerAnimator;
 
     [Header("Input")]
     [SerializeField]
@@ -38,10 +37,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _playerAnimator = GetComponent<MasterAnimator>();
+        PlayerAnimator = GetComponent<MasterAnimator>();
         _playerRigidBody = GetComponent<Rigidbody2D>();
         _cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
         _playerData = GetComponent<PlayerController>().PlayerData;
+    }
+
+    private void Start()
+    {
+        InitializePlayer();
+    }
+
+    private void InitializePlayer()
+    {
+        // Start off idling
+        _isMoving = false;
+        _isDashing = false;
+        IsFacingRight = true;
+        _sFXWait = 100f;
+
+        _activeMoveSpeed = _playerData.MoveSpeed;
+
+        PlayerAnimator.ChangeAnimation("SwordIdle");
+
+        TurnCheck(_moveDirection);
     }
 
     // Input messaging
@@ -49,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
     {
         dash.action.started += Dash;
         dash.action.canceled += DashCancelled;
-        InitializePlayer();
     }
 
     void OnDisable()
@@ -128,26 +146,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void InitializePlayer()
-    {
-        // Start off idling
-        _isMoving = false;
-        _isDashing = false;
-        IsFacingRight = true;
-        _sFXWait = 100f;
-
-        _activeMoveSpeed = _playerData.MoveSpeed;
-
-        _playerAnimator.ChangeAnimation("SwordIdle");
-
-        TurnCheck(_moveDirection);
-    }
-
     private void IdleMovement()
     {
-        _playerAnimator.ChangeAnimation(_playerAnimator.moveSwordAnimation[0]);
+        PlayerAnimator.ChangeAnimation(PlayerAnimator.MoveSwordAnimation[0]);
 
-        _playerAnimator.IsRunning = false;
+        PlayerAnimator.IsRunning = false;
 
         // SFX CONTROLLER
         if (_breathingCount >= _sFXWait)
@@ -160,8 +163,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void RunningMovement()
     {
-        _playerAnimator.IsRunning = true;
-        _playerAnimator.ChangeAnimation(_playerAnimator.moveSwordAnimation[2]);
+        PlayerAnimator.IsRunning = true;
+        PlayerAnimator.ChangeAnimation(PlayerAnimator.MoveSwordAnimation[2], 0);
         _activeMoveSpeed = _playerData.MoveSpeed;
 
         // SFX CONTROLLER
@@ -176,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
     // Must change in update or won't always transition to dashing animation
     private void RunningOrIdleDashing()
     {
-        _playerAnimator.ChangeAnimation(_playerAnimator.moveAnimation[4]);
+        PlayerAnimator.ChangeAnimation(PlayerAnimator.MoveAnimation[4]);
     }
 
     private void IdleDashing()
