@@ -1,18 +1,22 @@
-using System;
 using System.Collections;
 using DigitalRuby.LightningBolt;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.VFX;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerData playerData;
+    private PlayerData _playerData;
 
     [SerializeField]
     private Transform attackPoint;
+
+    [Header("Input")]
+    [SerializeField]
+    private InputActionReference attack;
+
+    [SerializeField]
+    private InputActionReference specialAttack;
 
     private CinemachineImpulseSource impulseSource;
 
@@ -41,17 +45,31 @@ public class PlayerCombat : MonoBehaviour
         playerAnimator = GetComponent<MasterAnimator>();
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
+        _playerData = GetComponent<PlayerController>().PlayerData;
         triggerSpin = false;
     }
 
     private void Start()
     {
-        attackRange = playerData.attackRange;
+        attackRange = _playerData.AttackRange;
         canUseSpecial = false;
 
         chosenSpecialMove = skillTreeManager.chosenSpecialMove;
         cooldownBar = FindFirstObjectByType<CooldownBar>();
         currentAttackCount = 0;
+    }
+
+    // Input messaging, prevent accidental multiple attacks
+    void OnEnable()
+    {
+        attack.action.started += NormalAttack;
+        specialAttack.action.started += SpecialAttack;
+    }
+
+    void OnDisable()
+    {
+        attack.action.started -= NormalAttack;
+        specialAttack.action.started -= SpecialAttack;
     }
 
     void Update()
@@ -90,7 +108,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack(InputAction.CallbackContext context)
     {
-        if (context.started && !skillTreeManager.isSpecialAnim)
+        if (!skillTreeManager.isSpecialAnim)
         {
             playerAnimator.isAttacking = true;
 
@@ -135,7 +153,7 @@ public class PlayerCombat : MonoBehaviour
     // Player's attack range increases
     private void TriggerSwordCombo()
     {
-        attackRange = playerData.attackRange + 5;
+        attackRange = _playerData.SpecialAttackRange;
         CameraShake.instance.ScreenShakeFromProfile(3, impulseSource);
         StartCoroutine(ToggleSwordCombo(GameManager.Instance.levelData.specialAttackRate));
     }
@@ -190,7 +208,7 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator ToggleSwordCombo(float count)
     {
         yield return new WaitForSeconds(count);
-        attackRange = playerData.attackRange;
+        attackRange = _playerData.AttackRange;
     }
 
     IEnumerator ToggleFog(float count, FogController collisionFog)
@@ -206,7 +224,7 @@ public class PlayerCombat : MonoBehaviour
         var enemy = FindFirstObjectByType<Enemy>();
         if (enemy != null)
         {
-            enemy.GetComponent<Enemy>().DoDamage(playerData.attackDamage);
+            enemy.GetComponent<Enemy>().DoDamage(_playerData.AttackDamage);
             currentAttackCount++;
         }
         else
@@ -229,7 +247,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.GetComponent<Enemy>().DoDamage(playerData.attackDamage);
+                enemy.GetComponent<Enemy>().DoDamage(_playerData.AttackDamage);
                 currentAttackCount++;
                 cooldownBar.RefillCooldown();
             }

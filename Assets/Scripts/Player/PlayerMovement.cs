@@ -1,105 +1,270 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CameraFollowObject cameraFollowObject;
+    private Rigidbody2D _playerRigidBody;
+    private PlayerData _playerData;
+    private CameraFollowObject _cameraFollowObject;
+
+    [Header("Animators")]
+    [SerializeField]
+    private Animator _fxAnimator;
 
     [SerializeField]
-    private Animator fxAnimator;
+    private MasterAnimator _playerAnimator;
+
+    [Header("Input")]
+    [SerializeField]
+    private InputActionReference move;
 
     [SerializeField]
-    private PlayerData playerData;
-
-    public MasterAnimator playerAnimator;
-    private Rigidbody2D playerRigidBody;
+    private InputActionReference dash;
+    private Vector2 _moveDirection;
 
     public bool IsFacingRight { get; set; }
 
-    private bool isDashing;
+    private bool _isMoving;
+    private bool _isDashing;
 
-    private bool isMoving;
-    private Vector2 moveInput;
+    [Header("Speed")]
+    [SerializeField]
+    private float _activeMoveSpeed;
 
-    //DASH
-    private float activeMoveSpeed;
-    private float dashSpeed;
-
-    private float moveSpeed;
-
-    private float breathingCount;
-
-    private float breathingWait;
-    private float runningWait;
-    private float runningCount;
+    [Header("SFX")]
+    private float _sFXWait;
+    private float _breathingCount;
+    private float _runningCount;
 
     private void Awake()
     {
-        playerAnimator = GetComponent<MasterAnimator>();
-        playerRigidBody = GetComponent<Rigidbody2D>();
-        cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
-        breathingWait = 100f;
+        _playerAnimator = GetComponent<MasterAnimator>();
+        _playerRigidBody = GetComponent<Rigidbody2D>();
+        _cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
+        _playerData = GetComponent<PlayerController>().PlayerData;
     }
 
-    void Start()
+    // Input messaging
+    void OnEnable()
     {
-        // Start off idling
-        isMoving = false;
-        isDashing = false;
-        IsFacingRight = true;
+        dash.action.started += Dash;
+        dash.action.canceled += DashCancelled;
+        InitializePlayer();
+    }
 
-        // Assign serial object data
-        moveSpeed = playerData.moveSpeed;
-        dashSpeed = playerData.dashSpeed;
-
-        activeMoveSpeed = moveSpeed;
-
-        playerAnimator.ChangeAnimation("SwordIdle");
-
-        TurnCheck(moveInput);
+    void OnDisable()
+    {
+        dash.action.started -= Dash;
+        dash.action.canceled -= DashCancelled;
     }
 
     private void Update()
     {
-        breathingCount += Time.deltaTime;
-        runningCount += Time.deltaTime;
-        // Idle
-        if (!isDashing & !isMoving)
-        {
-            playerAnimator.ChangeAnimation(playerAnimator.moveSwordAnimation[0]);
-            activeMoveSpeed = moveSpeed;
-            playerAnimator.IsRunning = false;
-            fxAnimator.gameObject.SetActive(false);
+        // WASD or Arrow keys
+        _moveDirection = move.action.ReadValue<Vector2>();
 
-            if (breathingCount >= breathingWait)
+        // SFX
+        _breathingCount += Time.deltaTime;
+        _runningCount += Time.deltaTime;
+
+        // Set movement state
+        if (_playerRigidBody.linearVelocityX == 0 & _playerRigidBody.linearVelocityY == 0)
+        {
+            _isMoving = false;
+        }
+        else
+        {
+            _isMoving = true;
+        }
+
+        // Change movement SFX, animation, bools
+        if (!_isDashing)
+        {
+            if (!_isMoving)
             {
-                breathingCount = 0;
-                breathingWait = UnityEngine.Random.Range(100f, 500f);
-                IdleSFX();
+                IdleMovement();
+            }
+            else
+            {
+                RunningMovement();
+            }
+        }
+        else
+        {
+            RunningOrIdleDashing();
+
+            if (_isDashing & !_isMoving)
+            {
+                IdleDashing();
             }
         }
 
-        if (isDashing & !isMoving)
+        // Turn player in direction nof movement
+        if (_moveDirection.x > 0 || _moveDirection.x < 0)
         {
-            transform.position += activeMoveSpeed * Time.deltaTime * transform.up;
+            TurnCheck(_moveDirection);
         }
 
-        // Running
-        if (!isDashing & isMoving)
-        {
-            playerAnimator.ChangeAnimation(playerAnimator.moveSwordAnimation[2]);
-            activeMoveSpeed = moveSpeed;
+        // Update FX animator state
+        FxAnimator();
+    }
 
-            if (runningCount >= runningWait)
-            {
-                runningCount = 0;
-                runningWait = UnityEngine.Random.Range(50f, 200f);
-                RunningSFX();
-            }
+    //good to use fixed update for rigid body objects
+    void FixedUpdate()
+    {
+        // Move player idle dashing
+        if (_isDashing && !_isMoving)
+        {
+            _playerRigidBody.linearVelocity =
+                new Vector2(_moveDirection.x, _moveDirection.y).normalized * _activeMoveSpeed;
+        }
+        // Move player dashing and running
+        else
+        {
+            _playerRigidBody.linearVelocity = new Vector2(
+                _moveDirection.x * _activeMoveSpeed,
+                _moveDirection.y * _activeMoveSpeed
+            );
         }
     }
 
+    private void InitializePlayer()
+    {
+        // Start off idling
+        _isMoving = false;
+        _isDashing = false;
+        IsFacingRight = true;
+        _sFXWait = 100f;
+
+        _activeMoveSpeed = _playerData.MoveSpeed;
+
+        _playerAnimator.ChangeAnimation("SwordIdle");
+
+        TurnCheck(_moveDirection);
+    }
+
+    private void IdleMovement()
+    {
+        _playerAnimator.ChangeAnimation(_playerAnimator.moveSwordAnimation[0]);
+
+        _playerAnimator.IsRunning = false;
+
+        // SFX CONTROLLER
+        if (_breathingCount >= _sFXWait)
+        {
+            _breathingCount = 0;
+            _sFXWait = UnityEngine.Random.Range(100f, 500f);
+            IdleSFX();
+        }
+    }
+
+    private void RunningMovement()
+    {
+        _playerAnimator.IsRunning = true;
+        _playerAnimator.ChangeAnimation(_playerAnimator.moveSwordAnimation[2]);
+        _activeMoveSpeed = _playerData.MoveSpeed;
+
+        // SFX CONTROLLER
+        if (_runningCount >= _sFXWait)
+        {
+            _runningCount = 0;
+            _sFXWait = UnityEngine.Random.Range(50f, 200f);
+            RunningSFX();
+        }
+    }
+
+    // Must change in update or won't always transition to dashing animation
+    private void RunningOrIdleDashing()
+    {
+        _playerAnimator.ChangeAnimation(_playerAnimator.moveAnimation[4]);
+    }
+
+    private void IdleDashing()
+    {
+        if (_activeMoveSpeed != _playerData.DashSpeed)
+        {
+            _activeMoveSpeed = _playerData.DashSpeed;
+        }
+
+        // Dash in forward direction
+        if (IsFacingRight == true)
+        {
+            _moveDirection.x = transform.localScale.x;
+        }
+        else
+        {
+            _moveDirection.x = -transform.localScale.x;
+        }
+
+        _moveDirection.y = 0;
+    }
+
+    private void FxAnimator()
+    {
+        if (_isDashing || _isMoving && !_fxAnimator.gameObject.activeSelf)
+        {
+            _fxAnimator.gameObject.SetActive(true);
+        }
+        else
+        {
+            _fxAnimator.gameObject.SetActive(false);
+        }
+    }
+
+    public void TurnCheck(Vector2 _moveDirection)
+    {
+        if (_moveDirection.x > 0 && !IsFacingRight)
+        {
+            Turn();
+        }
+        else if (_moveDirection.x <= 0 && IsFacingRight)
+        {
+            Turn();
+        }
+    }
+
+    private void Turn()
+    {
+        if (IsFacingRight)
+        {
+            Vector3 rotator = new(transform.rotation.x, 180f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
+            IsFacingRight = !IsFacingRight;
+
+            //turn camera follow object
+            _cameraFollowObject.CallTurn();
+        }
+        else
+        {
+            Vector3 rotator = new(transform.rotation.x, 0f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
+            IsFacingRight = !IsFacingRight;
+
+            //turn camera follow object
+            _cameraFollowObject.CallTurn();
+        }
+    }
+
+    public void Dash(InputAction.CallbackContext context)
+    {
+        _isDashing = true;
+        _fxAnimator.SetBool("IsDashing", true);
+
+        // Change dash speed (around 2.5 x regular speed)
+        _activeMoveSpeed = _playerData.DashSpeed;
+
+        // Play Dashing SFX once
+        DashingSFX();
+    }
+
+    private void DashCancelled(InputAction.CallbackContext context)
+    {
+        _isDashing = false;
+
+        _fxAnimator.SetBool("IsDashing", false);
+    }
+
+    // SFX initial volume varies to add layers to sounds effects
     private void RunningSFX()
     {
         SoundEffectsManager.instance.PlayRandomSoundFXClip(
@@ -125,89 +290,5 @@ public class PlayerMovement : MonoBehaviour
             transform,
             .5f
         );
-    }
-
-    //good to use fixed update for rigid body objects
-    void FixedUpdate()
-    {
-        playerRigidBody.linearVelocity = moveInput * activeMoveSpeed;
-
-        if (playerRigidBody.linearVelocityX == 0 & playerRigidBody.linearVelocityY == 0)
-        {
-            isMoving = false;
-        }
-        else
-        {
-            isMoving = true;
-
-            playerAnimator.IsRunning = true;
-            fxAnimator.gameObject.SetActive(true);
-        }
-
-        if (moveInput.x > 0 || moveInput.x < 0)
-        {
-            TurnCheck(moveInput);
-        }
-    }
-
-    public void Move(InputAction.CallbackContext context)
-    {
-        var currentInput = context.ReadValue<Vector2>();
-        if (currentInput != moveInput)
-        {
-            moveInput = currentInput;
-        }
-    }
-
-    public void TurnCheck(Vector2 moveInput)
-    {
-        if (moveInput.x > 0 && !IsFacingRight)
-        {
-            Turn();
-        }
-        else if (moveInput.x <= 0 && IsFacingRight)
-        {
-            Turn();
-        }
-    }
-
-    private void Turn()
-    {
-        if (IsFacingRight)
-        {
-            Vector3 rotator = new(transform.rotation.x, 180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            IsFacingRight = !IsFacingRight;
-
-            //turn camera follow object
-            cameraFollowObject.CallTurn();
-        }
-        else
-        {
-            Vector3 rotator = new(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            IsFacingRight = !IsFacingRight;
-
-            //turn camera follow object
-            cameraFollowObject.CallTurn();
-        }
-    }
-
-    public void Dash(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            isDashing = !isDashing;
-            DashingSFX();
-            playerAnimator.ChangeAnimation(playerAnimator.moveAnimation[4]);
-            fxAnimator.SetBool("IsDashing", true);
-            activeMoveSpeed = dashSpeed;
-        }
-
-        if (context.canceled)
-        {
-            fxAnimator.SetBool("IsDashing", false);
-            isDashing = !isDashing;
-        }
     }
 }

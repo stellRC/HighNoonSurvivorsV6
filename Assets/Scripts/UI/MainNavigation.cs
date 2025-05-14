@@ -272,14 +272,18 @@ public class MainNavigation : MonoBehaviour
     {
         settingsButton.SetActive(false);
         killCount.SetActive(false);
-        // if (time >= 12)
-        // {
-        //     gameWinMenu.SetActive(true);
-        // }
-        // else { }
-        gameOverMenu.SetActive(true);
+
         // hide clock
         worldGameCanvas.SetActive(false);
+
+        if (time >= 12)
+        {
+            gameWinMenu.SetActive(true);
+        }
+        else
+        {
+            gameOverMenu.SetActive(true);
+        }
     }
 
     public void ToggleOptionsMenu()

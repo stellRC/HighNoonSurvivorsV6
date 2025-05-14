@@ -4,32 +4,47 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour, IDoDamage
 {
-    private MasterAnimator playerAnimator;
+    [Header("Data")]
+    public PlayerData PlayerData;
+    private MasterAnimator _playerAnimator;
 
-    private PlayerSkills playerSkills;
-    private PlayerInput playerInput;
+    private PlayerSkills _playerSkills;
+    private PlayerInput _playerInput;
+
+    private float _playerHealth;
 
     private void Awake()
     {
         // instance of player skills
-        playerSkills = new PlayerSkills();
+        _playerSkills = new PlayerSkills();
 
-        playerAnimator = GetComponent<MasterAnimator>();
-        playerInput = GetComponent<PlayerInput>();
-        playerInput.enabled = true;
+        _playerAnimator = GetComponent<MasterAnimator>();
+        _playerInput = GetComponent<PlayerInput>();
+        _playerInput.enabled = true;
+    }
+
+    // Set up health incase future development will have more than one hit death
+    private void OnEnable()
+    {
+        _playerHealth = PlayerData.MaxHealth;
     }
 
     public PlayerSkills GetPlayerSkills()
     {
-        return playerSkills;
+        return _playerSkills;
     }
 
     // Damage from enemy or projectile collision
     public void DoDamage(int damage)
     {
-        DeathAnimation();
-        DeathAudio();
-        DisablePlayer();
+        _playerHealth--;
+
+        if (_playerHealth <= 0)
+        {
+            DeathAnimation();
+            DeathAudio();
+            DisablePlayer();
+        }
     }
 
     private void DeathAudio()
@@ -44,7 +59,7 @@ public class PlayerController : MonoBehaviour, IDoDamage
     // Prevent further player animation and enemy death
     private void DisablePlayer()
     {
-        playerInput.enabled = false;
+        _playerInput.enabled = false;
         GetComponent<PlayerMovement>().enabled = false;
         GetComponent<PlayerCombat>().enabled = false;
         this.enabled = false;
@@ -53,6 +68,6 @@ public class PlayerController : MonoBehaviour, IDoDamage
     // Death animation (not looped)
     private void DeathAnimation()
     {
-        playerAnimator.ChangeAnimation(playerAnimator.stateAnimation[0]);
+        _playerAnimator.ChangeAnimation(_playerAnimator.stateAnimation[0]);
     }
 }

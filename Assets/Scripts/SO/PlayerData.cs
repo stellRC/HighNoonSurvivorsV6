@@ -4,19 +4,18 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     [Header("Player Prefab")]
-    public GameObject playerPrefab;
+    public GameObject PlayerPrefab;
 
     [Header("Player Data")]
-    public string playerName;
-    public float maxHealth = 1;
+    public string PlayerName;
+    public float MaxHealth = 1;
 
     [Header("Enemy Movement")]
-    public float moveSpeed;
-    public float dashSpeed;
+    public float MoveSpeed;
+    public float DashSpeed;
 
     [Header("Player Combat")]
-    public float attackRate;
-
-    public float attackRange = 2;
-    public int attackDamage = 1;
+    public float AttackRange = 2;
+    public float SpecialAttackRange = 7;
+    public int AttackDamage = 1;
 }
