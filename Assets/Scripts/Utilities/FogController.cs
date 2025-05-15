@@ -56,7 +56,7 @@ public class FogController : MonoBehaviour
 
     private void UpdateFog()
     {
-        _fogColor.a = _clockUI.HoursFloat / 12;
+        _fogColor.a = _clockUI.GetTime().Hours / 12;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
