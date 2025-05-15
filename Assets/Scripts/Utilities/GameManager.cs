@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private MainNavigation _mainNavigation;
+    public MainNavigation MainNavigation;
 
     private GameOverUIManager _gameOverManager;
 
@@ -42,8 +42,6 @@ public class GameManager : MonoBehaviour
 
     public bool IsEasyMode;
 
-    private int _startingTime;
-
     [Header("Lvl Data")]
     public List<LevelData> LevelDataList = new();
 
@@ -62,7 +60,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        _mainNavigation = GetComponentInChildren<MainNavigation>();
+        MainNavigation = GetComponentInChildren<MainNavigation>();
         _skillTreeManager = GetComponentInChildren<SkillTreeManager>();
         _objectiveManager = GetComponentInChildren<ObjectivesManager>();
         _gameOverManager = GetComponentInChildren<GameOverUIManager>();
@@ -74,7 +72,6 @@ public class GameManager : MonoBehaviour
         CanUseSpecial = false;
         IsEasyMode = true;
         LevelData = LevelDataList[0];
-        _startingTime = 6;
     }
 
     private void Start()
@@ -88,12 +85,14 @@ public class GameManager : MonoBehaviour
         if (IsGameOver && !_gameOverPanel)
         {
             _gameOverManager.OnGameOver();
-            _mainNavigation.ToggleGameOverMenu(ClockUI.HoursFloat);
+            MainNavigation.ToggleGameOverMenu();
 
             _gameOverPanel = true;
             IsGameOver = false;
 
             UpdateObjectives();
+            // Stop timer when player is dead, but don't reset time
+            ClockUI.StopTimer();
         }
         else
         {
@@ -120,6 +119,7 @@ public class GameManager : MonoBehaviour
         PlayerController = FindAnyObjectByType<PlayerController>();
         NoDamage = false;
         _skillTreeManager.isSpecialAnim = false;
+        ClockUI.ResetTimer();
     }
 
     // Reset values when main menu is loaded during or after game via return to main menu button
@@ -143,7 +143,8 @@ public class GameManager : MonoBehaviour
         _objectiveManager.DestroyObjectives();
         // Instantiate updated objectives
         _objectiveManager.CheckObjectiveValue();
-        ClockUI.ResetClock();
+        ClockUI.ResetTimer();
+        ClockUI.StartTimer();
     }
 
     // Check if skills are unlocked at end of level for use in next level
@@ -168,7 +169,7 @@ public class GameManager : MonoBehaviour
         }
 
         // The value of "noon" changes depending on clock settings
-        if (ClockUI.HoursFloat + _startingTime >= LevelData.MaxHourCount)
+        if (ClockUI.GetTime().Hours >= LevelData.MaxHourCount)
         {
             _objectiveManager.UpdateObjectiveValue("survive past noon");
             _skillTreeManager.UnlockSkillSpin();

@@ -5,6 +5,7 @@ public class LevelData : ScriptableObject
 {
     [Header("Level Data")]
     public int LevelNumber = 1;
+    public float GameDaySeconds = .5f;
 
     [Header("Objective Data")]
     public int MaxBrawlerCount = 5;

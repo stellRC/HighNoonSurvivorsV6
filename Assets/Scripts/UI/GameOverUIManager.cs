@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -23,9 +24,7 @@ public class GameOverUIManager : MonoBehaviour
 
     private ClockUI clockUI;
 
-    private int _startingTime;
-
-    private float _endingTime;
+    private float _startingTime;
 
     void Awake()
     {
@@ -35,20 +34,22 @@ public class GameOverUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        _endingTime = GameManager.Instance.ClockUI.HoursFloat + _startingTime;
-        if (_endingTime >= 12)
+        TimeSpan endingTime = GameManager.Instance.ClockUI.GetTime();
+
+        if (endingTime.Hours >= GameManager.Instance.LevelData.MaxHourCount)
         {
-            _titleText.text = "Game Over: You Survived Past Noon!";
+            _titleText.text = "Game Over: You Survived High Noon!";
         }
         else
         {
-            _titleText.text = "Game Over: Better Luck Next Round!";
+            _titleText.text = "Game Over: Deader than Dead";
         }
 
         _totalCountText.text = "Total Enemies: " + GameManager.Instance.TotalCount;
         _brawlerCountText.text = "Brawlers: " + GameManager.Instance.BrawlerCount;
         _rollerCountText.text = "Rollers: " + GameManager.Instance.RollerCount;
         _gunmanCountText.text = "Shooters: " + GameManager.Instance.GunmanCount;
-        _timeText.text = "Time of Death: " + _endingTime.ToString() + ":" + clockUI.MinutesString;
+        _timeText.text =
+            "Time Survived: " + endingTime.Hours.ToString() + ":" + endingTime.Minutes.ToString();
     }
 }

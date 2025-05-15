@@ -59,7 +59,7 @@ public class MainNavigation : MonoBehaviour
 
     private bool _state;
 
-    private bool _isGameScene;
+    public bool IsGameScene;
 
     private bool _loadObjectives;
 
@@ -78,7 +78,7 @@ public class MainNavigation : MonoBehaviour
     void Update()
     {
         // // // Handle keyboard input
-        if (Input.GetKeyDown(KeyCode.Escape) && _isGameScene && _gameOverMenu.activeSelf == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && IsGameScene && _gameOverMenu.activeSelf == false)
         {
             TogglePauseMenu();
         }
@@ -114,7 +114,7 @@ public class MainNavigation : MonoBehaviour
             ToggleObjectives();
             _loadObjectives = false;
         }
-        _isGameScene = false;
+        IsGameScene = false;
     }
 
     public void SetMode(int mode)
@@ -156,7 +156,7 @@ public class MainNavigation : MonoBehaviour
         }
 
         // Load main menu
-        if (_isGameScene)
+        if (IsGameScene)
         {
             _fade.FadeIn();
             InitializeObj_states();
@@ -221,7 +221,7 @@ public class MainNavigation : MonoBehaviour
         _cooldownCanvas.SetActive(true);
 
         IsPaused = false;
-        _isGameScene = true;
+        IsGameScene = true;
     }
 
     // Return to main menu from pause screen
@@ -233,7 +233,7 @@ public class MainNavigation : MonoBehaviour
 
     public void TogglePauseMenu()
     {
-        if (!_isGameScene)
+        if (!IsGameScene)
             return;
 
         if (!IsPaused)
@@ -261,7 +261,7 @@ public class MainNavigation : MonoBehaviour
         }
     }
 
-    public void ToggleGameOverMenu(float time)
+    public void ToggleGameOverMenu()
     {
         _settingsButton.SetActive(false);
         _killCount.SetActive(false);
@@ -274,7 +274,7 @@ public class MainNavigation : MonoBehaviour
 
     public void ToggleOptionsMenu()
     {
-        if (_isGameScene)
+        if (IsGameScene)
         {
             _pauseMenu.SetActive(_state);
         }

@@ -3,16 +3,23 @@ using UnityEngine.VFX;
 
 public class FogController : MonoBehaviour
 {
+    [SerializeField]
+    private SpriteRenderer _fogBackground;
+
+    [SerializeField]
+    private SpriteRenderer _fogForeground;
     private VisualEffect _vfxRenderer;
+
+    private ClockUI _clockUI;
 
     private PlayerMovement _playerPosition;
 
-    private Enemy _enemyPosition;
-
     public bool IsPlaying;
+    private Color _fogColor;
 
     void Awake()
     {
+        _clockUI = GetComponentInChildren<ClockUI>();
         _playerPosition = FindFirstObjectByType<PlayerMovement>();
         _vfxRenderer = FindFirstObjectByType<VisualEffect>();
         _vfxRenderer.Stop();
@@ -26,6 +33,9 @@ public class FogController : MonoBehaviour
         {
             _playerPosition = FindFirstObjectByType<PlayerMovement>();
             _vfxRenderer = FindFirstObjectByType<VisualEffect>();
+            _fogBackground = GameObject.Find("FogBackground").GetComponent<SpriteRenderer>();
+            _fogForeground = GameObject.Find("FogForeground").GetComponent<SpriteRenderer>();
+
             _vfxRenderer.Stop();
             IsPlaying = false;
         }
@@ -42,6 +52,11 @@ public class FogController : MonoBehaviour
                 _vfxRenderer.Stop();
             }
         }
+    }
+
+    private void UpdateFog()
+    {
+        _fogColor.a = _clockUI.HoursFloat / 12;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
