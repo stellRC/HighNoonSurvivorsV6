@@ -3,11 +3,6 @@ using UnityEngine.VFX;
 
 public class FogController : MonoBehaviour
 {
-    [SerializeField]
-    private SpriteRenderer _fogBackground;
-
-    [SerializeField]
-    private SpriteRenderer _fogForeground;
     private VisualEffect _vfxRenderer;
 
     private ClockUI _clockUI;
@@ -33,8 +28,6 @@ public class FogController : MonoBehaviour
         {
             _playerPosition = FindFirstObjectByType<PlayerMovement>();
             _vfxRenderer = FindFirstObjectByType<VisualEffect>();
-            _fogBackground = GameObject.Find("FogBackground").GetComponent<SpriteRenderer>();
-            _fogForeground = GameObject.Find("FogForeground").GetComponent<SpriteRenderer>();
 
             _vfxRenderer.Stop();
             IsPlaying = false;
