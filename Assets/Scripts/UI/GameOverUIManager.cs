@@ -24,12 +24,9 @@ public class GameOverUIManager : MonoBehaviour
 
     private ClockUI clockUI;
 
-    private float _startingTime;
-
     void Awake()
     {
         clockUI = FindAnyObjectByType<ClockUI>();
-        _startingTime = 6;
     }
 
     public void OnGameOver()
